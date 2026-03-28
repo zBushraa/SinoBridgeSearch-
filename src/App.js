@@ -292,7 +292,10 @@ function App() {
         {filtered.map((b,i)=>(
           <div key={i} style={{width:"200px",margin:"10px"}} onClick={()=>setSelected(b)}>
             <img src={b.img} style={{width:"100%"}} />
-            <p>{lang==="en"?b.name:b.zh}</p>
+            <p>
+  {b.name} <br/>
+  <span style={{fontSize:"12px",opacity:0.7}}>{b.zh}</span>
+</p>
           </div>
         ))}
       </div>
