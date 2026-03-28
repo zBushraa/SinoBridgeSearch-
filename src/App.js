@@ -2,148 +2,190 @@ import { useState } from "react";
 
 function App() {
   const [text, setText] = useState("");
-  const [lang, setLang] = useState("zh"); // default Chinese
-  const [sortType, setSortType] = useState("year");
-  const [modalItem, setModalItem] = useState(null);
-  const [favorites, setFavorites] = useState([]);
+  const [lang, setLang] = useState("zh");
+  const [selected, setSelected] = useState(null);
 
   const data = [
     {
       name: "Zhaozhou Bridge",
       zh: "赵州桥",
       year: 605,
-      desc: "Oldest stone arch bridge in China",
-      zhDesc: "中国最古老的石拱桥",
+      location: "Hebei",
+      type: "Stone Arch",
+      desc: "World’s oldest open-spandrel stone arch bridge",
+      zhDesc: "世界上最古老的敞肩石拱桥",
       img: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Zhaozhou_Bridge.jpg"
     },
     {
-      name: "Lugou Bridge",
-      zh: "卢沟桥",
-      year: 1189,
-      desc: "Historic stone bridge in Beijing",
-      zhDesc: "北京著名的石桥",
-      img: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Lugou_Bridge.jpg"
+      name: "Yongtong Bridge",
+      zh: "永通桥",
+      year: 727,
+      location: "Hebei",
+      type: "Stone Arch",
+      desc: "Ancient Tang dynasty bridge",
+      zhDesc: "唐代古桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/8/80/Yongtong_Bridge.jpg"
+    },
+    {
+      name: "Baodai Bridge",
+      zh: "宝带桥",
+      year: 816,
+      location: "Suzhou",
+      type: "Multi-arch",
+      desc: "Famous long multi-arch bridge",
+      zhDesc: "著名长多拱桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/0/0c/Baodai_Bridge.jpg"
+    },
+    {
+      name: "Luoyang Bridge",
+      zh: "洛阳桥",
+      year: 1059,
+      location: "Quanzhou",
+      type: "Stone Beam",
+      desc: "One of the earliest sea-crossing bridges",
+      zhDesc: "最早的跨海桥之一",
+      img: "https://upload.wikimedia.org/wikipedia/commons/7/7a/Luoyang_Bridge.jpg"
+    },
+    {
+      name: "Bianhe Rainbow Bridge",
+      zh: "汴河虹桥",
+      year: 1100,
+      location: "Kaifeng",
+      type: "Wood Arch",
+      desc: "Famous from ancient painting",
+      zhDesc: "古画中的著名桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/6/6f/Rainbow_Bridge.jpg"
+    },
+    {
+      name: "Anping Bridge",
+      zh: "安平桥",
+      year: 1138,
+      location: "Fujian",
+      type: "Stone Beam",
+      desc: "One of the longest stone bridges",
+      zhDesc: "最长石桥之一",
+      img: "https://upload.wikimedia.org/wikipedia/commons/8/89/Anping_Bridge.jpg"
     },
     {
       name: "Guangji Bridge",
       zh: "广济桥",
       year: 1170,
-      desc: "Ancient floating bridge",
-      zhDesc: "古老的浮桥",
+      location: "Chaozhou",
+      type: "Floating + Beam",
+      desc: "Unique combination bridge",
+      zhDesc: "独特组合桥",
       img: "https://upload.wikimedia.org/wikipedia/commons/2/2c/Guangji_Bridge.jpg"
+    },
+    {
+      name: "Lugou Bridge",
+      zh: "卢沟桥",
+      year: 1189,
+      location: "Beijing",
+      type: "Stone Arch",
+      desc: "Historic Marco Polo Bridge",
+      zhDesc: "著名卢沟桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Lugou_Bridge.jpg"
+    },
+    {
+      name: "Jinshui Bridge",
+      zh: "金水桥",
+      year: 1420,
+      location: "Beijing",
+      type: "Imperial",
+      desc: "Bridge in Forbidden City",
+      zhDesc: "紫禁城桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/1/1b/Jinshui_Bridge.jpg"
+    },
+    {
+      name: "Yudai Bridge",
+      zh: "玉带桥",
+      year: 1751,
+      location: "Beijing",
+      type: "Arch",
+      desc: "Beautiful jade belt bridge",
+      zhDesc: "美丽玉带桥",
+      img: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Yudai_Bridge.jpg"
     }
   ];
 
-  // Filter and sort
-  let filtered = data.filter(
-    item => item.year < 1911 && item.name.toLowerCase().includes(text.toLowerCase())
+  const filtered = data.filter(item =>
+    item.name.toLowerCase().includes(text.toLowerCase()) ||
+    item.zh.includes(text)
   );
-  if (sortType === "year") filtered.sort((a, b) => a.year - b.year);
-  if (sortType === "nameEn") filtered.sort((a, b) => a.name.localeCompare(b.name));
-  if (sortType === "nameZh") filtered.sort((a, b) => a.zh.localeCompare(b.zh));
 
-  const toggleFavorite = (item) => {
-    if (favorites.includes(item.name)) {
-      setFavorites(favorites.filter(f => f !== item.name));
-    } else {
-      setFavorites([...favorites, item.name]);
-    }
-  };
+  // DETAILS PAGE
+  if (selected) {
+    return (
+      <div style={styles.detailContainer}>
+        <button onClick={() => setSelected(null)} style={styles.backBtn}>
+          ← {lang === "en" ? "Back" : "返回"}
+        </button>
+
+        <div style={styles.detailCard}>
+          <img src={selected.img} style={styles.detailImage} />
+
+          <h1>{lang === "en" ? selected.name : selected.zh}</h1>
+
+          <p>{lang === "en" ? selected.desc : selected.zhDesc}</p>
+
+          <p><b>{lang==="en"?"Year":"年份"}:</b> {selected.year}</p>
+          <p><b>{lang==="en"?"Location":"地点"}:</b> {selected.location}</p>
+          <p><b>{lang==="en"?"Type":"类型"}:</b> {selected.type}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.container}>
-      {/* Top Bar */}
+
+      {/* LANGUAGE */}
       <div style={styles.topBar}>
-        <button
-          onClick={() => setLang(lang === "en" ? "zh" : "en")}
-          style={{ ...styles.langBtn, background: "#FF6B6B" }}
-        >
+        <button onClick={() => setLang(lang === "en" ? "zh" : "en")} style={styles.langBtn}>
           {lang === "en" ? "中文" : "English"}
         </button>
       </div>
 
-      {/* Center Box */}
+      {/* SEARCH */}
       <div style={styles.centerBox}>
-        <h1 style={styles.logo}>🌉</h1>
-        <h2 style={styles.subtitle}>SinoBridge Search / 中桥搜索</h2>
+        <h1 style={styles.logo}>🌉 SinoBridge</h1>
 
         <input
-          placeholder={lang === "en" ? "Search ancient bridge..." : "搜索古桥..."}
+          placeholder={lang==="en"?"Search bridges...":"搜索桥梁..."}
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e)=>setText(e.target.value)}
           style={styles.input}
         />
-
-        {/* Sorting Buttons */}
-        <div style={styles.sortBar}>
-          <button onClick={() => setSortType("year")} style={{ ...styles.sortBtn, background: "#4ECDC4" }}>
-            Sort by Year
-          </button>
-          <button onClick={() => setSortType("nameEn")} style={{ ...styles.sortBtn, background: "#556270" }}>
-            Sort by Name (EN)
-          </button>
-          <button onClick={() => setSortType("nameZh")} style={{ ...styles.sortBtn, background: "#C7F464" }}>
-            Sort by Name (ZH)
-          </button>
-        </div>
       </div>
 
-      {/* Bridge Cards */}
+      {/* LIST */}
       <div style={styles.results}>
-        {filtered.map((item, index) => (
-          <div key={index} style={styles.card} onClick={() => setModalItem(item)}>
-            <img src={item.img} alt={item.name} style={styles.image} />
-            <div style={styles.details}>
-              <h2>{item.zh} / {item.name}</h2>
-              <p>{lang === "en" ? item.desc : item.zhDesc}</p>
-              <p>{lang === "en" ? "Year: " : "年份: "}{item.year}</p>
-              <button
-                style={styles.favBtn}
-                onClick={(e) => { e.stopPropagation(); toggleFavorite(item); }}
-              >
-                {favorites.includes(item.name) ? "★" : "☆"} Favorite
-              </button>
-            </div>
+        {filtered.map((item,index)=>(
+          <div key={index} style={styles.card} onClick={()=>setSelected(item)}>
+            <img src={item.img} style={styles.image}/>
+            <h2>{lang==="en"?item.name:item.zh}</h2>
+            <p>{lang==="en"?item.desc:item.zhDesc}</p>
           </div>
         ))}
       </div>
 
-      {/* Modal */}
-      {modalItem && (
-        <div style={styles.modalBg} onClick={() => setModalItem(null)}>
-          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <img src={modalItem.img} alt={modalItem.name} style={styles.modalImage} />
-            <h2>{modalItem.zh} / {modalItem.name}</h2>
-            <p>{modalItem.zhDesc}</p>
-            <p>{modalItem.desc}</p>
-            <p>Year: {modalItem.year}</p>
-            <button style={styles.closeBtn} onClick={() => setModalItem(null)}>Close</button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
 
 const styles = {
-  container: { background: "#fefefe", minHeight: "100vh", fontFamily: "Arial" },
-  topBar: { display: "flex", justifyContent: "flex-end", padding: "20px" },
-  langBtn: { padding: "8px 16px", border: "none", borderRadius: "8px", color: "#fff", cursor: "pointer", fontWeight: "bold" },
-  centerBox: { display: "flex", flexDirection: "column", alignItems: "center", marginTop: "40px" },
-  logo: { fontSize: "50px", marginBottom: "10px" },
-  subtitle: { fontSize: "22px", marginBottom: "20px", fontWeight: "500", color: "#333" },
-  input: { width: "400px", padding: "12px", borderRadius: "25px", border: "1px solid #ccc", fontSize: "16px", outline: "none", marginBottom: "15px" },
-  sortBar: { display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap", justifyContent: "center" },
-  sortBtn: { padding: "8px 16px", border: "none", borderRadius: "8px", color: "#fff", cursor: "pointer", fontWeight: "bold", transition: "0.3s" },
-  results: { display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "25px" },
-  card: { width: "320px", borderRadius: "12px", overflow: "hidden", boxShadow: "0 6px 16px rgba(0,0,0,0.2)", cursor: "pointer", transition: "transform 0.3s, box-shadow 0.3s" },
-  image: { width: "100%", height: "220px", objectFit: "cover", transition: "transform 0.3s, box-shadow 0.3s" },
-  details: { padding: "15px", background: "#fff" },
-  favBtn: { marginTop: "8px", padding: "6px 12px", borderRadius: "6px", border: "none", background: "#FFB347", cursor: "pointer", fontWeight: "bold" },
-  modalBg: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.6)", display: "flex", justifyContent: "center", alignItems: "center", zIndex: 1000 },
-  modalContent: { background: "#fff", padding: "20px", borderRadius: "12px", maxWidth: "500px", width: "90%", textAlign: "center", position: "relative" },
-  modalImage: { width: "100%", height: "250px", objectFit: "cover", marginBottom: "15px", borderRadius: "8px" },
-  closeBtn: { padding: "8px 16px", border: "none", borderRadius: "6px", background: "#007BFF", color: "#fff", cursor: "pointer", marginTop: "10px" }
+  container:{minHeight:"100vh",background:"linear-gradient(to right,#e0f7fa,#e1bee7)",padding:"20px"},
+  topBar:{display:"flex",justifyContent:"flex-end"},
+  langBtn:{padding:"8px 15px",background:"#6a1b9a",color:"#fff",border:"none",borderRadius:"20px"},
+  centerBox:{textAlign:"center",marginTop:"40px"},
+  logo:{fontSize:"40px"},
+  input:{width:"320px",padding:"10px",borderRadius:"25px",border:"none"},
+  results:{display:"flex",flexWrap:"wrap",justifyContent:"center",marginTop:"30px"},
+  card:{width:"240px",margin:"10px",padding:"10px",background:"#fff",borderRadius:"10px",cursor:"pointer"},
+  image:{width:"100%",height:"140px",objectFit:"cover"},
+  detailContainer:{textAlign:"center",padding:"20px"},
+  detailCard:{maxWidth:"600px",margin:"auto",background:"#fff",padding:"20px",borderRadius:"10px"},
+  detailImage:{width:"100%"}
 };
 
 export default App;
