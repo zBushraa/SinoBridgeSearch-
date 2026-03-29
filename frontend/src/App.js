@@ -21,7 +21,8 @@ const EMPTY_BRIDGE_FORM = {
 
 const copy = {
   zh: {
-    switchLanguage: "Switch to English",
+    switchLanguage: "切换到英文",
+    eyebrow: "中国古桥检索",
     title: "中国古桥",
     subtitle: "保留你的核心搜索体验，并补上更完整的浏览、收藏、后台与信息层。",
     searchPlaceholder: "搜索桥梁、地点、年份...",
@@ -43,6 +44,7 @@ const copy = {
     compare: "对比桥梁",
     compareHint: "最多选择两座桥做快速对比。",
     compareEmpty: "先在卡片上点击“对比”来选择桥梁。",
+    compareSelected: "已选择 {count}/2 座桥梁进行对比。",
     compareAction: "对比",
     removeCompare: "取消对比",
     customTitle: "添加自定义桥梁",
@@ -62,11 +64,16 @@ const copy = {
     backendOnline: "后端已连接",
     backendOffline: "仅本地模式",
     backendChecking: "检查后端中",
+    requiredFields: "请先填写名称、中文名、年份和地点。",
+    customBadge: "自定义",
+    imagePending: "该桥图片待核实，暂以中性占位图显示。",
     saved: "已收藏",
     save: "收藏",
     back: "返回",
     year: "年份",
     location: "地点",
+    bridgeType: "桥梁类型",
+    visualFeature: "画面特征",
     listen: "朗读介绍",
     map: "查看地图",
     gallery: "桥梁画廊",
@@ -75,6 +82,7 @@ const copy = {
   },
   en: {
     switchLanguage: "切换到中文",
+    eyebrow: "SinoBridge Search",
     title: "SinoBridge",
     subtitle: "Your original bridge search stays intact, now with stronger browsing, saved items, backend sync, and richer structure.",
     searchPlaceholder: "Search by bridge, location, or year...",
@@ -96,6 +104,7 @@ const copy = {
     compare: "Compare bridges",
     compareHint: "Choose up to two bridges for a quick comparison.",
     compareEmpty: "Pick bridges with the compare button on each card.",
+    compareSelected: "{count}/2 bridges selected for comparison.",
     compareAction: "Compare",
     removeCompare: "Remove",
     customTitle: "Add a custom bridge",
@@ -115,11 +124,16 @@ const copy = {
     backendOnline: "Backend connected",
     backendOffline: "Local-only mode",
     backendChecking: "Checking backend",
+    requiredFields: "Please fill in the name, Chinese name, year, and location first.",
+    customBadge: "Custom",
+    imagePending: "Verified bridge image pending. A neutral placeholder is shown for now.",
     saved: "Saved",
     save: "Save",
     back: "Back",
     year: "Year",
     location: "Location",
+    bridgeType: "Bridge type",
+    visualFeature: "Visual feature",
     listen: "Listen",
     map: "View map",
     gallery: "Gallery",
@@ -170,10 +184,10 @@ function mergeBridges(primary, secondary) {
 }
 
 function BridgeImage({ bridge, className }) {
-  const [src, setSrc] = useState(bridge.img);
+  const [src, setSrc] = useState(bridge.img || FALLBACK_IMAGE);
 
   useEffect(() => {
-    setSrc(bridge.img);
+    setSrc(bridge.img || FALLBACK_IMAGE);
   }, [bridge.img]);
 
   return <img src={src} alt={bridge.name} className={className} onError={() => setSrc(FALLBACK_IMAGE)} />;
@@ -196,9 +210,16 @@ function App() {
 
   const text = copy[lang];
   const allBridges = [...bridges, ...customBridges];
-  const regions = Array.from(new Set(allBridges.map((bridge) => bridge.location.split(",")[0].trim()))).sort();
+  const regions = Array.from(new Set(allBridges.map((bridge) => (lang === "zh" ? (bridge.location_zh || bridge.location) : bridge.location).split(",")[0].trim()))).sort();
   const searched = searchBridges(allBridges, deferredSearch, sortBy);
-  const filtered = searched.filter((bridge) => region === "all" || bridge.location.startsWith(region));
+  const filtered = searched.filter((bridge) => {
+    if (region === "all") {
+      return true;
+    }
+
+    const currentLocation = lang === "zh" ? bridge.location_zh || bridge.location : bridge.location;
+    return currentLocation.startsWith(region);
+  });
   const timeline = getTimelineSummary(filtered);
   const compared = compareIds
     .map((id) => allBridges.find((bridge) => bridge.id === id))
@@ -310,6 +331,10 @@ function App() {
     setBridgeForm((current) => ({ ...current, [field]: value }));
   };
 
+  const getDisplayLocation = (bridge) => (lang === "zh" ? bridge.location_zh || bridge.location : bridge.location);
+
+  const getCompareStatusText = () => text.compareSelected.replace("{count}", String(compared.length));
+
   const handleAddBridge = (event) => {
     event.preventDefault();
 
@@ -328,6 +353,7 @@ function App() {
     });
 
     if (!nextBridge.name || !nextBridge.zh || !nextBridge.location || !nextBridge.year) {
+      setSaveMessage(text.requiredFields);
       return;
     }
 
@@ -378,7 +404,7 @@ function App() {
             <BridgeImage bridge={selected} className="detail-cover" />
 
             <div>
-              <p className="eyebrow">{selected.location}</p>
+              <p className="eyebrow">{getDisplayLocation(selected)}</p>
               <h1>{lang === "zh" ? selected.zh : selected.name}</h1>
               <p className="detail-intro">{selectedDescription}</p>
 
@@ -387,8 +413,18 @@ function App() {
                   <strong>{text.year}</strong> {selected.year}
                 </span>
                 <span>
-                  <strong>{text.location}</strong> {selected.location}
+                  <strong>{text.location}</strong> {getDisplayLocation(selected)}
                 </span>
+                {selected.type_zh || selected.type_en ? (
+                  <span>
+                    <strong>{text.bridgeType}</strong> {lang === "zh" ? selected.type_zh : selected.type_en}
+                  </span>
+                ) : null}
+                {selected.feature_zh || selected.feature_en ? (
+                  <span>
+                    <strong>{text.visualFeature}</strong> {lang === "zh" ? selected.feature_zh : selected.feature_en}
+                  </span>
+                ) : null}
               </div>
 
               <div className="detail-actions">
@@ -404,6 +440,7 @@ function App() {
                   {text.map}
                 </a>
               </div>
+              {!selected.img ? <p className="image-note">{text.imagePending}</p> : null}
             </div>
           </div>
 
@@ -435,7 +472,7 @@ function App() {
       <section className="hero-panel">
         <div className="hero-topbar">
           <div>
-            <p className="eyebrow">SinoBridge Search</p>
+            <p className="eyebrow">{text.eyebrow}</p>
             <h1>{text.title}</h1>
             <p className="hero-subtitle">{text.subtitle}</p>
             <p className={`backend-pill backend-${backendStatus}`}>
@@ -521,7 +558,7 @@ function App() {
             </div>
             <div className="feature-card">
               <span className="eyebrow">{text.featuredTitle}</span>
-              <p>{bridges[0].name}</p>
+              <p>{lang === "zh" ? bridges[0].zh : bridges[0].name}</p>
             </div>
           </div>
 
@@ -530,6 +567,7 @@ function App() {
               <div>
                 <h3>{text.compare}</h3>
                 <p>{text.compareHint}</p>
+                <p>{getCompareStatusText()}</p>
               </div>
             </div>
             {compared.length === 0 ? <div className="empty-state compare-empty">{text.compareEmpty}</div> : null}
@@ -537,7 +575,7 @@ function App() {
               {compared.map((bridge) => (
                 <article key={bridge.id} className="compare-card">
                   <h4>{lang === "zh" ? bridge.zh : bridge.name}</h4>
-                  <p>{bridge.location}</p>
+                  <p>{getDisplayLocation(bridge)}</p>
                   <p>
                     <strong>{text.year}</strong> {bridge.year}
                   </p>
@@ -609,7 +647,7 @@ function App() {
                 <div key={bridge.id} className="custom-bridge-row">
                   <div>
                     <strong>{lang === "zh" ? bridge.zh : bridge.name}</strong>
-                    <p>{bridge.location}</p>
+                    <p>{getDisplayLocation(bridge)}</p>
                   </div>
                   <button className="ghost-button" onClick={() => handleDeleteCustomBridge(bridge.id)}>
                     {text.deleteCustom}
@@ -635,8 +673,9 @@ function App() {
                         <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
                         <span>{bridge.year}</span>
                       </div>
-                      <p>{bridge.location}</p>
-                      {bridge.isCustom ? <span className="entry-badge">Custom</span> : null}
+                      <p>{getDisplayLocation(bridge)}</p>
+                      {bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
+                      {!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
                     </div>
                   </button>
 

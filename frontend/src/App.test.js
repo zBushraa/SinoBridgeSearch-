@@ -8,14 +8,14 @@ beforeEach(() => {
 
 test("renders the bridge explorer heading", () => {
   render(<App />);
-  expect(screen.getByText(/中国古桥/i)).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /中国古桥/i })).toBeInTheDocument();
   expect(screen.getByPlaceholderText(/搜索桥梁、地点、年份/i)).toBeInTheDocument();
 });
 
 test("filters bridges by English query after language switch", () => {
   render(<App />);
 
-  fireEvent.click(screen.getByRole("button", { name: /switch to english/i }));
+  fireEvent.click(screen.getByRole("button", { name: /切换到英文/i }));
   fireEvent.change(screen.getByPlaceholderText(/search by bridge, location, or year/i), {
     target: { value: "Beijing" },
   });
