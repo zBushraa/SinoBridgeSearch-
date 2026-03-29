@@ -67,6 +67,13 @@ const copy = {
     requiredFields: "请先填写名称、中文名、年份和地点。",
     customBadge: "自定义",
     imagePending: "该桥图片待核实，暂以中性占位图显示。",
+    dynasty: "时代背景",
+    alias: "别称",
+    travelTip: "中国使用建议",
+    copyName: "复制中文名",
+    copyAddress: "复制中文地址",
+    copied: "已复制",
+    galleryCountUnit: "图",
     saved: "已收藏",
     save: "收藏",
     back: "返回",
@@ -127,6 +134,13 @@ const copy = {
     requiredFields: "Please fill in the name, Chinese name, year, and location first.",
     customBadge: "Custom",
     imagePending: "Verified bridge image pending. A neutral placeholder is shown for now.",
+    dynasty: "Dynasty",
+    alias: "Alias",
+    travelTip: "China-use tip",
+    copyName: "Copy Chinese name",
+    copyAddress: "Copy Chinese address",
+    copied: "Copied",
+    galleryCountUnit: "images",
     saved: "Saved",
     save: "Save",
     back: "Back",
@@ -183,14 +197,25 @@ function mergeBridges(primary, secondary) {
   });
 }
 
-function BridgeImage({ bridge, className }) {
-  const [src, setSrc] = useState(bridge.img || FALLBACK_IMAGE);
+function BridgeImage({ bridge, className, loading = "lazy", fetchPriority = "auto", srcOverride }) {
+  const initialSrc = srcOverride || bridge.img || FALLBACK_IMAGE;
+  const [src, setSrc] = useState(initialSrc);
 
   useEffect(() => {
-    setSrc(bridge.img || FALLBACK_IMAGE);
-  }, [bridge.img]);
+    setSrc(srcOverride || bridge.img || FALLBACK_IMAGE);
+  }, [bridge.img, srcOverride]);
 
-  return <img src={src} alt={bridge.name} className={className} onError={() => setSrc(FALLBACK_IMAGE)} />;
+  return (
+    <img
+      src={src}
+      alt={bridge.name}
+      className={className}
+      loading={loading}
+      decoding="async"
+      fetchPriority={fetchPriority}
+      onError={() => setSrc(FALLBACK_IMAGE)}
+    />
+  );
 }
 
 function App() {
@@ -206,6 +231,8 @@ function App() {
   const [bridgeForm, setBridgeForm] = useState(EMPTY_BRIDGE_FORM);
   const [saveMessage, setSaveMessage] = useState("");
   const [backendStatus, setBackendStatus] = useState("checking");
+  const [selectedGalleryImage, setSelectedGalleryImage] = useState("");
+  const [copyMessage, setCopyMessage] = useState("");
   const deferredSearch = useDeferredValue(search);
 
   const text = copy[lang];
@@ -335,6 +362,20 @@ function App() {
 
   const getCompareStatusText = () => text.compareSelected.replace("{count}", String(compared.length));
 
+  const handleCopy = async (value) => {
+    if (!value) {
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopyMessage(text.copied);
+      window.setTimeout(() => setCopyMessage(""), 1800);
+    } catch {
+      setCopyMessage("");
+    }
+  };
+
   const handleAddBridge = (event) => {
     event.preventDefault();
 
@@ -383,6 +424,15 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    if (!selected) {
+      setSelectedGalleryImage("");
+      return;
+    }
+
+    setSelectedGalleryImage(selected.img || selected.gallery[0] || FALLBACK_IMAGE);
+  }, [selected]);
+
   if (selected) {
     const selectedDescription = lang === "zh" ? selected.desc_zh : selected.desc_en;
     const isFavorite = favorites.includes(selected.id);
@@ -401,7 +451,13 @@ function App() {
           </div>
 
           <div className="detail-hero">
-            <BridgeImage bridge={selected} className="detail-cover" />
+            <BridgeImage
+              bridge={selected}
+              className="detail-cover"
+              loading="eager"
+              fetchPriority="high"
+              srcOverride={selectedGalleryImage}
+            />
 
             <div>
               <p className="eyebrow">{getDisplayLocation(selected)}</p>
@@ -425,6 +481,16 @@ function App() {
                     <strong>{text.visualFeature}</strong> {lang === "zh" ? selected.feature_zh : selected.feature_en}
                   </span>
                 ) : null}
+                {selected.dynasty_zh || selected.dynasty_en ? (
+                  <span>
+                    <strong>{text.dynasty}</strong> {lang === "zh" ? selected.dynasty_zh : selected.dynasty_en}
+                  </span>
+                ) : null}
+                {selected.alias_zh || selected.alias_en ? (
+                  <span>
+                    <strong>{text.alias}</strong> {lang === "zh" ? selected.alias_zh : selected.alias_en}
+                  </span>
+                ) : null}
               </div>
 
               <div className="detail-actions">
@@ -439,7 +505,19 @@ function App() {
                 >
                   {text.map}
                 </a>
+                <button className="ghost-button" onClick={() => handleCopy(selected.zh)}>
+                  {text.copyName}
+                </button>
+                <button className="ghost-button" onClick={() => handleCopy(selected.location_zh || selected.location)}>
+                  {text.copyAddress}
+                </button>
               </div>
+              {selected.tip_zh || selected.tip_en ? (
+                <p className="image-note">
+                  <strong>{text.travelTip}</strong> {lang === "zh" ? selected.tip_zh : selected.tip_en}
+                </p>
+              ) : null}
+              {copyMessage ? <p className="image-note">{copyMessage}</p> : null}
               {!selected.img ? <p className="image-note">{text.imagePending}</p> : null}
             </div>
           </div>
@@ -450,15 +528,23 @@ function App() {
             </div>
             <div className="gallery-grid">
               {selected.gallery.map((image, index) => (
-                <img
+                <button
                   key={`${selected.id}-${index}`}
-                  src={image}
-                  alt={`${selected.name} ${index + 1}`}
-                  className="gallery-image"
-                  onError={(event) => {
-                    event.currentTarget.src = FALLBACK_IMAGE;
-                  }}
-                />
+                  type="button"
+                  className={`gallery-thumb ${selectedGalleryImage === image ? "is-active" : ""}`}
+                  onClick={() => setSelectedGalleryImage(image)}
+                >
+                  <img
+                    src={image}
+                    alt={`${selected.name} ${index + 1}`}
+                    className="gallery-image"
+                    loading="lazy"
+                    decoding="async"
+                    onError={(event) => {
+                      event.currentTarget.src = FALLBACK_IMAGE;
+                    }}
+                  />
+                </button>
               ))}
             </div>
           </section>
@@ -667,13 +753,16 @@ function App() {
               return (
                 <article key={bridge.id} className="bridge-card">
                   <button className="card-surface" onClick={() => setSelected(bridge)}>
-                    <BridgeImage bridge={bridge} className="bridge-card-image" />
+                    <BridgeImage bridge={bridge} className="bridge-card-image" loading="lazy" fetchPriority="low" />
                     <div className="bridge-card-body">
                       <div className="bridge-card-header">
                         <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
                         <span>{bridge.year}</span>
                       </div>
                       <p>{getDisplayLocation(bridge)}</p>
+                      <span className="entry-badge">
+                        {bridge.galleryCount} {text.galleryCountUnit}
+                      </span>
                       {bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
                       {!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
                     </div>

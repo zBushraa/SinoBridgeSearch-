@@ -1,3 +1,144 @@
+import { imageCatalog } from "./imageCatalog";
+
+const detailCatalog = {
+  zhaozhou: {
+    alias_en: "Anji Bridge",
+    alias_zh: "安济桥",
+    dynasty_en: "Sui dynasty",
+    dynasty_zh: "隋代",
+    tip_en: "Search with the Chinese name in local map apps for more accurate results in China.",
+    tip_zh: "在中国使用地图时，直接搜索“赵州桥”通常比英文名更准确。",
+  },
+  lugou: {
+    alias_en: "Marco Polo Bridge",
+    alias_zh: "卢沟桥（马可波罗桥）",
+    dynasty_en: "Jin dynasty, later restored in Qing periods",
+    dynasty_zh: "金代始建，后经清代重修",
+    tip_en: "The Chinese search term 卢沟桥 is the most reliable option in China-based maps.",
+    tip_zh: "在百度地图或高德地图中搜索“卢沟桥”最稳定。",
+  },
+  luoyang: {
+    alias_en: "Wan'an Bridge of Quanzhou historical records",
+    alias_zh: "泉州洛阳桥",
+    dynasty_en: "Northern Song dynasty",
+    dynasty_zh: "北宋",
+    tip_en: "Pair the bridge name with Quanzhou for accurate local search results.",
+    tip_zh: "搜索时加上“泉州”会更容易定位到正确桥址。",
+  },
+  baodai: {
+    alias_en: "Precious Belt Bridge",
+    alias_zh: "苏州宝带桥",
+    dynasty_en: "Tang dynasty, later rebuilt and maintained",
+    dynasty_zh: "唐代始建，后历代修葺",
+    tip_en: "Use Suzhou + Baodai Bridge when searching in Chinese map services.",
+    tip_zh: "在中国地图中搜索“苏州宝带桥”定位更准确。",
+  },
+  guangji: {
+    alias_en: "Xiangzi Bridge",
+    alias_zh: "湘子桥",
+    dynasty_en: "Southern Song dynasty",
+    dynasty_zh: "南宋",
+    tip_en: "The local name Xiangzi Bridge may appear in Chinese travel guides and maps.",
+    tip_zh: "在潮州本地语境中，“湘子桥”也非常常见。",
+  },
+  bianhe: {
+    alias_en: "Qingming Scroll Rainbow Bridge",
+    alias_zh: "清明上河图虹桥",
+    dynasty_en: "Song dynasty cultural reconstruction context",
+    dynasty_zh: "宋代文化语境",
+    tip_en: "This bridge is often explored through historical imagery rather than a single surviving site.",
+    tip_zh: "这座桥更多通过历史图像与复原研究被认识，不完全等同于单一现存遗址。",
+  },
+  shuangqiao: {
+    alias_en: "Double Bridge",
+    alias_zh: "周庄双桥",
+    dynasty_en: "Ming-Qing era water-town landscape tradition",
+    dynasty_zh: "明清水乡景观传统",
+    tip_en: "Search with the town name if a map app shows multiple Double Bridges.",
+    tip_zh: "如遇同名桥较多，搜索“周庄双桥”更方便。",
+  },
+  yongtong: {
+    alias_en: "Yongtong Stone Bridge",
+    alias_zh: "永通石桥",
+    dynasty_en: "Tang dynasty",
+    dynasty_zh: "唐代",
+    tip_en: "Chinese local search works best with the bridge name plus province or county.",
+    tip_zh: "搜索时加上所在省县名称，定位会更稳定。",
+  },
+  wanan: {
+    alias_en: "Wan'an Covered Bridge",
+    alias_zh: "万安廊桥",
+    dynasty_en: "Song dynasty tradition",
+    dynasty_zh: "宋代传统",
+    tip_en: "Covered bridge sites in China are easier to find using the Chinese bridge name.",
+    tip_zh: "廊桥类景点在国内地图里通常用中文名检索更快。",
+  },
+  tongji: {
+    alias_en: "Tongji Ancient Bridge",
+    alias_zh: "通济古桥",
+    dynasty_en: "Song to later local cultural continuity",
+    dynasty_zh: "宋代以来的地方文化延续",
+    tip_en: "Try searching the Chinese name together with the city for more precise route results.",
+    tip_zh: "建议使用“城市名 + 通济桥”进行组合检索。",
+  },
+  anping: {
+    alias_en: "Wuli Bridge",
+    alias_zh: "五里桥",
+    dynasty_en: "Southern Song dynasty",
+    dynasty_zh: "南宋",
+    tip_en: "Anping Bridge is often easier to locate under its alternative name Wuli Bridge.",
+    tip_zh: "在中国地图中，“五里桥”有时比“安平桥”更容易搜到。",
+  },
+  shunji: {
+    alias_en: "Shunji Ancient Bridge",
+    alias_zh: "顺济古桥",
+    dynasty_en: "Southern Song period context",
+    dynasty_zh: "南宋时期语境",
+    tip_en: "Use the Chinese place name with the bridge for more reliable navigation in China.",
+    tip_zh: "在国内导航中建议加上地名一起搜索。",
+  },
+  jinshui: {
+    alias_en: "Golden Water Bridge",
+    alias_zh: "紫禁城金水桥",
+    dynasty_en: "Ming dynasty",
+    dynasty_zh: "明代",
+    tip_en: "For China travel use, searching Forbidden City + Jinshui Bridge is most precise.",
+    tip_zh: "在国内地图中搜索“故宫 金水桥”最容易定位。",
+  },
+  taiping: {
+    alias_en: "Taiping Ancient Bridge",
+    alias_zh: "太平古桥",
+    dynasty_en: "Late imperial local bridge tradition",
+    dynasty_zh: "明清时期地方桥梁传统",
+    tip_en: "This bridge is best understood through its surrounding landscape context.",
+    tip_zh: "这类桥更适合结合周边古镇或风景区一起检索。",
+  },
+  yudai: {
+    alias_en: "Yudai Bridge",
+    alias_zh: "颐和园玉带桥",
+    dynasty_en: "Qing dynasty, Qianlong reign",
+    dynasty_zh: "清代乾隆时期",
+    tip_en: "In China, use Summer Palace + Jade Belt Bridge for the clearest map result.",
+    tip_zh: "在中国地图里搜索“颐和园 玉带桥”最准确。",
+  },
+  ninedragon: {
+    alias_en: "Nine Dragons Bridge",
+    alias_zh: "九龙桥",
+    dynasty_en: "Qing imperial garden context",
+    dynasty_zh: "清代皇家园林语境",
+    tip_en: "Because the name is ambiguous, searching the Chinese name with the park name is recommended.",
+    tip_zh: "因名称容易混淆，建议用“景区名 + 九龙桥”一起搜索。",
+  },
+  fengyu: {
+    alias_en: "Wind and Rain Bridge",
+    alias_zh: "侗族风雨桥",
+    dynasty_en: "Late traditional timber bridge culture",
+    dynasty_zh: "近代以前木构桥传统延续",
+    tip_en: "For travel in China, the Chinese ethnic and regional naming is usually more accurate than the English one.",
+    tip_zh: "在中国出行时，用“侗族风雨桥”或具体村寨名检索通常更准确。",
+  },
+};
+
 const rawBridges = [
   {
     id: "zhaozhou",
@@ -260,6 +401,34 @@ It stands as an example of how many Chinese bridges became woven into the ceremo
 因此，通济桥值得关注的不只是桥体本身，更是它在地方文化中所扮演的“连接”角色。`,
   },
   {
+    id: "anping",
+    name: "Anping Bridge",
+    zh: "安平桥",
+    year: 1138,
+    location: "Quanzhou, Fujian, China",
+    location_zh: "中国福建泉州",
+    type_en: "Stone beam sea bridge",
+    type_zh: "跨海梁式石桥",
+    feature_en: "Exceptionally long stone beam bridge with repeated piers across estuary waters",
+    feature_zh: "桥身极长，桥墩连续展开，是最具辨识度的长梁式古桥之一",
+    img: "/images/anping.jpg",
+    gallery: ["/images/anping.jpg"],
+    desc_en: `Anping Bridge, also known as Wuli Bridge, began construction in 1138 during the Southern Song dynasty and was completed in the mid-12th century. It is one of the most important long-span historic bridges in Fujian and is often described as China's longest surviving ancient stone beam bridge.
+
+Unlike dramatic arch bridges, Anping Bridge is distinguished by length, rhythm, and engineering endurance. Its deck stretches across what was once a tidal estuary, carried by a long sequence of stone piers and massive stone beams.
+
+The bridge played an important role in connecting transport routes in the Quanzhou region, an area deeply tied to maritime trade during the Song and Yuan periods. For this reason, Anping Bridge is significant not only as infrastructure, but also as part of the wider historical transportation network of Quanzhou.
+
+Its monumental horizontal form gives it a very different visual identity from garden bridges or arch bridges, making it one of the clearest examples of large-scale stone beam construction in premodern China.`,
+    desc_zh: `安平桥又称“五里桥”，始建于南宋绍兴八年（1138年），后于12世纪中期建成，是福建乃至中国古代桥梁史上极具代表性的长梁式石桥之一。
+
+与赵州桥、玉带桥这类以拱形著称的桥不同，安平桥最震撼人的地方在于“长”。它横跨原本的潮汐水域，桥墩与石梁连续铺展，形成极强的节奏感和延展感，因此在视觉上非常壮阔。
+
+从交通意义上看，安平桥连接了泉州周边的重要通道，而泉州在宋元时期又是海上贸易极其繁盛的地区，因此这座桥不仅是一处地方性古桥，也是区域交通网络的重要组成部分。
+
+安平桥的价值在于，它让人看到中国古代桥梁并不只有拱桥成就，梁式石桥同样可以在尺度、技术和景观气势上达到惊人的高度。`,
+  },
+  {
     id: "shunji",
     name: "Shunji Bridge",
     zh: "顺济桥",
@@ -423,17 +592,25 @@ Fengyu Bridge is therefore important as both vernacular engineering and living c
   },
 ];
 
-export const bridges = rawBridges.map((bridge) => ({
-  ...bridge,
-  gallery: (bridge.gallery && bridge.gallery.length > 0 ? bridge.gallery : [bridge.img]).filter(Boolean),
-  keywords: [
-    bridge.name,
-    bridge.zh,
-    bridge.location,
-    String(bridge.year),
-    bridge.desc_en,
-    bridge.desc_zh,
-  ]
-    .join(" ")
-    .toLowerCase(),
-}));
+export const bridges = rawBridges.map((bridge) => {
+  const images = imageCatalog[bridge.id] || {};
+  const gallery = (images.gallery || bridge.gallery || [images.cover || bridge.img]).filter(Boolean);
+
+  return {
+    ...bridge,
+    ...(detailCatalog[bridge.id] || {}),
+    img: images.cover || bridge.img,
+    gallery,
+    galleryCount: gallery.length,
+    keywords: [
+      bridge.name,
+      bridge.zh,
+      bridge.location,
+      String(bridge.year),
+      bridge.desc_en,
+      bridge.desc_zh,
+    ]
+      .join(" ")
+      .toLowerCase(),
+  };
+});
