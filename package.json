@@ -5,6 +5,9 @@
     "start": "npm --prefix frontend start",
     "build": "npm --prefix frontend run build",
     "test": "npm --prefix frontend test -- --watch=false",
-    "backend": "npm --prefix backend start"
+    "backend": "npm --prefix backend start",
+    "cf:build": "npm --prefix frontend run build",
+    "cf:dev": "npx wrangler pages dev frontend/build",
+    "cf:deploy": "npm run cf:build && npx wrangler pages deploy frontend/build"
   }
 }

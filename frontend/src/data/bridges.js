@@ -151,8 +151,8 @@ const rawBridges = [
     type_zh: "敞肩式石拱桥",
     feature_en: "Slim arch profile and lightweight structural openings",
     feature_zh: "桥身弧线轻盈，拱肩开孔让整体看起来更通透",
-    img: "/images/zhaozhou.jpg",
-    gallery: ["/images/zhaozhou_1.jpg", "/images/zhaozhou_2.jpg", "/images/zhaozhou_3.jpg"],
+    img: "/images/optimized/zhaozhou.webp",
+    gallery: ["/images/optimized/zhaozhou_1.webp", "/images/optimized/zhaozhou_2.webp", "/images/optimized/zhaozhou_3.webp"],
     desc_en: `Zhaozhou Bridge, built in 605 during the Sui dynasty, is one of the most celebrated bridges in Chinese history and is widely regarded as the earliest surviving open-spandrel stone arch bridge in the world.
 
 What makes it visually distinctive is the lightness of its structure. Instead of appearing heavy and solid, the main arch is accompanied by smaller openings in the shoulders, giving the bridge a more graceful and airy profile than many earlier stone bridges.
@@ -177,8 +177,8 @@ Its long survival through floods, earthquakes, and centuries of use has made it 
     type_zh: "联拱石桥",
     feature_en: "Stone lions lining the balustrades",
     feature_zh: "桥栏两侧密布石狮，是最容易辨认的视觉特征",
-    img: "/images/lugou.jpg",
-    gallery: ["/images/lugou_1.jpg", "/images/lugou_2.jpg", "/images/lugou_3.jpg"],
+    img: "/images/optimized/lugou.webp",
+    gallery: ["/images/optimized/lugou_1.webp", "/images/optimized/lugou_2.webp", "/images/optimized/lugou_3.webp"],
     desc_en: `Lugou Bridge, also known internationally as the Marco Polo Bridge, began construction in 1189 and was completed in 1192. It is one of Beijing's most important historic bridges and is especially well known for the stone lions that line its balustrades.
 
 These carved lions are the bridge's most memorable visual feature. Their different poses, expressions, and sizes give the bridge a strong sculptural identity and make it far more than a purely functional crossing.
@@ -203,8 +203,8 @@ Structurally and artistically, Lugou Bridge remains one of the clearest survivin
     type_zh: "跨海梁式石桥",
     feature_en: "Marine foundation techniques in tidal water",
     feature_zh: "建在潮汐水域上，桥基处理技术非常有代表性",
-    img: "/images/luoyang.jpg",
-    gallery: ["/images/luoyang_1.jpg", "/images/luoyang_2.jpg", "/images/luoyang_3.jpg"],
+    img: "/images/optimized/luoyang.webp",
+    gallery: ["/images/optimized/luoyang_1.webp", "/images/optimized/luoyang_2.webp", "/images/optimized/luoyang_3.webp"],
     desc_en: `Luoyang Bridge, completed in 1059 in Quanzhou, is one of the most important bridges in the history of Chinese marine engineering. Unlike inland arch bridges, it was built across tidal estuary conditions where water movement and foundation stability were constant challenges.
 
 Its fame comes largely from the engineering methods used during construction. Historical accounts describe techniques such as strengthening the bridge base with oyster growth and carefully adapting the structure to changing tides and soft underwater conditions.
@@ -229,8 +229,8 @@ Luoyang Bridge is therefore valued not just as an old bridge, but as an early an
     type_zh: "多孔联拱石桥",
     feature_en: "Long ribbon-like bridge body with many small arches",
     feature_zh: "桥体修长，连续小拱非常密集，外观像一条带子",
-    img: "/images/baodai.jpg",
-    gallery: ["/images/baodai_1.jpg", "/images/baodai_2.jpg", "/images/baodai_3.jpg"],
+    img: "/images/optimized/baodai.webp",
+    gallery: ["/images/optimized/baodai_1.webp", "/images/optimized/baodai_2.webp", "/images/optimized/baodai_3.webp"],
     desc_en: `Baodai Bridge, first built in 816 in Suzhou, is one of China's best-known multi-arch stone bridges. Its long, low body and repeated sequence of small arches create the appearance of a ribbon laid across the water.
 
 That elongated form is not only visually striking but also practical. The many openings help regulate water flow and allow movement through a canal-rich environment, making the bridge especially well suited to the hydraulic landscape of Jiangnan.
@@ -255,8 +255,8 @@ Its reputation today rests on that combination of elegance, water management, an
     type_zh: "梁桥与浮桥结合的复合桥",
     feature_en: "Movable floating section for river traffic",
     feature_zh: "中段可拆装，方便船只通过，是画面与结构都很特别的一座桥",
-    img: "/images/guangji.jpg",
-    gallery: ["/images/guangji_1.jpg", "/images/guangji_2.jpg", "/images/guangji_3.jpg"],
+    img: "/images/optimized/guangji.webp",
+    gallery: ["/images/optimized/guangji_1.webp", "/images/optimized/guangji_2.webp", "/images/optimized/guangji_3.webp"],
     desc_en: `Guangji Bridge in Chaozhou is one of the most unusual historic bridges in China because it combines fixed bridge sections with a floating pontoon section. First built in 1170, it is often listed among China's great ancient bridges.
 
 Its importance lies in this hybrid structure. Rather than being a conventional stone bridge throughout, it was designed to respond to the navigational needs of the Han River by allowing part of the crossing to be opened or adjusted.
@@ -281,8 +281,8 @@ Today it is valued not only as a feat of engineering but also as one of the stro
     type_zh: "木构虹桥",
     feature_en: "Curved bridge form associated with Song urban life",
     feature_zh: "桥身弯曲如虹，和市井、河道、船只场景联系很强",
-    img: "/images/bianhe.jpg",
-    gallery: ["/images/bianhe_1.jpg", "/images/bianhe_2.jpg", "/images/bianhe_3.jpg"],
+    img: "/images/optimized/bianhe.webp",
+    gallery: ["/images/optimized/bianhe_1.webp", "/images/optimized/bianhe_2.webp", "/images/optimized/bianhe_3.webp"],
     desc_en: `Bianhe Rainbow Bridge is most famous through its appearance in the celebrated handscroll "Along the River During the Qingming Festival," where it serves as a focal point in the urban life of the Song dynasty capital.
 
 The term "rainbow bridge" refers to its strongly curved profile, which rises over the river in a form that is both structurally expressive and visually memorable. Even where modern viewers encounter it through paintings and reconstructions, the bridge remains central to the imagination of Song-era city life.
@@ -307,8 +307,8 @@ For that reason, Bianhe Rainbow Bridge is as important in cultural history as in
     type_zh: "双联石桥",
     feature_en: "Two connected bridges crossing at different directions",
     feature_zh: "两桥相接，和水巷、民居一起形成典型江南画面",
-    img: "/images/shuangqiao.jpg",
-    gallery: ["/images/shuangqiao_1.jpg", "/images/shuangqiao_2.jpg", "/images/shuangqiao_3.jpg"],
+    img: "/images/optimized/shuangqiao.webp",
+    gallery: ["/images/optimized/shuangqiao_1.webp", "/images/optimized/shuangqiao_2.webp", "/images/optimized/shuangqiao_3.webp"],
     desc_en: `Shuangqiao, or the Double Bridge, is a classic Jiangnan waterside composition formed by two connected bridges crossing different channels in Suzhou.
 
 Its importance lies less in monumental engineering than in spatial atmosphere. The bridges, waterways, houses, and reflections together create a scene that has become one of the most recognizable visual symbols of the Jiangnan water town.
@@ -333,8 +333,8 @@ The bridge group is best understood as part of a lived waterside environment rat
     type_zh: "石拱桥",
     feature_en: "Early mature arch form from the Tang period",
     feature_zh: "拱券厚实稳重，能看出早期石桥追求稳定的结构思路",
-    img: "/images/yongtong.jpg",
-    gallery: ["/images/yongtong_1.jpg", "/images/yongtong_2.jpg", "/images/yongtong_3.jpg"],
+    img: "/images/optimized/yongtong.webp",
+    gallery: ["/images/optimized/yongtong_1.webp", "/images/optimized/yongtong_2.webp", "/images/optimized/yongtong_3.webp"],
     desc_en: `Yongtong Bridge, dating to the Tang period, is valued as an example of early mature stone arch construction in China.
 
 Compared with later bridges that emphasize refinement and scenic elegance, Yongtong Bridge presents a more solid and restrained appearance. That visual heaviness reflects the structural priorities of an earlier stage in stone bridge development.
@@ -359,8 +359,8 @@ As a result, it is important not only as a preserved monument but also as eviden
     type_zh: "木构廊桥",
     feature_en: "Roofed bridge deck for travel, rest, and gathering",
     feature_zh: "桥上带廊屋，既能通行，也像一条跨水而建的公共空间",
-    img: "/images/wanan.jpg",
-    gallery: ["/images/wanan_1.jpg", "/images/wanan_2.jpg", "/images/wanan_3.jpg"],
+    img: "/images/optimized/wanan.webp",
+    gallery: ["/images/optimized/wanan_1.webp", "/images/optimized/wanan_2.webp", "/images/optimized/wanan_3.webp"],
     desc_en: `Wan'an Bridge is a traditional covered wooden corridor bridge associated with southern Chinese architectural traditions. Rather than functioning as a bare crossing, it incorporates a roofed passage that turns the bridge into a shared public space.
 
 This design offered practical protection from rain and sun, but it also supported conversation, rest, and community interaction. In that sense, the bridge belongs as much to daily social life as to transport infrastructure.
@@ -385,8 +385,8 @@ Wan'an Bridge is therefore an excellent example of how local environment, materi
     type_zh: "古代拱桥",
     feature_en: "Bridge associated with local gatherings and seasonal customs",
     feature_zh: "常与地方民俗活动联系在一起，不只是交通节点",
-    img: "/images/tongji.jpg",
-    gallery: ["/images/tongji_1.jpg", "/images/tongji_2.jpg", "/images/tongji_3.jpg"],
+    img: "/images/optimized/tongji.webp",
+    gallery: ["/images/optimized/tongji_1.webp", "/images/optimized/tongji_2.webp", "/images/optimized/tongji_3.webp"],
     desc_en: `Tongji Bridge is remembered not only as a crossing but also as a bridge deeply connected with local ritual life and seasonal custom in southern China.
 
 Bridges of this kind often became gathering spaces where movement, commerce, and civic identity overlapped. That cultural role helps explain why Tongji Bridge remains meaningful beyond its practical transport function.
@@ -411,8 +411,8 @@ It stands as an example of how many Chinese bridges became woven into the ceremo
     type_zh: "跨海梁式石桥",
     feature_en: "Exceptionally long stone beam bridge with repeated piers across estuary waters",
     feature_zh: "桥身极长，桥墩连续展开，是最具辨识度的长梁式古桥之一",
-    img: "/images/anping.jpg",
-    gallery: ["/images/anping.jpg"],
+    img: "/images/optimized/anping.webp",
+    gallery: ["/images/optimized/anping.webp"],
     desc_en: `Anping Bridge, also known as Wuli Bridge, began construction in 1138 during the Southern Song dynasty and was completed in the mid-12th century. It is one of the most important long-span historic bridges in Fujian and is often described as China's longest surviving ancient stone beam bridge.
 
 Unlike dramatic arch bridges, Anping Bridge is distinguished by length, rhythm, and engineering endurance. Its deck stretches across what was once a tidal estuary, carried by a long sequence of stone piers and massive stone beams.
@@ -439,8 +439,8 @@ Its monumental horizontal form gives it a very different visual identity from ga
     type_zh: "地方石桥",
     feature_en: "Practical bridge form serving daily movement and trade",
     feature_zh: "造型朴实，强调耐久与日常通行功能",
-    img: "/images/shunji.jpg",
-    gallery: ["/images/shunji_1.jpg", "/images/shunji_2.jpg", "/images/shunji_3.jpg"],
+    img: "/images/optimized/shunji.webp",
+    gallery: ["/images/optimized/shunji_1.webp", "/images/optimized/shunji_2.webp", "/images/optimized/shunji_3.webp"],
     desc_en: `Shunji Bridge represents a more regional and workaday form of historic bridge building in China. It is not famous because of extreme scale or imperial context, but because it reflects durable local construction serving real everyday needs.
 
 Its appearance is comparatively plain, and that simplicity is part of its value. The bridge emphasizes reliability, connection, and daily use over ceremonial display.
@@ -465,8 +465,8 @@ Shunji Bridge therefore reminds us that Chinese bridge heritage includes not onl
     type_zh: "礼仪性汉白玉桥",
     feature_en: "Formal white-stone bridge aligned with palace axes",
     feature_zh: "与宫殿中轴线和御道关系紧密，画面庄重规整",
-    img: "/images/jinshui.jpg",
-    gallery: ["/images/jinshui_1.jpg", "/images/jinshui_2.jpg", "/images/jinshui_3.jpg"],
+    img: "/images/optimized/jinshui.webp",
+    gallery: ["/images/optimized/jinshui_1.webp", "/images/optimized/jinshui_2.webp", "/images/optimized/jinshui_3.webp"],
     desc_en: `Jinshui Bridge belongs to the ceremonial architectural sequence of the Forbidden City in Beijing and should be understood within the logic of imperial space rather than ordinary transportation.
 
 Its white stone construction, symmetrical layout, and alignment with palace axes contribute to a formal and highly ordered visual effect. In this setting, the bridge participates in hierarchy, ritual, and political symbolism.
@@ -491,8 +491,8 @@ It is therefore significant as a bridge, but also as an integral element of one 
     type_zh: "古景观桥",
     feature_en: "Bridge integrated with riverside scenery and travel routes",
     feature_zh: "桥、山水与古镇环境联系紧密，视觉上更偏风景性",
-    img: "/images/taiping.jpg",
-    gallery: ["/images/taiping_1.jpg", "/images/taiping_2.jpg", "/images/taiping_3.jpg"],
+    img: "/images/optimized/taiping.webp",
+    gallery: ["/images/optimized/taiping_1.webp", "/images/optimized/taiping_2.webp", "/images/optimized/taiping_3.webp"],
     desc_en: `Taiping Bridge is best appreciated in relation to its surrounding landscape. Rather than standing out through highly specialized engineering, it is remembered for the way it integrates with its setting and traditional travel routes.
 
 Historically, it helped connect local movement and commerce, giving it practical significance beyond its scenic image.
@@ -517,8 +517,8 @@ This balance between utility and atmosphere gives Taiping Bridge its lasting app
     type_zh: "单孔高拱石桥（园林景观桥）",
     feature_en: "A sharply rising arch curve that looks like a lifted jade belt above the lake",
     feature_zh: "桥身高高拱起，弧线流畅，像一条向上挑起的玉带横跨湖面",
-    img: "/images/yudai.jpg",
-    gallery: ["/images/yudai_1.jpg", "/images/yudai_2.jpg", "/images/yudai_3.jpg"],
+    img: "/images/optimized/yudai.webp",
+    gallery: ["/images/optimized/yudai_1.webp", "/images/optimized/yudai_2.webp", "/images/optimized/yudai_3.webp"],
     desc_en: `Jade Belt Bridge, also known as Yudai Bridge, was built during the Qianlong period of the Qing Dynasty, generally dated to 1750 and sometimes recorded as 1751. It stands on the West Causeway of Kunming Lake in the Summer Palace, Beijing, and is the most visually dramatic bridge among the West Causeway bridges.
 
 Its defining feature is the single, very high arch that rises sharply above the water, giving the bridge the shape of an upward-curving jade belt. Built with white marble and pale stone, the bridge contrasts beautifully with the lake surface and becomes especially striking in clear light. The balustrades, posts, and carved details reflect the refined stone craftsmanship of the Qing imperial garden tradition.
@@ -549,8 +549,8 @@ Artistically, Jade Belt Bridge is a classic example of Chinese imperial garden d
     type_zh: "园林装饰性桥梁",
     feature_en: "Known for imperial garden context rather than large-span engineering",
     feature_zh: "更强调皇家园林环境中的观赏性，而不是大跨度结构表现",
-    img: "/images/ninedragon.jpg",
-    gallery: ["/images/ninedragon.jpg"],
+    img: "/images/optimized/ninedragon.webp",
+    gallery: ["/images/optimized/ninedragon.webp"],
     desc_en: `This entry refers to the Nine-Dragon Bridge associated with the imperial garden setting in Beijing, not the Hong Kong Kowloon district. The name is therefore rendered as "Nine-Dragon Bridge" rather than "Kowloon Bridge" to avoid confusion.
 
 Its significance lies more in symbolic meaning, landscape composition, and decorative imperial garden context than in large structural scale. It belongs to a world of courtly scenery rather than to the category of major transport bridges.
@@ -575,8 +575,8 @@ That decision helps preserve informational accuracy instead of presenting a visu
     type_zh: "侗族风雨廊桥",
     feature_en: "Roofed timber bridge used for shelter and community life",
     feature_zh: "桥上有屋顶与廊道，既能避雨，也能停留交流",
-    img: "/images/fengyu.jpg",
-    gallery: ["/images/fengyu_1.jpg", "/images/fengyu_2.jpg", "/images/fengyu_3.jpg"],
+    img: "/images/optimized/fengyu.webp",
+    gallery: ["/images/optimized/fengyu_1.webp", "/images/optimized/fengyu_2.webp", "/images/optimized/fengyu_3.webp"],
     desc_en: `Fengyu Bridge is a traditional covered bridge associated with the Dong ethnic group and is one of the most recognizable forms of minority wooden architecture in southwest China.
 
 Its roofed corridor transforms the bridge into more than a passage. It serves as shelter, meeting place, resting point, and social space, giving the bridge a strong communal dimension.

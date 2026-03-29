@@ -5,8 +5,8 @@ const rawBridges = [
     zh: "赵州桥",
     year: 605,
     location: "Hebei, China",
-    img: "/images/zhaozhou.jpg",
-    gallery: ["/images/zhaozhou_1.jpg", "/images/zhaozhou_2.jpg", "/images/zhaozhou_3.jpg"],
+    img: "/images/optimized/zhaozhou.webp",
+    gallery: ["/images/optimized/zhaozhou_1.webp", "/images/optimized/zhaozhou_2.webp", "/images/optimized/zhaozhou_3.webp"],
     desc_en: `Zhaozhou Bridge, built in 605 AD, is widely recognized as the world's oldest open-spandrel stone arch bridge. Designed by the master craftsman Li Chun, it represents a revolutionary advancement in bridge engineering. Unlike traditional solid arch bridges, its innovative design reduces weight while maintaining exceptional strength.
 
 The bridge has survived numerous floods, earthquakes, and centuries of use, demonstrating the brilliance of ancient Chinese engineering. Its elegant curvature and symmetry also reflect aesthetic sophistication, making it not only a functional structure but also a work of art.
@@ -24,8 +24,8 @@ Today, Zhaozhou Bridge stands as a symbol of China's technological innovation an
     zh: "卢沟桥",
     year: 1189,
     location: "Beijing, China",
-    img: "/images/lugou.jpg",
-    gallery: ["/images/lugou_1.jpg", "/images/lugou_2.jpg", "/images/lugou_3.jpg"],
+    img: "/images/optimized/lugou.webp",
+    gallery: ["/images/optimized/lugou_1.webp", "/images/optimized/lugou_2.webp", "/images/optimized/lugou_3.webp"],
     desc_en: `Lugou Bridge, also known as Marco Polo Bridge, is one of the most historically significant bridges in China. Built in 1189, it is famous for its hundreds of intricately carved stone lions, each unique in expression and design.
 
 The bridge gained global recognition after being described by Marco Polo, who praised its grandeur. It later became a key historical site during the Marco Polo Bridge Incident in 1937.
@@ -43,8 +43,8 @@ Architecturally, the bridge showcases the advanced masonry techniques of the Jin
     zh: "洛阳桥",
     year: 1059,
     location: "Quanzhou, China",
-    img: "/images/luoyang.jpg",
-    gallery: ["/images/luoyang_1.jpg", "/images/luoyang_2.jpg", "/images/luoyang_3.jpg"],
+    img: "/images/optimized/luoyang.webp",
+    gallery: ["/images/optimized/luoyang_1.webp", "/images/optimized/luoyang_2.webp", "/images/optimized/luoyang_3.webp"],
     desc_en: `Luoyang Bridge, completed in 1059 during the Song Dynasty, is a groundbreaking example of ancient marine engineering. It was one of the first large stone bridges built across tidal waters.
 
 Engineers used innovative techniques such as oyster cultivation to stabilize the bridge’s foundation, allowing it to withstand strong sea currents.
@@ -62,8 +62,8 @@ The bridge played a vital role in connecting trade routes along the Maritime Sil
     zh: "宝带桥",
     year: 816,
     location: "Suzhou, China",
-    img: "/images/baodai.jpg",
-    gallery: ["/images/baodai_1.jpg", "/images/baodai_2.jpg", "/images/baodai_3.jpg"],
+    img: "/images/optimized/baodai.webp",
+    gallery: ["/images/optimized/baodai_1.webp", "/images/optimized/baodai_2.webp", "/images/optimized/baodai_3.webp"],
     desc_en: `Baodai Bridge, built in 816 AD during the Tang Dynasty, is one of the most remarkable multi-arch stone bridges in China. Stretching elegantly across the water in Suzhou, it consists of dozens of small arches forming a long ribbon-like structure.
 
 The bridge was carefully designed to manage water flow while still supporting heavy traffic. Its unique structure helped prevent flooding and allowed boats to pass through multiple openings.
@@ -81,8 +81,8 @@ Beyond its engineering brilliance, Baodai Bridge is a cultural symbol of harmony
     zh: "广济桥",
     year: 1170,
     location: "Chaozhou, China",
-    img: "/images/guangji.jpg",
-    gallery: ["/images/guangji_1.jpg", "/images/guangji_2.jpg", "/images/guangji_3.jpg"],
+    img: "/images/optimized/guangji.webp",
+    gallery: ["/images/optimized/guangji_1.webp", "/images/optimized/guangji_2.webp", "/images/optimized/guangji_3.webp"],
     desc_en: `Guangji Bridge, built in 1170, is one of China’s Four Ancient Bridges and is famous for its unique hybrid structure combining stone arches with a floating pontoon section.
 
 This innovative design allows sections of the bridge to be opened for passing ships, making it highly adaptable.
@@ -100,8 +100,8 @@ The bridge represents a brilliant fusion of practicality and creativity, and rem
     zh: "汴河虹桥",
     year: 1100,
     location: "Kaifeng, China",
-    img: "/images/bianhe.jpg",
-    gallery: ["/images/bianhe_1.jpg", "/images/bianhe_2.jpg", "/images/bianhe_3.jpg"],
+    img: "/images/optimized/bianhe.webp",
+    gallery: ["/images/optimized/bianhe_1.webp", "/images/optimized/bianhe_2.webp", "/images/optimized/bianhe_3.webp"],
     desc_en: `Bianhe Rainbow Bridge is a wooden arch bridge famously depicted in the classic painting "Along the River During the Qingming Festival".
 
 Its curved structure resembles a rainbow and symbolizes prosperity in Song Dynasty urban life.
@@ -119,8 +119,8 @@ The bridge was a central hub of activity, connecting markets and communities, an
     zh: "双桥",
     year: 1573,
     location: "Suzhou, China",
-    img: "/images/shuangqiao.jpg",
-    gallery: ["/images/shuangqiao_1.jpg", "/images/shuangqiao_2.jpg", "/images/shuangqiao_3.jpg"],
+    img: "/images/optimized/shuangqiao.webp",
+    gallery: ["/images/optimized/shuangqiao_1.webp", "/images/optimized/shuangqiao_2.webp", "/images/optimized/shuangqiao_3.webp"],
     desc_en: `Shuangqiao, meaning "Double Bridge", consists of two intersecting bridges forming a unique visual composition in Suzhou.
 
 It is widely featured in Chinese paintings and is considered a symbol of classical Jiangnan water-town aesthetics.
@@ -138,8 +138,8 @@ The bridge reflects the harmony between architecture, water, and daily life.`,
     zh: "永通桥",
     year: 727,
     location: "Hebei, China",
-    img: "/images/yongtong.jpg",
-    gallery: ["/images/yongtong_1.jpg", "/images/yongtong_2.jpg", "/images/yongtong_3.jpg"],
+    img: "/images/optimized/yongtong.webp",
+    gallery: ["/images/optimized/yongtong_1.webp", "/images/optimized/yongtong_2.webp", "/images/optimized/yongtong_3.webp"],
     desc_en: `Yongtong Bridge, constructed during the Tang Dynasty around 727 AD, is one of the lesser-known yet historically significant stone arch bridges in China.
 
 It reflects the evolution of early bridge engineering and shows how ancient builders improved structural stability over time.
@@ -157,8 +157,8 @@ The bridge has survived natural challenges for centuries and remains a valuable 
     zh: "万安桥",
     year: 1138,
     location: "Fujian, China",
-    img: "/images/wanan.jpg",
-    gallery: ["/images/wanan_1.jpg", "/images/wanan_2.jpg", "/images/wanan_3.jpg"],
+    img: "/images/optimized/wanan.webp",
+    gallery: ["/images/optimized/wanan_1.webp", "/images/optimized/wanan_2.webp", "/images/optimized/wanan_3.webp"],
     desc_en: `Wan'an Bridge is a traditional wooden corridor bridge built during the Song Dynasty. It reflects the unique architectural style of southern China, combining transportation with shelter.
 
 The covered design protects travelers from weather while also serving as a social gathering place for local communities.
@@ -176,8 +176,8 @@ It showcases the integration of functionality and cultural life in ancient Chine
     zh: "通济桥",
     year: 1190,
     location: "Guangdong, China",
-    img: "/images/tongji.jpg",
-    gallery: ["/images/tongji_1.jpg", "/images/tongji_2.jpg", "/images/tongji_3.jpg"],
+    img: "/images/optimized/tongji.webp",
+    gallery: ["/images/optimized/tongji_1.webp", "/images/optimized/tongji_2.webp", "/images/optimized/tongji_3.webp"],
     desc_en: `Tongji Bridge is an important historical bridge in southern China, serving as a key transportation route for centuries.
 
 It is also associated with local festivals and traditions, symbolizing good fortune and unity among communities.
@@ -195,8 +195,8 @@ The bridge continues to play a cultural role beyond its original function.`,
     zh: "顺济桥",
     year: 1200,
     location: "Fujian, China",
-    img: "/images/shunji.jpg",
-    gallery: ["/images/shunji_1.jpg", "/images/shunji_2.jpg", "/images/shunji_3.jpg"],
+    img: "/images/optimized/shunji.webp",
+    gallery: ["/images/optimized/shunji_1.webp", "/images/optimized/shunji_2.webp", "/images/optimized/shunji_3.webp"],
     desc_en: `Shunji Bridge reflects traditional Chinese bridge construction techniques, combining simplicity with durability.
 
 It served as an essential connection point for rural communities, supporting trade and daily life.
@@ -214,8 +214,8 @@ Its preservation highlights the importance of regional heritage in China.`,
     zh: "金水桥",
     year: 1420,
     location: "Beijing, China",
-    img: "/images/jinshui.jpg",
-    gallery: ["/images/jinshui_1.jpg", "/images/jinshui_2.jpg", "/images/jinshui_3.jpg"],
+    img: "/images/optimized/jinshui.webp",
+    gallery: ["/images/optimized/jinshui_1.webp", "/images/optimized/jinshui_2.webp", "/images/optimized/jinshui_3.webp"],
     desc_en: `Jinshui Bridge is located within the Forbidden City and plays an important ceremonial role.
 
 Its elegant marble design reflects imperial power and traditional Chinese aesthetics.
@@ -233,8 +233,8 @@ The bridge is a key architectural element in one of the most famous historical s
     zh: "太平桥",
     year: 1600,
     location: "Anhui, China",
-    img: "/images/taiping.jpg",
-    gallery: ["/images/taiping_1.jpg", "/images/taiping_2.jpg", "/images/taiping_3.jpg"],
+    img: "/images/optimized/taiping.webp",
+    gallery: ["/images/optimized/taiping_1.webp", "/images/optimized/taiping_2.webp", "/images/optimized/taiping_3.webp"],
     desc_en: `Taiping Bridge is known for its scenic surroundings and historical importance.
 
 It served as a key route for travelers and merchants, contributing to regional development.
@@ -252,8 +252,8 @@ The bridge remains a symbol of peace and stability.`,
     zh: "玉带桥",
     year: 1751,
     location: "Beijing, China",
-    img: "/images/yudai.jpg",
-    gallery: ["/images/yudai_1.jpg", "/images/yudai_2.jpg", "/images/yudai_3.jpg"],
+    img: "/images/optimized/yudai.webp",
+    gallery: ["/images/optimized/yudai_1.webp", "/images/optimized/yudai_2.webp", "/images/optimized/yudai_3.webp"],
     desc_en: `Yudai Bridge is famous for its high arch, allowing imperial boats to pass underneath.
 
 Its elegant shape resembles a jade belt, giving the bridge its name.
@@ -271,8 +271,8 @@ It is a fine example of Qing Dynasty landscape architecture.`,
     zh: "九龙桥",
     year: 1700,
     location: "Beijing, China",
-    img: "/images/ninedragon.jpg",
-    gallery: ["/images/ninedragon_1.jpg", "/images/ninedragon_2.jpg", "/images/ninedragon_3.jpg"],
+    img: "/images/optimized/ninedragon.webp",
+    gallery: ["/images/optimized/ninedragon_1.webp", "/images/optimized/ninedragon_2.webp", "/images/optimized/ninedragon_3.webp"],
     desc_en: `Nine-Dragon Bridge is decorated with intricate carvings of dragons, symbolizing power and protection.
 
 It reflects imperial symbolism and artistic craftsmanship.
@@ -290,8 +290,8 @@ The bridge stands as a cultural and artistic treasure.`,
     zh: "风雨桥",
     year: 1910,
     location: "Guangxi, China",
-    img: "/images/fengyu.jpg",
-    gallery: ["/images/fengyu_1.jpg", "/images/fengyu_2.jpg", "/images/fengyu_3.jpg"],
+    img: "/images/optimized/fengyu.webp",
+    gallery: ["/images/optimized/fengyu_1.webp", "/images/optimized/fengyu_2.webp", "/images/optimized/fengyu_3.webp"],
     desc_en: `Fengyu Bridge is a traditional covered bridge built by the Dong ethnic group. It combines functionality with architecture, providing shelter and space for social gatherings.`,
     desc_zh: `风雨桥是侗族建造的传统廊桥，不仅用于通行，还提供遮风避雨的空间。`,
   },

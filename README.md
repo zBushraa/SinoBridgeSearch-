@@ -1,26 +1,56 @@
 # SinoBridge Search
 
-SinoBridge Search is a bilingual web application for exploring historic Chinese bridges through search, rich detail pages, image galleries, comparison tools, and custom bridge entries. The original core experience remains simple and accessible, while the surrounding product has been upgraded with stronger UI, optional backend support, and deployment-ready project structure.
+SinoBridge Search is a bilingual React application for exploring historic Chinese bridges through search, rich detail pages, optimized image galleries, comparison tools, and custom bridge entries. The original core bridge-search experience remains intact, while the surrounding product has been expanded with more informative content, lightweight backend support, and deployment-ready infrastructure.
 
-## Highlights
+## What The App Does
 
-- Bilingual interface in Chinese and English
-- Search by bridge name, Chinese title, location, or year
-- Image-first bridge detail pages with gallery, map link, and speech playback
-- Favorites, recent searches, region filtering, and random discovery
-- Compare up to two bridges side by side
-- Local admin-style custom bridge creation
-- Optional backend API for persistent custom bridge storage
-- Netlify-ready frontend deployment
-- Baidu and China-focused SEO preparation
+- Search bridges by English name, Chinese name, location, or year
+- Switch between Chinese and English interface modes
+- Open image-first bridge detail pages with longer descriptions
+- Browse optimized galleries with lighter `.webp` delivery
+- Save favorites and reopen recent searches
+- Compare two bridges side by side
+- Add custom bridge entries from the built-in form
+- Copy Chinese names and addresses for easier map use in China
+- Review dynamic bridge insights such as the oldest, newest, and regional spread of the current result set
+
+## Product Highlights
+
+### Core Search Experience
+
+- Fast bilingual bridge discovery
+- Card-based browsing with image previews
+- Detail pages that keep the image visible first
+- Long-form Chinese and English descriptions
+
+### Informative Features
+
+- Bridge detail metadata for year, location, dynasty, alias, type, and visual features
+- Travel-oriented China-use tips for map search and local naming context
+- Bridge Insights panel that summarizes the filtered result set
+- Region-aware browsing for educational comparison across locations
+
+### Personalization
+
+- Favorites saved in local storage
+- Recent searches saved locally
+- Custom bridge creation with local fallback support
+
+### Media and Performance
+
+- Optimized gallery images
+- `.webp` delivery for lighter image transfer
+- Lazy-loaded cards and thumbnail-first gallery flow
+- Mobile-friendly layout with sidebar tools and compact stats
 
 ## Tech Stack
 
-- Frontend: React, Create React App
+- Frontend: React + Create React App
 - Styling: Custom CSS
 - Testing: React Testing Library
-- Backend: Node.js built-in HTTP server
-- Data storage: JSON file for custom bridge entries
+- Local backend: Node.js HTTP server
+- Edge-ready deployment: Cloudflare Pages + Pages Functions
+- Optional persistence: Cloudflare KV
 
 ## Project Structure
 
@@ -33,58 +63,40 @@ SinoBridge Search is a bilingual web application for exploring historic Chinese 
 │   └── server.js
 ├── frontend/
 │   ├── public/
+│   │   ├── images/
+│   │   ├── _headers
+│   │   ├── _redirects
+│   │   ├── robots.txt
+│   │   └── sitemap.xml
 │   ├── src/
-│   ├── .env.example
 │   └── package.json
-├── netlify.toml
+├── functions/
+│   ├── _lib/
+│   ├── api/
+│   └── health.js
+├── CLOUDFLARE.md
+├── jsconfig.json
+├── package.json
+├── wrangler.toml
 └── README.md
 ```
 
-## Features
-
-### Core Experience
-
-- Explore a curated collection of Chinese historic bridges
-- Switch instantly between Chinese and English
-- Open bridge cards for detailed information and gallery views
-- Listen to bridge descriptions with browser speech synthesis
-
-### Discovery and Browsing
-
-- Smart search across names, Chinese labels, locations, and years
-- Sort by name, oldest first, or newest first
-- Filter by region
-- Use the random bridge action for quick exploration
-
-### Personalization
-
-- Save favorite bridges
-- Reopen recent searches
-- Add your own custom bridges through the built-in form
-
-### Comparison and Data Management
-
-- Compare two bridges in a quick summary panel
-- Store custom bridges locally by default
-- Sync custom bridges with the optional backend when available
-
 ## Local Development
+
+Run everything from the project root if you want the simplest workflow.
 
 ### Frontend
 
 ```bash
-cd frontend
-npm install
 npm start
 ```
 
+This root command forwards to the real React app inside `frontend/`.
+
 ### Backend
 
-The backend uses only built-in Node.js modules, so there are no external backend dependencies to install.
-
 ```bash
-cd backend
-npm start
+npm run backend
 ```
 
 Default backend URL:
@@ -93,42 +105,50 @@ Default backend URL:
 http://localhost:8080
 ```
 
-To connect the frontend to the backend in development, create a local environment file:
+If you want the frontend to call the backend in development, use the existing frontend environment setup and local API flow.
+
+## Useful Scripts
+
+### Root
 
 ```bash
-cp frontend/.env.example frontend/.env
+npm start
+npm test
+npm run build
 ```
 
-## Available Scripts
-
-### Frontend
+### Cloudflare
 
 ```bash
-cd frontend
-npm test -- --watch=false
-npm run build
+npm run cf:build
+npm run cf:dev
 ```
 
 ### Backend
 
 ```bash
-cd backend
-npm start
+npm run backend
 ```
 
-## Backend API
+## API Overview
+
+The project supports both a local Node backend and Cloudflare Pages Functions with the same route shape.
 
 ### `GET /health`
 
-Returns backend health status.
+Returns runtime health information.
 
 ### `GET /api/custom-bridges`
 
-Returns all saved custom bridge entries.
+Returns saved custom bridge entries.
 
 ### `POST /api/custom-bridges`
 
 Creates or updates a custom bridge entry.
+
+### `DELETE /api/custom-bridges/:id`
+
+Removes a custom bridge entry.
 
 Example payload:
 
@@ -139,91 +159,70 @@ Example payload:
   "zh": "测试桥",
   "year": 2024,
   "location": "Shanghai, China",
-  "img": "https://example.com/bridge.jpg",
-  "gallery": ["https://example.com/bridge.jpg"],
+  "img": "https://example.com/bridge.webp",
+  "gallery": ["https://example.com/bridge.webp"],
   "desc_en": "A modern test bridge.",
   "desc_zh": "一座用于测试的现代桥梁。",
   "isCustom": true
 }
 ```
 
-### `DELETE /api/custom-bridges/:id`
+## Cloudflare Deployment
 
-Removes a custom bridge entry.
+This repository is now prepared for Cloudflare Pages.
 
-## Deployment
+- Build output: `frontend/build`
+- Config file: `wrangler.toml`
+- Edge routes: `functions/`
+- Static headers: `frontend/public/_headers`
 
-### Netlify
+For persistent custom bridge storage on Cloudflare:
 
-This repository already includes Netlify configuration in `netlify.toml`.
+1. Create a KV namespace named for custom bridge storage.
+2. Add the namespace IDs to `wrangler.toml`.
+3. Redeploy the project.
 
-Recommended settings:
+If KV is not configured, the app still works because custom bridge actions fall back to local storage on the client.
 
-- Base directory: `frontend`
-- Build command: `npm run build`
-- Publish directory: `build`
+More setup notes are available in `CLOUDFLARE.md`.
 
-The frontend also includes:
+## China Readiness
 
-- SPA redirect support via `frontend/public/_redirects`
-- sitemap via `frontend/public/sitemap.xml`
-- robots configuration via `frontend/public/robots.txt`
+The project is designed to be more practical for Chinese-language use cases.
 
-## SEO and China Readiness
+- Chinese bridge names and addresses are available for direct copy
+- Chinese mode reduces unnecessary English leakage
+- Bridge records include local naming context and China-use tips
+- Metadata, robots, and sitemap support are already included
+- The interface is optimized for mobile browsing
 
-The project has been prepared for broader discoverability with:
-
-- bilingual metadata
-- improved page title and description
-- Open Graph metadata
-- structured data in `index.html`
-- sitemap support
-- robots support
-
-### Baidu Preparation
-
-For Baidu visibility after deployment:
-
-1. Add the deployed domain to Baidu Search Resource Platform.
-2. Complete site verification.
-3. Submit the sitemap.
-4. Submit important URLs manually through Baidu tools when needed.
-5. Keep the site fast, stable, and available over HTTPS.
-
-### Important Hosting Note
-
-The codebase is prepared for China-focused visibility, but true mainland China reliability depends on infrastructure, not only code.
-
-- Netlify may work globally, but access speed and consistency in mainland China can vary.
-- For stronger China availability, use a China-friendly or Asia-optimized host and a custom domain.
-- If you host directly in mainland China, you may need ICP filing depending on your hosting and domain setup.
-- Update the sitemap and canonical URL after final production domain selection.
+For stronger China availability in production, pair the codebase with fast hosting, HTTPS, and a stable production domain.
 
 ## Verification
 
 The current project has been verified with:
 
-- `npm test -- --watch=false`
+- `npm test`
 - `npm run build`
+- `npm --prefix frontend test -- --watch=false`
+- `npm --prefix frontend run build`
 - `node --check backend/server.js`
 
 ## Roadmap
 
-Recommended next upgrades for production:
+Recommended next upgrades:
 
-- database-backed storage
-- authentication for admin actions
-- image upload support
-- editable bridge management dashboard
-- SSR or prerendered content for stronger SEO
-- China-optimized production hosting strategy
+- cloud-persistent bridge management with KV or D1
+- admin authentication
+- image upload flow
+- map provider options for China-specific navigation
+- richer bridge timelines and historical references
+- stronger content sourcing for research-grade bridge entries
 
-## Repository Setup
+## Repository
 
-Target GitHub repository:
+GitHub repository:
 
 ```text
 https://github.com/zBushraa/SinoBridgeSearch-.git
 ```
-
-Before pushing, make sure the project is stored as a single Git repository and not as a nested repository inside `frontend/`.

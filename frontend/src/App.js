@@ -1,4 +1,4 @@
-import { useDeferredValue, useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useRef, useState } from "react";
 import "./App.css";
 import { bridges } from "./data/bridges";
 import { createCustomBridge, fetchBackendHealth, fetchCustomBridges, removeCustomBridge } from "./services/api";
@@ -7,6 +7,8 @@ import { getTimelineSummary, searchBridges } from "./utils/search";
 
 const FAVORITES_STORAGE_KEY = "sinobridge-favorites";
 const RECENT_SEARCHES_STORAGE_KEY = "sinobridge-recent-searches";
+const THEME_STORAGE_KEY = "sinobridge-theme";
+const SOUND_STORAGE_KEY = "sinobridge-sound";
 const FALLBACK_IMAGE =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%23e9dfcf'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='%233f2d1f' font-family='Georgia,serif' font-size='42'%3ESinoBridge%3C/text%3E%3C/svg%3E";
 const EMPTY_BRIDGE_FORM = {
@@ -25,6 +27,17 @@ const copy = {
     eyebrow: "中国古桥检索",
     title: "中国古桥",
     subtitle: "保留你的核心搜索体验，并补上更完整的浏览、收藏、后台与信息层。",
+    heroBody: "在更现代、更沉浸的界面里浏览中国古桥的图像、年代、地域与文化信息，同时保留原本的核心检索方式。",
+    exploreNow: "开始探索",
+    heroGallery: "画廊漫游",
+    themeToggle: "切换深浅模式",
+    soundToggleOn: "关闭交互音效",
+    soundToggleOff: "开启交互音效",
+    themeLight: "浅色",
+    themeDark: "深色",
+    soundOn: "音效开",
+    soundOff: "音效关",
+    navbarLabel: "桥梁档案馆",
     searchPlaceholder: "搜索桥梁、地点、年份...",
     sortLabel: "排序",
     sortName: "按名称",
@@ -39,6 +52,19 @@ const copy = {
     empty: "没有找到匹配的桥梁，试试地点、年份或中英文名称。",
     featuredTitle: "精选桥梁",
     featuredBody: "点击卡片查看详细介绍、图片画廊和地图入口。",
+    insightsTitle: "桥梁速览",
+    insightsBody: "根据当前筛选结果，快速查看最早、最晚和覆盖地区等关键信息。",
+    oldestBridge: "最早桥梁",
+    newestBridge: "最晚桥梁",
+    regionCount: "覆盖地区",
+    regionUnit: "个地区",
+    noInsight: "暂无数据",
+    favoritesOnly: "只看收藏",
+    clearFilters: "清除筛选",
+    allBridgesLabel: "全部桥梁",
+    resultSummary: "当前显示 {count} 座桥",
+    sortNow: "当前排序",
+    activeFilters: "当前筛选",
     controlsTitle: "检索工具",
     quickList: "桥梁列表",
     regions: "地区筛选",
@@ -94,6 +120,17 @@ const copy = {
     eyebrow: "SinoBridge Search",
     title: "SinoBridge",
     subtitle: "Your original bridge search stays intact, now with stronger browsing, saved items, backend sync, and richer structure.",
+    heroBody: "Browse historic Chinese bridges in a more immersive interface with image-led storytelling, timeline context, and polished exploration tools while keeping the same core search flow.",
+    exploreNow: "Explore now",
+    heroGallery: "Gallery tour",
+    themeToggle: "Toggle light and dark mode",
+    soundToggleOn: "Turn interaction sound off",
+    soundToggleOff: "Turn interaction sound on",
+    themeLight: "Light",
+    themeDark: "Dark",
+    soundOn: "Sound on",
+    soundOff: "Sound off",
+    navbarLabel: "Bridge archive",
     searchPlaceholder: "Search by bridge, location, or year...",
     sortLabel: "Sort",
     sortName: "Name",
@@ -108,6 +145,19 @@ const copy = {
     empty: "No bridges matched. Try a location, year, or Chinese or English name.",
     featuredTitle: "Curated collection",
     featuredBody: "Open any card to read the story, browse the gallery, and jump to the map.",
+    insightsTitle: "Bridge insights",
+    insightsBody: "See the oldest, newest, and regional spread of the current result set at a glance.",
+    oldestBridge: "Oldest bridge",
+    newestBridge: "Newest bridge",
+    regionCount: "Regions covered",
+    regionUnit: "regions",
+    noInsight: "No data yet",
+    favoritesOnly: "Favorites only",
+    clearFilters: "Clear filters",
+    allBridgesLabel: "All bridges",
+    resultSummary: "{count} bridges currently shown",
+    sortNow: "Sort mode",
+    activeFilters: "Active filters",
     controlsTitle: "Explore tools",
     quickList: "Bridge list",
     regions: "Region filter",
@@ -201,6 +251,10 @@ function mergeBridges(primary, secondary) {
   });
 }
 
+function getDisplayLocationForLang(bridge, lang) {
+  return lang === "zh" ? bridge.location_zh || bridge.location : bridge.location;
+}
+
 function BridgeImage({ bridge, className, loading = "lazy", fetchPriority = "auto", srcOverride }) {
   const initialSrc = srcOverride || bridge.img || FALLBACK_IMAGE;
   const [src, setSrc] = useState(initialSrc);
@@ -222,12 +276,67 @@ function BridgeImage({ bridge, className, loading = "lazy", fetchPriority = "aut
   );
 }
 
+function playUiTone(kind = "soft") {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    return;
+  }
+
+  const presets = {
+    soft: { frequency: 392, endFrequency: 440, duration: 0.08 },
+    open: { frequency: 523.25, endFrequency: 659.25, duration: 0.12 },
+    success: { frequency: 659.25, endFrequency: 783.99, duration: 0.14 },
+    compare: { frequency: 493.88, endFrequency: 587.33, duration: 0.12 },
+  };
+
+  const preset = presets[kind] || presets.soft;
+  const context = new AudioContextClass();
+  const oscillator = context.createOscillator();
+  const gainNode = context.createGain();
+  const now = context.currentTime;
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(preset.frequency, now);
+  oscillator.frequency.exponentialRampToValueAtTime(preset.endFrequency, now + preset.duration);
+  gainNode.gain.setValueAtTime(0.0001, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.05, now + 0.02);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + preset.duration);
+  oscillator.connect(gainNode);
+  gainNode.connect(context.destination);
+  oscillator.start(now);
+  oscillator.stop(now + preset.duration);
+  oscillator.onended = () => {
+    context.close().catch(() => {});
+  };
+}
+
 function App() {
+  const resultsRef = useRef(null);
   const [lang, setLang] = useState("zh");
+  const [theme, setTheme] = useState(() => {
+    if (typeof window === "undefined") {
+      return "light";
+    }
+
+    return window.localStorage.getItem(THEME_STORAGE_KEY) || "light";
+  });
+  const [soundEnabled, setSoundEnabled] = useState(() => {
+    if (typeof window === "undefined") {
+      return true;
+    }
+
+    return window.localStorage.getItem(SOUND_STORAGE_KEY) !== "off";
+  });
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
   const [sortBy, setSortBy] = useState("name");
   const [region, setRegion] = useState("all");
+  const [favoritesOnly, setFavoritesOnly] = useState(false);
   const [favorites, setFavorites] = useState(() => readStoredJson(FAVORITES_STORAGE_KEY, []));
   const [recentSearches, setRecentSearches] = useState(() => readStoredJson(RECENT_SEARCHES_STORAGE_KEY, []));
   const [customBridges, setCustomBridges] = useState(() => loadCustomBridges().map((bridge) => shapeBridge({ ...bridge, isCustom: true })));
@@ -241,21 +350,48 @@ function App() {
 
   const text = copy[lang];
   const allBridges = [...bridges, ...customBridges];
-  const regions = Array.from(new Set(allBridges.map((bridge) => (lang === "zh" ? (bridge.location_zh || bridge.location) : bridge.location).split(",")[0].trim()))).sort();
+  const regions = Array.from(new Set(allBridges.map((bridge) => getDisplayLocationForLang(bridge, lang).split(",")[0].trim()))).sort();
   const searched = searchBridges(allBridges, deferredSearch, sortBy);
-  const filtered = searched.filter((bridge) => {
+  const regionFiltered = searched.filter((bridge) => {
     if (region === "all") {
       return true;
     }
 
-    const currentLocation = lang === "zh" ? bridge.location_zh || bridge.location : bridge.location;
+    const currentLocation = getDisplayLocationForLang(bridge, lang);
     return currentLocation.startsWith(region);
   });
+  const filtered = favoritesOnly ? regionFiltered.filter((bridge) => favorites.includes(bridge.id)) : regionFiltered;
   const timeline = getTimelineSummary(filtered);
   const compared = compareIds
     .map((id) => allBridges.find((bridge) => bridge.id === id))
     .filter(Boolean)
     .slice(0, 2);
+  const oldestBridge = filtered.reduce((earliest, bridge) => (!earliest || bridge.year < earliest.year ? bridge : earliest), null);
+  const newestBridge = filtered.reduce((latest, bridge) => (!latest || bridge.year > latest.year ? bridge : latest), null);
+  const regionCount = new Set(filtered.map((bridge) => getDisplayLocationForLang(bridge, lang).split(",")[0].trim())).size;
+  const sortLabelMap = {
+    name: text.sortName,
+    "year-asc": text.sortYearAsc,
+    "year-desc": text.sortYearDesc,
+  };
+  const activeFilterChips = [
+    deferredSearch.trim() ? deferredSearch.trim() : null,
+    region !== "all" ? region : null,
+    favoritesOnly ? text.favoritesOnly : null,
+  ].filter(Boolean);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.lang = lang;
+    }
+
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+  }, [lang, theme]);
+
+  useEffect(() => {
+    window.localStorage.setItem(SOUND_STORAGE_KEY, soundEnabled ? "on" : "off");
+  }, [soundEnabled]);
 
   useEffect(() => {
     window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
@@ -332,6 +468,14 @@ function App() {
     window.speechSynthesis.speak(message);
   };
 
+  const triggerSound = (kind) => {
+    if (!soundEnabled) {
+      return;
+    }
+
+    playUiTone(kind);
+  };
+
   const toggleFavorite = (bridgeId) => {
     setFavorites((current) =>
       current.includes(bridgeId) ? current.filter((id) => id !== bridgeId) : [...current, bridgeId]
@@ -355,6 +499,7 @@ function App() {
   const openRandomBridge = () => {
     const source = filtered.length > 0 ? filtered : allBridges;
     const randomIndex = Math.floor(Math.random() * source.length);
+    triggerSound("open");
     setSelected(source[randomIndex]);
   };
 
@@ -362,9 +507,36 @@ function App() {
     setBridgeForm((current) => ({ ...current, [field]: value }));
   };
 
-  const getDisplayLocation = (bridge) => (lang === "zh" ? bridge.location_zh || bridge.location : bridge.location);
+  const resetFilters = () => {
+    setSearch("");
+    setSortBy("name");
+    setRegion("all");
+    setFavoritesOnly(false);
+  };
+
+  const scrollToResults = () => {
+    resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    triggerSound("soft");
+  };
+
+  const getDisplayLocation = (bridge) => getDisplayLocationForLang(bridge, lang);
 
   const getCompareStatusText = () => text.compareSelected.replace("{count}", String(compared.length));
+
+  const handleOpenBridge = (bridge) => {
+    triggerSound("open");
+    setSelected(bridge);
+  };
+
+  const handleFavoriteClick = (bridgeId) => {
+    triggerSound(favorites.includes(bridgeId) ? "soft" : "success");
+    toggleFavorite(bridgeId);
+  };
+
+  const handleCompareClick = (bridgeId) => {
+    triggerSound("compare");
+    toggleCompare(bridgeId);
+  };
 
   const handleCopy = async (value) => {
     if (!value) {
@@ -443,13 +615,41 @@ function App() {
 
     return (
       <main className="app-shell">
+        <div className="floating-navbar">
+          <div className="nav-brand">
+            <span className="nav-dot" />
+            <div>
+              <strong>{text.navbarLabel}</strong>
+              <small>{text.eyebrow}</small>
+            </div>
+          </div>
+          <div className="nav-actions">
+            <button
+              className="ghost-button nav-toggle"
+              aria-label={text.themeToggle}
+              onClick={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
+            >
+              {theme === "light" ? text.themeDark : text.themeLight}
+            </button>
+            <button
+              className={`ghost-button nav-toggle ${soundEnabled ? "is-active" : ""}`}
+              aria-label={soundEnabled ? text.soundToggleOn : text.soundToggleOff}
+              onClick={() => setSoundEnabled((current) => !current)}
+            >
+              {soundEnabled ? text.soundOn : text.soundOff}
+            </button>
+          </div>
+        </div>
         <section className="detail-panel">
           <div className="detail-topbar">
-            <button className="ghost-button" onClick={() => setSelected(null)}>
+            <button className="ghost-button" onClick={() => {
+              triggerSound("soft");
+              setSelected(null);
+            }}>
               {text.back}
             </button>
 
-            <button className={`favorite-button ${isFavorite ? "is-active" : ""}`} onClick={() => toggleFavorite(selected.id)}>
+            <button className={`favorite-button ${isFavorite ? "is-active" : ""}`} onClick={() => handleFavoriteClick(selected.id)}>
               {isFavorite ? text.saved : text.save}
             </button>
           </div>
@@ -498,7 +698,10 @@ function App() {
               </div>
 
               <div className="detail-actions">
-                <button className="primary-button" onClick={() => handleSpeak(selectedDescription)}>
+                <button className="primary-button" onClick={() => {
+                  triggerSound("soft");
+                  handleSpeak(selectedDescription);
+                }}>
                   {text.listen}
                 </button>
                 <a
@@ -559,12 +762,38 @@ function App() {
 
   return (
     <main className="app-shell">
+      <div className="floating-navbar">
+        <div className="nav-brand">
+          <span className="nav-dot" />
+          <div>
+            <strong>{text.navbarLabel}</strong>
+            <small>{text.eyebrow}</small>
+          </div>
+        </div>
+        <div className="nav-actions">
+          <button
+            className="ghost-button nav-toggle"
+            aria-label={text.themeToggle}
+            onClick={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
+          >
+            {theme === "light" ? text.themeDark : text.themeLight}
+          </button>
+          <button
+            className={`ghost-button nav-toggle ${soundEnabled ? "is-active" : ""}`}
+            aria-label={soundEnabled ? text.soundToggleOn : text.soundToggleOff}
+            onClick={() => setSoundEnabled((current) => !current)}
+          >
+            {soundEnabled ? text.soundOn : text.soundOff}
+          </button>
+        </div>
+      </div>
       <section className="hero-panel">
         <div className="hero-topbar">
           <div>
             <p className="eyebrow">{text.eyebrow}</p>
             <h1>{text.title}</h1>
             <p className="hero-subtitle">{text.subtitle}</p>
+            <p className="hero-story">{text.heroBody}</p>
             <p className={`backend-pill backend-${backendStatus}`}>
               {text[`backend${backendStatus.charAt(0).toUpperCase()}${backendStatus.slice(1)}`]}
             </p>
@@ -572,6 +801,15 @@ function App() {
 
           <button className="ghost-button" onClick={() => setLang(lang === "zh" ? "en" : "zh")}>
             {text.switchLanguage}
+          </button>
+        </div>
+
+        <div className="hero-actions">
+          <button className="primary-button" onClick={scrollToResults}>
+            {text.exploreNow}
+          </button>
+          <button className="ghost-button hero-tour" onClick={openRandomBridge}>
+            {text.heroGallery}
           </button>
         </div>
 
@@ -629,6 +867,15 @@ function App() {
               <button className="primary-button sidebar-random" onClick={openRandomBridge}>
                 {text.surprise}
               </button>
+              <button
+                className={`ghost-button sidebar-toggle ${favoritesOnly ? "is-active" : ""}`}
+                onClick={() => setFavoritesOnly((current) => !current)}
+              >
+                {text.favoritesOnly}
+              </button>
+              <button className="ghost-button sidebar-clear" onClick={resetFilters}>
+                {text.clearFilters}
+              </button>
             </div>
           </div>
 
@@ -648,7 +895,7 @@ function App() {
             <h2>{text.quickList}</h2>
             <div className="quick-list">
               {filtered.map((bridge) => (
-                <button key={bridge.id} className="quick-list-item" onClick={() => setSelected(bridge)}>
+                <button key={bridge.id} className="quick-list-item" onClick={() => handleOpenBridge(bridge)}>
                   <span>{lang === "zh" ? bridge.zh : bridge.name}</span>
                   <small>{bridge.year}</small>
                 </button>
@@ -657,17 +904,34 @@ function App() {
           </div>
         </aside>
 
-        <section className="results-panel">
+        <section className="results-panel" ref={resultsRef}>
           <div className="results-header">
             <div>
-                <h2>{text.results}</h2>
-                <p>{text.featuredBody}</p>
-              </div>
+              <h2>{text.results}</h2>
+              <p>{text.featuredBody}</p>
+            </div>
             <div className="feature-card">
               <span className="eyebrow">{text.featuredTitle}</span>
               <p>{lang === "zh" ? bridges[0].zh : bridges[0].name}</p>
             </div>
           </div>
+
+          <section className="summary-strip">
+            <div className="summary-copy">
+              <strong>{text.resultSummary.replace("{count}", String(filtered.length))}</strong>
+              <span>
+                {text.sortNow}: {sortLabelMap[sortBy]}
+              </span>
+            </div>
+            <div className="summary-chips" aria-label={text.activeFilters}>
+              <span className="summary-chip">{region === "all" ? text.allBridgesLabel : region}</span>
+              {activeFilterChips.map((chip) => (
+                <span key={chip} className="summary-chip is-active">
+                  {chip}
+                </span>
+              ))}
+            </div>
+          </section>
 
           <div className="mobile-stats">
             <article className="stat-card">
@@ -683,6 +947,32 @@ function App() {
               <strong>{timeline ? `${timeline.oldest} - ${timeline.newest}` : "N/A"}</strong>
             </article>
           </div>
+
+          <section className="insights-panel results-subpanel">
+            <div className="section-heading">
+              <div>
+                <h3>{text.insightsTitle}</h3>
+                <p>{text.insightsBody}</p>
+              </div>
+            </div>
+            <div className="insight-grid">
+              <article className="insight-card">
+                <span>{text.oldestBridge}</span>
+                <strong>{oldestBridge ? (lang === "zh" ? oldestBridge.zh : oldestBridge.name) : text.noInsight}</strong>
+                <small>{oldestBridge ? `${oldestBridge.year} · ${getDisplayLocation(oldestBridge)}` : ""}</small>
+              </article>
+              <article className="insight-card">
+                <span>{text.newestBridge}</span>
+                <strong>{newestBridge ? (lang === "zh" ? newestBridge.zh : newestBridge.name) : text.noInsight}</strong>
+                <small>{newestBridge ? `${newestBridge.year} · ${getDisplayLocation(newestBridge)}` : ""}</small>
+              </article>
+              <article className="insight-card">
+                <span>{text.regionCount}</span>
+                <strong>{regionCount}</strong>
+                <small>{text.regionUnit}</small>
+              </article>
+            </div>
+          </section>
 
           <section className="compare-panel results-subpanel">
             <div className="section-heading">
@@ -705,6 +995,51 @@ function App() {
               ))}
             </div>
           </section>
+
+          {filtered.length === 0 ? <div className="empty-state">{text.empty}</div> : null}
+
+          <div className="bridge-grid">
+            {filtered.map((bridge) => {
+              const isFavorite = favorites.includes(bridge.id);
+              const isCompared = compareIds.includes(bridge.id);
+
+              return (
+                <article key={bridge.id} className="bridge-card">
+                  <button className="card-surface" onClick={() => handleOpenBridge(bridge)}>
+                    <BridgeImage bridge={bridge} className="bridge-card-image" loading="lazy" fetchPriority="low" />
+                    <div className="bridge-card-body">
+                      <div className="bridge-card-header">
+                        <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
+                        <span>{bridge.year}</span>
+                      </div>
+                      <p>{getDisplayLocation(bridge)}</p>
+                      <span className="entry-badge">
+                        {bridge.galleryCount} {text.galleryCountUnit}
+                      </span>
+                      {bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
+                      {!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
+                    </div>
+                  </button>
+
+                  <button
+                    className={`favorite-button favorite-inline ${isFavorite ? "is-active" : ""}`}
+                    onClick={() => handleFavoriteClick(bridge.id)}
+                  >
+                    {isFavorite ? text.saved : text.save}
+                  </button>
+
+                  <div className="card-actions">
+                    <button
+                      className={`ghost-button compare-inline ${isCompared ? "is-active" : ""}`}
+                      onClick={() => handleCompareClick(bridge.id)}
+                    >
+                      {isCompared ? text.removeCompare : text.compareAction}
+                    </button>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
 
           <section className="admin-panel results-subpanel">
             <div className="section-heading">
@@ -778,51 +1113,6 @@ function App() {
               ))}
             </div>
           </section>
-
-          {filtered.length === 0 ? <div className="empty-state">{text.empty}</div> : null}
-
-          <div className="bridge-grid">
-            {filtered.map((bridge) => {
-              const isFavorite = favorites.includes(bridge.id);
-              const isCompared = compareIds.includes(bridge.id);
-
-              return (
-                <article key={bridge.id} className="bridge-card">
-                  <button className="card-surface" onClick={() => setSelected(bridge)}>
-                    <BridgeImage bridge={bridge} className="bridge-card-image" loading="lazy" fetchPriority="low" />
-                    <div className="bridge-card-body">
-                      <div className="bridge-card-header">
-                        <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
-                        <span>{bridge.year}</span>
-                      </div>
-                      <p>{getDisplayLocation(bridge)}</p>
-                      <span className="entry-badge">
-                        {bridge.galleryCount} {text.galleryCountUnit}
-                      </span>
-                      {bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
-                      {!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
-                    </div>
-                  </button>
-
-                  <button
-                    className={`favorite-button favorite-inline ${isFavorite ? "is-active" : ""}`}
-                    onClick={() => toggleFavorite(bridge.id)}
-                  >
-                    {isFavorite ? text.saved : text.save}
-                  </button>
-
-                  <div className="card-actions">
-                    <button
-                      className={`ghost-button compare-inline ${isCompared ? "is-active" : ""}`}
-                      onClick={() => toggleCompare(bridge.id)}
-                    >
-                      {isCompared ? text.removeCompare : text.compareAction}
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
         </section>
       </section>
     </main>
