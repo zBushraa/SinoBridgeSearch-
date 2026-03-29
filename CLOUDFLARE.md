@@ -9,6 +9,28 @@ This project is ready for Cloudflare Pages.
 - Root directory: leave empty
 - Config file: `wrangler.toml`
 
+## Live URL
+
+Current Cloudflare Pages URL:
+
+- `https://025d68d9.sinobridgesearch.pages.dev`
+
+## Custom Domain
+
+To connect a custom domain:
+
+1. Open your Pages project in Cloudflare.
+2. Go to `Custom domains`.
+3. Click `Set up a custom domain`.
+4. Enter your domain or subdomain.
+5. Follow the DNS prompt shown by Cloudflare.
+6. After the domain is active, update:
+   - `frontend/public/index.html`
+   - `frontend/public/sitemap.xml`
+   - `frontend/public/robots.txt`
+
+Until then, the project SEO files now point to the current `pages.dev` URL.
+
 ## API
 
 Cloudflare Pages Functions mirror the existing API shape:

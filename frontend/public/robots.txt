@@ -1,4 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
-Sitemap: https://sinobridgesearch.netlify.app/sitemap.xml
+Host: https://025d68d9.sinobridgesearch.pages.dev
+Sitemap: https://025d68d9.sinobridgesearch.pages.dev/sitemap.xml
