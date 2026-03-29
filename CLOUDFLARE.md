@@ -6,6 +6,7 @@ This project is ready for Cloudflare Pages.
 
 - Build command: `npm run cf:build`
 - Output directory: `frontend/build`
+- Root directory: leave empty
 - Config file: `wrangler.toml`
 
 ## API
