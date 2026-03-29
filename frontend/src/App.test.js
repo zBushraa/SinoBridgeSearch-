@@ -20,8 +20,8 @@ test("filters bridges by English query after language switch", () => {
     target: { value: "Beijing" },
   });
 
-  expect(screen.getByText(/Lugou Bridge/i)).toBeInTheDocument();
-  expect(screen.getByText(/Jinshui Bridge/i)).toBeInTheDocument();
+  expect(screen.getAllByText(/Lugou Bridge/i).length).toBeGreaterThan(0);
+  expect(screen.getAllByText(/Jinshui Bridge/i).length).toBeGreaterThan(0);
 });
 
 test("opens detail view from a bridge card", () => {

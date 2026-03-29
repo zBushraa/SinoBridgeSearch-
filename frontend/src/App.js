@@ -39,6 +39,8 @@ const copy = {
     empty: "没有找到匹配的桥梁，试试地点、年份或中英文名称。",
     featuredTitle: "精选桥梁",
     featuredBody: "点击卡片查看详细介绍、图片画廊和地图入口。",
+    controlsTitle: "检索工具",
+    quickList: "桥梁列表",
     regions: "地区筛选",
     allRegions: "全部地区",
     compare: "对比桥梁",
@@ -106,6 +108,8 @@ const copy = {
     empty: "No bridges matched. Try a location, year, or Chinese or English name.",
     featuredTitle: "Curated collection",
     featuredBody: "Open any card to read the story, browse the gallery, and jump to the map.",
+    controlsTitle: "Explore tools",
+    quickList: "Bridge list",
     regions: "Region filter",
     allRegions: "All regions",
     compare: "Compare bridges",
@@ -571,42 +575,6 @@ function App() {
           </button>
         </div>
 
-        <div className="controls-panel">
-          <label className="search-field">
-            <span className="sr-only">{text.searchPlaceholder}</span>
-            <input
-              placeholder={text.searchPlaceholder}
-              value={search}
-              onChange={(event) => setSearch(event.target.value)}
-            />
-          </label>
-
-          <label className="sort-field">
-            <span>{text.sortLabel}</span>
-            <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
-              <option value="name">{text.sortName}</option>
-              <option value="year-asc">{text.sortYearAsc}</option>
-              <option value="year-desc">{text.sortYearDesc}</option>
-            </select>
-          </label>
-
-          <label className="sort-field">
-            <span>{text.regions}</span>
-            <select value={region} onChange={(event) => setRegion(event.target.value)}>
-              <option value="all">{text.allRegions}</option>
-              {regions.map((regionName) => (
-                <option key={regionName} value={regionName}>
-                  {regionName}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <button className="primary-button" onClick={openRandomBridge}>
-            {text.surprise}
-          </button>
-        </div>
-
         <div className="stats-grid">
           <article className="stat-card">
             <span>{text.explore}</span>
@@ -625,30 +593,98 @@ function App() {
 
       <section className="content-grid">
         <aside className="sidebar-card">
-          <h2>{text.recentSearches}</h2>
-          {recentSearches.length === 0 ? <p>{text.noRecentSearches}</p> : null}
-          <div className="chip-list">
-            {recentSearches.map((item) => (
-              <button key={item} className="chip-button" onClick={() => setSearch(item)}>
-                {item}
+          <div className="sidebar-section">
+            <h2>{text.controlsTitle}</h2>
+            <div className="sidebar-controls">
+              <label className="search-field sidebar-search">
+                <span className="sr-only">{text.searchPlaceholder}</span>
+                <input
+                  placeholder={text.searchPlaceholder}
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                />
+              </label>
+
+              <label className="sort-field">
+                <span>{text.sortLabel}</span>
+                <select value={sortBy} onChange={(event) => setSortBy(event.target.value)}>
+                  <option value="name">{text.sortName}</option>
+                  <option value="year-asc">{text.sortYearAsc}</option>
+                  <option value="year-desc">{text.sortYearDesc}</option>
+                </select>
+              </label>
+
+              <label className="sort-field">
+                <span>{text.regions}</span>
+                <select value={region} onChange={(event) => setRegion(event.target.value)}>
+                  <option value="all">{text.allRegions}</option>
+                  {regions.map((regionName) => (
+                    <option key={regionName} value={regionName}>
+                      {regionName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <button className="primary-button sidebar-random" onClick={openRandomBridge}>
+                {text.surprise}
               </button>
-            ))}
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+            <h2>{text.recentSearches}</h2>
+            {recentSearches.length === 0 ? <p>{text.noRecentSearches}</p> : null}
+            <div className="chip-list">
+              {recentSearches.map((item) => (
+                <button key={item} className="chip-button" onClick={() => setSearch(item)}>
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="sidebar-section">
+            <h2>{text.quickList}</h2>
+            <div className="quick-list">
+              {filtered.map((bridge) => (
+                <button key={bridge.id} className="quick-list-item" onClick={() => setSelected(bridge)}>
+                  <span>{lang === "zh" ? bridge.zh : bridge.name}</span>
+                  <small>{bridge.year}</small>
+                </button>
+              ))}
+            </div>
           </div>
         </aside>
 
         <section className="results-panel">
           <div className="results-header">
             <div>
-              <h2>{text.results}</h2>
-              <p>{text.featuredBody}</p>
-            </div>
+                <h2>{text.results}</h2>
+                <p>{text.featuredBody}</p>
+              </div>
             <div className="feature-card">
               <span className="eyebrow">{text.featuredTitle}</span>
               <p>{lang === "zh" ? bridges[0].zh : bridges[0].name}</p>
             </div>
           </div>
 
-          <section className="compare-panel">
+          <div className="mobile-stats">
+            <article className="stat-card">
+              <span>{text.explore}</span>
+              <strong>{filtered.length}</strong>
+            </article>
+            <article className="stat-card">
+              <span>{text.favorites}</span>
+              <strong>{favorites.length}</strong>
+            </article>
+            <article className="stat-card">
+              <span>{text.period}</span>
+              <strong>{timeline ? `${timeline.oldest} - ${timeline.newest}` : "N/A"}</strong>
+            </article>
+          </div>
+
+          <section className="compare-panel results-subpanel">
             <div className="section-heading">
               <div>
                 <h3>{text.compare}</h3>
@@ -670,7 +706,7 @@ function App() {
             </div>
           </section>
 
-          <section className="admin-panel">
+          <section className="admin-panel results-subpanel">
             <div className="section-heading">
               <div>
                 <h3>{text.customTitle}</h3>

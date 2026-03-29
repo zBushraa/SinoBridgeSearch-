@@ -213,7 +213,7 @@ h1 {
 }
 
 .content-grid {
-  grid-template-columns: 280px minmax(0, 1fr);
+  grid-template-columns: 320px minmax(0, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
@@ -226,6 +226,58 @@ h1 {
 .chip-list {
   grid-template-columns: 1fr;
   gap: 10px;
+}
+
+.sidebar-section + .sidebar-section {
+  margin-top: 22px;
+}
+
+.sidebar-controls {
+  display: grid;
+  gap: 14px;
+}
+
+.sidebar-search {
+  flex: auto;
+}
+
+.sidebar-random {
+  width: 100%;
+}
+
+.quick-list {
+  display: grid;
+  gap: 10px;
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.quick-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.66);
+  padding: 12px 14px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.quick-list-item small {
+  color: var(--muted);
+}
+
+.results-subpanel {
+  margin-top: 18px;
+}
+
+.mobile-stats {
+  display: none;
 }
 
 .chip-button {
@@ -522,6 +574,35 @@ h1 {
 
   .admin-form {
     grid-template-columns: 1fr;
+  }
+
+  .hero-panel {
+    padding: 20px;
+  }
+
+  .controls-panel,
+  .stats-grid {
+    display: none;
+  }
+
+  .mobile-stats {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 18px 0;
+  }
+
+  .sidebar-card,
+  .results-panel {
+    padding: 18px;
+  }
+
+  .quick-list {
+    max-height: none;
+  }
+
+  .quick-list-item {
+    padding: 14px;
   }
 
   .results-header,
