@@ -1,70 +1,229 @@
-# Getting Started with Create React App
+# SinoBridge Search
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+SinoBridge Search is a bilingual web application for exploring historic Chinese bridges through search, rich detail pages, image galleries, comparison tools, and custom bridge entries. The original core experience remains simple and accessible, while the surrounding product has been upgraded with stronger UI, optional backend support, and deployment-ready project structure.
+
+## Highlights
+
+- Bilingual interface in Chinese and English
+- Search by bridge name, Chinese title, location, or year
+- Image-first bridge detail pages with gallery, map link, and speech playback
+- Favorites, recent searches, region filtering, and random discovery
+- Compare up to two bridges side by side
+- Local admin-style custom bridge creation
+- Optional backend API for persistent custom bridge storage
+- Netlify-ready frontend deployment
+- Baidu and China-focused SEO preparation
+
+## Tech Stack
+
+- Frontend: React, Create React App
+- Styling: Custom CSS
+- Testing: React Testing Library
+- Backend: Node.js built-in HTTP server
+- Data storage: JSON file for custom bridge entries
+
+## Project Structure
+
+```text
+.
+├── backend/
+│   ├── data/
+│   │   └── custom-bridges.json
+│   ├── package.json
+│   └── server.js
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   ├── .env.example
+│   └── package.json
+├── netlify.toml
+└── README.md
+```
+
+## Features
+
+### Core Experience
+
+- Explore a curated collection of Chinese historic bridges
+- Switch instantly between Chinese and English
+- Open bridge cards for detailed information and gallery views
+- Listen to bridge descriptions with browser speech synthesis
+
+### Discovery and Browsing
+
+- Smart search across names, Chinese labels, locations, and years
+- Sort by name, oldest first, or newest first
+- Filter by region
+- Use the random bridge action for quick exploration
+
+### Personalization
+
+- Save favorite bridges
+- Reopen recent searches
+- Add your own custom bridges through the built-in form
+
+### Comparison and Data Management
+
+- Compare two bridges in a quick summary panel
+- Store custom bridges locally by default
+- Sync custom bridges with the optional backend when available
+
+## Local Development
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+### Backend
+
+The backend uses only built-in Node.js modules, so there are no external backend dependencies to install.
+
+```bash
+cd backend
+npm start
+```
+
+Default backend URL:
+
+```text
+http://localhost:8080
+```
+
+To connect the frontend to the backend in development, create a local environment file:
+
+```bash
+cp frontend/.env.example frontend/.env
+```
 
 ## Available Scripts
 
-In the project directory, you can run:
+### Frontend
 
-### `npm start`
+```bash
+cd frontend
+npm test -- --watch=false
+npm run build
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Backend
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+```bash
+cd backend
+npm start
+```
 
-### `npm test`
+## Backend API
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### `GET /health`
 
-### `npm run build`
+Returns backend health status.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `GET /api/custom-bridges`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Returns all saved custom bridge entries.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `POST /api/custom-bridges`
 
-### `npm run eject`
+Creates or updates a custom bridge entry.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Example payload:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```json
+{
+  "id": "custom-test-bridge-123",
+  "name": "Test Bridge",
+  "zh": "测试桥",
+  "year": 2024,
+  "location": "Shanghai, China",
+  "img": "https://example.com/bridge.jpg",
+  "gallery": ["https://example.com/bridge.jpg"],
+  "desc_en": "A modern test bridge.",
+  "desc_zh": "一座用于测试的现代桥梁。",
+  "isCustom": true
+}
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### `DELETE /api/custom-bridges/:id`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Removes a custom bridge entry.
 
-## Learn More
+## Deployment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Netlify
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This repository already includes Netlify configuration in `netlify.toml`.
 
-### Code Splitting
+Recommended settings:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Base directory: `frontend`
+- Build command: `npm run build`
+- Publish directory: `build`
 
-### Analyzing the Bundle Size
+The frontend also includes:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- SPA redirect support via `frontend/public/_redirects`
+- sitemap via `frontend/public/sitemap.xml`
+- robots configuration via `frontend/public/robots.txt`
 
-### Making a Progressive Web App
+## SEO and China Readiness
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+The project has been prepared for broader discoverability with:
 
-### Advanced Configuration
+- bilingual metadata
+- improved page title and description
+- Open Graph metadata
+- structured data in `index.html`
+- sitemap support
+- robots support
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Baidu Preparation
 
-### Deployment
+For Baidu visibility after deployment:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+1. Add the deployed domain to Baidu Search Resource Platform.
+2. Complete site verification.
+3. Submit the sitemap.
+4. Submit important URLs manually through Baidu tools when needed.
+5. Keep the site fast, stable, and available over HTTPS.
 
-### `npm run build` fails to minify
+### Important Hosting Note
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The codebase is prepared for China-focused visibility, but true mainland China reliability depends on infrastructure, not only code.
+
+- Netlify may work globally, but access speed and consistency in mainland China can vary.
+- For stronger China availability, use a China-friendly or Asia-optimized host and a custom domain.
+- If you host directly in mainland China, you may need ICP filing depending on your hosting and domain setup.
+- Update the sitemap and canonical URL after final production domain selection.
+
+## Verification
+
+The current project has been verified with:
+
+- `npm test -- --watch=false`
+- `npm run build`
+- `node --check backend/server.js`
+
+## Roadmap
+
+Recommended next upgrades for production:
+
+- database-backed storage
+- authentication for admin actions
+- image upload support
+- editable bridge management dashboard
+- SSR or prerendered content for stronger SEO
+- China-optimized production hosting strategy
+
+## Repository Setup
+
+Target GitHub repository:
+
+```text
+https://github.com/zBushraa/SinoBridgeSearch-.git
+```
+
+Before pushing, make sure the project is stored as a single Git repository and not as a nested repository inside `frontend/`.
