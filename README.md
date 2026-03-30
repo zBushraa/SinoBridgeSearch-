@@ -226,3 +226,5 @@ GitHub repository:
 ```text
 https://github.com/zBushraa/SinoBridgeSearch-.git
 ```
+
+Latest production deployment runs on Cloudflare Pages.
