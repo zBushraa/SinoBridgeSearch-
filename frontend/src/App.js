@@ -38,6 +38,9 @@ const copy = {
     soundOn: "音效开",
     soundOff: "音效关",
     navbarLabel: "桥梁档案馆",
+    explorePage: "探索页",
+    timelinePage: "时间轴",
+    guidePage: "导览页",
     searchPlaceholder: "搜索桥梁、地点、年份...",
     sortLabel: "排序",
     sortName: "按名称",
@@ -54,6 +57,34 @@ const copy = {
     featuredBody: "点击卡片查看详细介绍、图片画廊和地图入口。",
     insightsTitle: "桥梁速览",
     insightsBody: "根据当前筛选结果，快速查看最早、最晚和覆盖地区等关键信息。",
+    pathsTitle: "探索路线",
+    pathsBody: "从检索、收藏到细节浏览，把资料整理成更顺滑的探索流程。",
+    pathSearchTitle: "精准检索",
+    pathSearchBody: "支持中英名称、地点与年份联动查询，快速锁定桥梁。",
+    pathCompareTitle: "快速对比",
+    pathCompareBody: "把两座桥放在一起看年代、地域与风格差异。",
+    pathSaveTitle: "个人收藏",
+    pathSaveBody: "保存重点桥梁与最近搜索，方便课堂展示与继续研究。",
+    spotlightTitle: "桥梁聚焦",
+    spotlightBody: "把最值得展示的桥梁、年代与地域信息放在同一视觉带中。",
+    timelineTitle: "桥梁时间轴",
+    timelineBody: "按照年代顺序查看桥梁，从历史最早的案例一路浏览到较新的实例。",
+    timelineEmpty: "当前筛选下暂无桥梁可显示在时间轴中。",
+    timelineOpen: "打开详情",
+    guideTitle: "学习导览",
+    guideBody: "把桥梁资料整理成更适合展示、课堂汇报与继续研究的专题入口。",
+    guideCollections: "专题入口",
+    guideDynasties: "时代分布",
+    guideSaved: "收藏导览",
+    guideOpenCollection: "打开专题",
+    guideOpenFavorites: "查看收藏",
+    guideNoFavorites: "先收藏桥梁，这里就会显示你的重点名单。",
+    collectionBeijingTitle: "北京桥梁专题",
+    collectionBeijingBody: "快速查看北京相关桥梁，适合做地域型展示。",
+    collectionStoneTitle: "石桥结构专题",
+    collectionStoneBody: "聚焦石拱与石梁桥，方便比较结构风格。",
+    collectionEarlyTitle: "早期桥梁专题",
+    collectionEarlyBody: "优先浏览年代最早的桥梁，适合历史发展脉络展示。",
     oldestBridge: "最早桥梁",
     newestBridge: "最晚桥梁",
     regionCount: "覆盖地区",
@@ -110,8 +141,15 @@ const copy = {
     bridgeType: "桥梁类型",
     visualFeature: "画面特征",
     listen: "朗读介绍",
-    map: "查看地图",
+    map: "地图",
+    mapBaidu: "百度地图",
+    mapAmap: "高德地图",
+    mapGoogle: "Google 地图",
     gallery: "桥梁画廊",
+    openGallery: "打开全屏画廊",
+    closeGallery: "关闭画廊",
+    previousImage: "上一张",
+    nextImage: "下一张",
     surprise: "随机看看",
     speechUnsupported: "当前浏览器不支持朗读功能。",
   },
@@ -131,6 +169,9 @@ const copy = {
     soundOn: "Sound on",
     soundOff: "Sound off",
     navbarLabel: "Bridge archive",
+    explorePage: "Explore",
+    timelinePage: "Timeline",
+    guidePage: "Guide",
     searchPlaceholder: "Search by bridge, location, or year...",
     sortLabel: "Sort",
     sortName: "Name",
@@ -147,6 +188,34 @@ const copy = {
     featuredBody: "Open any card to read the story, browse the gallery, and jump to the map.",
     insightsTitle: "Bridge insights",
     insightsBody: "See the oldest, newest, and regional spread of the current result set at a glance.",
+    pathsTitle: "Explore paths",
+    pathsBody: "Turn search, saved items, and details into a smoother exploration flow.",
+    pathSearchTitle: "Focused search",
+    pathSearchBody: "Filter bridges by English, Chinese, location, and year in one pass.",
+    pathCompareTitle: "Quick comparison",
+    pathCompareBody: "Put two bridges side by side to compare era, region, and character.",
+    pathSaveTitle: "Personal collection",
+    pathSaveBody: "Keep favorites and recent searches ready for class demos or further study.",
+    spotlightTitle: "Bridge spotlight",
+    spotlightBody: "Surface the most presentable bridges, era range, and regions in one visual band.",
+    timelineTitle: "Bridge timeline",
+    timelineBody: "Browse bridges in chronological order, from the earliest surviving examples to the later historic works.",
+    timelineEmpty: "No bridges are available in the timeline for the current filters.",
+    timelineOpen: "Open details",
+    guideTitle: "Study guide",
+    guideBody: "Turn the bridge archive into a cleaner set of study views for demos, classroom walkthroughs, and deeper exploration.",
+    guideCollections: "Curated collections",
+    guideDynasties: "Dynasty overview",
+    guideSaved: "Saved bridges",
+    guideOpenCollection: "Open collection",
+    guideOpenFavorites: "View favorites",
+    guideNoFavorites: "Save a few bridges first and they will appear here as a quick study list.",
+    collectionBeijingTitle: "Beijing collection",
+    collectionBeijingBody: "Jump into bridges connected to Beijing for a place-based presentation flow.",
+    collectionStoneTitle: "Stone bridge study",
+    collectionStoneBody: "Focus on stone arch and stone beam bridges for structural comparison.",
+    collectionEarlyTitle: "Early bridges",
+    collectionEarlyBody: "Start with the earliest surviving bridges to show historical development.",
     oldestBridge: "Oldest bridge",
     newestBridge: "Newest bridge",
     regionCount: "Regions covered",
@@ -203,8 +272,15 @@ const copy = {
     bridgeType: "Bridge type",
     visualFeature: "Visual feature",
     listen: "Listen",
-    map: "View map",
+    map: "Maps",
+    mapBaidu: "Baidu Map",
+    mapAmap: "Amap",
+    mapGoogle: "Google Maps",
     gallery: "Gallery",
+    openGallery: "Open fullscreen gallery",
+    closeGallery: "Close gallery",
+    previousImage: "Previous",
+    nextImage: "Next",
     surprise: "Surprise me",
     speechUnsupported: "Speech playback is not supported in this browser.",
   },
@@ -318,6 +394,7 @@ function playUiTone(kind = "soft") {
 function App() {
   const resultsRef = useRef(null);
   const [lang, setLang] = useState("zh");
+  const [view, setView] = useState("explore");
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") {
       return "light";
@@ -345,6 +422,7 @@ function App() {
   const [saveMessage, setSaveMessage] = useState("");
   const [backendStatus, setBackendStatus] = useState("checking");
   const [selectedGalleryImage, setSelectedGalleryImage] = useState("");
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
   const deferredSearch = useDeferredValue(search);
 
@@ -379,6 +457,19 @@ function App() {
     region !== "all" ? region : null,
     favoritesOnly ? text.favoritesOnly : null,
   ].filter(Boolean);
+  const featuredBridge = filtered[0] || allBridges[0] || null;
+  const spotlightBridges = [oldestBridge, featuredBridge, newestBridge].filter(Boolean);
+  const timelineBridges = [...filtered].sort((left, right) => left.year - right.year);
+  const dynastySummary = Object.entries(
+    filtered.reduce((summary, bridge) => {
+      const label = lang === "zh" ? bridge.dynasty_zh || text.noInsight : bridge.dynasty_en || text.noInsight;
+      summary[label] = (summary[label] || 0) + 1;
+      return summary;
+    }, {})
+  )
+    .sort((left, right) => right[1] - left[1])
+    .slice(0, 6);
+  const savedBridges = allBridges.filter((bridge) => favorites.includes(bridge.id)).slice(0, 6);
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -538,6 +629,32 @@ function App() {
     toggleCompare(bridgeId);
   };
 
+  const openTimelineView = () => {
+    setView("timeline");
+    triggerSound("soft");
+  };
+
+  const openGuideView = () => {
+    setView("guide");
+    triggerSound("soft");
+  };
+
+  const openExploreView = () => {
+    setView("explore");
+    triggerSound("soft");
+  };
+
+  const applyGuideCollection = ({ searchValue = "", regionValue = "all", favoritesValue = false }) => {
+    setSearch(searchValue);
+    setRegion(regionValue);
+    setFavoritesOnly(favoritesValue);
+    setView("explore");
+    triggerSound("open");
+    window.setTimeout(() => {
+      resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 80);
+  };
+
   const handleCopy = async (value) => {
     if (!value) {
       return;
@@ -603,11 +720,22 @@ function App() {
   useEffect(() => {
     if (!selected) {
       setSelectedGalleryImage("");
+      setIsGalleryOpen(false);
       return;
     }
 
     setSelectedGalleryImage(selected.img || selected.gallery[0] || FALLBACK_IMAGE);
   }, [selected]);
+
+  const cycleGalleryImage = (direction) => {
+    if (!selected?.gallery?.length) {
+      return;
+    }
+
+    const currentIndex = Math.max(selected.gallery.indexOf(selectedGalleryImage), 0);
+    const nextIndex = (currentIndex + direction + selected.gallery.length) % selected.gallery.length;
+    setSelectedGalleryImage(selected.gallery[nextIndex]);
+  };
 
   if (selected) {
     const selectedDescription = lang === "zh" ? selected.desc_zh : selected.desc_en;
@@ -624,6 +752,24 @@ function App() {
             </div>
           </div>
           <div className="nav-actions">
+            <button
+              className={`ghost-button nav-toggle ${view === "explore" ? "is-active" : ""}`}
+              onClick={openExploreView}
+            >
+              {text.explorePage}
+            </button>
+            <button
+              className={`ghost-button nav-toggle ${view === "timeline" ? "is-active" : ""}`}
+              onClick={openTimelineView}
+            >
+              {text.timelinePage}
+            </button>
+            <button
+              className={`ghost-button nav-toggle ${view === "guide" ? "is-active" : ""}`}
+              onClick={openGuideView}
+            >
+              {text.guidePage}
+            </button>
             <button
               className="ghost-button nav-toggle"
               aria-label={text.themeToggle}
@@ -704,20 +850,41 @@ function App() {
                 }}>
                   {text.listen}
                 </button>
-                <a
-                  className="ghost-button"
-                  href={`https://www.google.com/maps/search/${encodeURIComponent(selected.location)}`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {text.map}
-                </a>
+                <button className="ghost-button" onClick={() => setIsGalleryOpen(true)}>
+                  {text.openGallery}
+                </button>
                 <button className="ghost-button" onClick={() => handleCopy(selected.zh)}>
                   {text.copyName}
                 </button>
                 <button className="ghost-button" onClick={() => handleCopy(selected.location_zh || selected.location)}>
                   {text.copyAddress}
                 </button>
+              </div>
+              <div className="map-actions">
+                <a
+                  className="ghost-button"
+                  href={`https://api.map.baidu.com/marker?location=${encodeURIComponent(selected.location_zh || selected.location)}&title=${encodeURIComponent(selected.zh || selected.name)}&content=${encodeURIComponent(selected.location_zh || selected.location)}&output=html`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {text.mapBaidu}
+                </a>
+                <a
+                  className="ghost-button"
+                  href={`https://uri.amap.com/search?keyword=${encodeURIComponent(selected.location_zh || selected.location)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {text.mapAmap}
+                </a>
+                <a
+                  className="ghost-button"
+                  href={`https://www.google.com/maps/search/${encodeURIComponent(selected.location)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {text.mapGoogle}
+                </a>
               </div>
               {selected.tip_zh || selected.tip_en ? (
                 <p className="image-note">
@@ -739,7 +906,10 @@ function App() {
                   key={`${selected.id}-${index}`}
                   type="button"
                   className={`gallery-thumb ${selectedGalleryImage === image ? "is-active" : ""}`}
-                  onClick={() => setSelectedGalleryImage(image)}
+                  onClick={() => {
+                    setSelectedGalleryImage(image);
+                    setIsGalleryOpen(true);
+                  }}
                 >
                   <img
                     src={image}
@@ -755,6 +925,27 @@ function App() {
               ))}
             </div>
           </section>
+          {isGalleryOpen ? (
+            <div className="lightbox-overlay" role="dialog" aria-modal="true" aria-label={text.gallery}>
+              <button className="lightbox-close" onClick={() => setIsGalleryOpen(false)}>
+                {text.closeGallery}
+              </button>
+              <button className="lightbox-nav prev" onClick={() => cycleGalleryImage(-1)}>
+                {text.previousImage}
+              </button>
+              <img
+                src={selectedGalleryImage || selected.img || FALLBACK_IMAGE}
+                alt={selected.name}
+                className="lightbox-image"
+                onError={(event) => {
+                  event.currentTarget.src = FALLBACK_IMAGE;
+                }}
+              />
+              <button className="lightbox-nav next" onClick={() => cycleGalleryImage(1)}>
+                {text.nextImage}
+              </button>
+            </div>
+          ) : null}
         </section>
       </main>
     );
@@ -771,6 +962,24 @@ function App() {
           </div>
         </div>
         <div className="nav-actions">
+          <button
+            className={`ghost-button nav-toggle ${view === "explore" ? "is-active" : ""}`}
+            onClick={openExploreView}
+          >
+            {text.explorePage}
+          </button>
+          <button
+            className={`ghost-button nav-toggle ${view === "timeline" ? "is-active" : ""}`}
+            onClick={openTimelineView}
+          >
+            {text.timelinePage}
+          </button>
+          <button
+            className={`ghost-button nav-toggle ${view === "guide" ? "is-active" : ""}`}
+            onClick={openGuideView}
+          >
+            {text.guidePage}
+          </button>
           <button
             className="ghost-button nav-toggle"
             aria-label={text.themeToggle}
@@ -799,9 +1008,20 @@ function App() {
             </p>
           </div>
 
-          <button className="ghost-button" onClick={() => setLang(lang === "zh" ? "en" : "zh")}>
-            {text.switchLanguage}
-          </button>
+          <div className="hero-side-stack">
+            <button className="ghost-button" onClick={() => setLang(lang === "zh" ? "en" : "zh")}>
+              {text.switchLanguage}
+            </button>
+            <article className="hero-showcase">
+              <span className="eyebrow">{text.featuredTitle}</span>
+              <strong>{featuredBridge ? (lang === "zh" ? featuredBridge.zh : featuredBridge.name) : text.noInsight}</strong>
+              <p>{featuredBridge ? getDisplayLocation(featuredBridge) : text.empty}</p>
+              <div className="hero-showcase-meta">
+                <span>{filtered.length} {text.explore}</span>
+                <span>{timeline ? `${timeline.oldest} - ${timeline.newest}` : "N/A"}</span>
+              </div>
+            </article>
+          </div>
         </div>
 
         <div className="hero-actions">
@@ -829,6 +1049,173 @@ function App() {
         </div>
       </section>
 
+      <section className="visual-band">
+        <div className="section-heading visual-band-heading">
+          <div>
+            <p className="eyebrow">{text.spotlightTitle}</p>
+            <h2>{text.pathsTitle}</h2>
+            <p>{text.spotlightBody}</p>
+          </div>
+        </div>
+
+        <div className="showcase-grid">
+          {spotlightBridges.map((bridge, index) => (
+            <article key={`${bridge.id}-${index}`} className="showcase-card">
+              <BridgeImage bridge={bridge} className="showcase-image" loading="lazy" fetchPriority="low" />
+              <div className="showcase-copy">
+                <span className="eyebrow">
+                  {index === 0 ? text.oldestBridge : index === 1 ? text.featuredTitle : text.newestBridge}
+                </span>
+                <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
+                <p>{getDisplayLocation(bridge)}</p>
+                <strong>{bridge.year}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="path-grid">
+          <article className="path-card">
+            <span className="path-index">01</span>
+            <h3>{text.pathSearchTitle}</h3>
+            <p>{text.pathSearchBody}</p>
+          </article>
+          <article className="path-card">
+            <span className="path-index">02</span>
+            <h3>{text.pathCompareTitle}</h3>
+            <p>{text.pathCompareBody}</p>
+          </article>
+          <article className="path-card">
+            <span className="path-index">03</span>
+            <h3>{text.pathSaveTitle}</h3>
+            <p>{text.pathSaveBody}</p>
+          </article>
+        </div>
+      </section>
+
+      {view === "timeline" ? (
+        <section className="timeline-panel">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{text.timelinePage}</p>
+              <h2>{text.timelineTitle}</h2>
+              <p>{text.timelineBody}</p>
+            </div>
+          </div>
+
+          {timelineBridges.length === 0 ? <div className="empty-state">{text.timelineEmpty}</div> : null}
+
+          <div className="timeline-list">
+            {timelineBridges.map((bridge) => (
+              <article key={bridge.id} className="timeline-item">
+                <div className="timeline-year">{bridge.year}</div>
+                <div className="timeline-dot" />
+                <div className="timeline-card">
+                  <BridgeImage bridge={bridge} className="timeline-image" loading="lazy" fetchPriority="low" />
+                  <div className="timeline-copy">
+                    <span className="eyebrow">{getDisplayLocation(bridge)}</span>
+                    <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
+                    <p>{lang === "zh" ? bridge.desc_zh : bridge.desc_en}</p>
+                    <button className="ghost-button" onClick={() => handleOpenBridge(bridge)}>
+                      {text.timelineOpen}
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : view === "guide" ? (
+        <section className="guide-panel">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{text.guidePage}</p>
+              <h2>{text.guideTitle}</h2>
+              <p>{text.guideBody}</p>
+            </div>
+          </div>
+
+          <div className="guide-grid">
+            <section className="guide-card guide-card-wide">
+              <div className="section-heading">
+                <div>
+                  <h3>{text.guideCollections}</h3>
+                  <p>{text.pathsBody}</p>
+                </div>
+              </div>
+              <div className="guide-collections">
+                <article className="collection-card">
+                  <h4>{text.collectionBeijingTitle}</h4>
+                  <p>{text.collectionBeijingBody}</p>
+                  <button
+                    className="ghost-button"
+                    onClick={() => applyGuideCollection({ regionValue: lang === "zh" ? "中国北京" : "Beijing" })}
+                  >
+                    {text.guideOpenCollection}
+                  </button>
+                </article>
+                <article className="collection-card">
+                  <h4>{text.collectionStoneTitle}</h4>
+                  <p>{text.collectionStoneBody}</p>
+                  <button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: lang === "zh" ? "石" : "stone" })}>
+                    {text.guideOpenCollection}
+                  </button>
+                </article>
+                <article className="collection-card">
+                  <h4>{text.collectionEarlyTitle}</h4>
+                  <p>{text.collectionEarlyBody}</p>
+                  <button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: "", regionValue: "all", favoritesValue: false })}>
+                    {text.timelinePage}
+                  </button>
+                </article>
+              </div>
+            </section>
+
+            <section className="guide-card">
+              <div className="section-heading">
+                <div>
+                  <h3>{text.guideDynasties}</h3>
+                  <p>{text.timelineBody}</p>
+                </div>
+              </div>
+              <div className="dynasty-grid">
+                {dynastySummary.map(([label, count]) => (
+                  <article key={label} className="dynasty-chip">
+                    <strong>{label}</strong>
+                    <span>{count}</span>
+                  </article>
+                ))}
+              </div>
+            </section>
+
+            <section className="guide-card">
+              <div className="section-heading">
+                <div>
+                  <h3>{text.guideSaved}</h3>
+                  <p>{text.pathSaveBody}</p>
+                </div>
+              </div>
+              {savedBridges.length === 0 ? <div className="empty-state guide-empty">{text.guideNoFavorites}</div> : null}
+              <div className="saved-guide-list">
+                {savedBridges.map((bridge) => (
+                  <button key={bridge.id} className="saved-guide-item" onClick={() => handleOpenBridge(bridge)}>
+                    <span>{lang === "zh" ? bridge.zh : bridge.name}</span>
+                    <small>{bridge.year}</small>
+                  </button>
+                ))}
+              </div>
+              {favorites.length > 0 ? (
+                <button
+                  className="ghost-button"
+                  onClick={() => applyGuideCollection({ favoritesValue: true })}
+                >
+                  {text.guideOpenFavorites}
+                </button>
+              ) : null}
+            </section>
+          </div>
+        </section>
+      ) : (
       <section className="content-grid">
         <aside className="sidebar-card">
           <div className="sidebar-section">
@@ -1113,8 +1500,9 @@ function App() {
               ))}
             </div>
           </section>
+          </section>
         </section>
-      </section>
+      )}
     </main>
   );
 }

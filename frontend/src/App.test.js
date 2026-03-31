@@ -29,7 +29,8 @@ test("opens detail view from a bridge card", () => {
 
   fireEvent.click(screen.getByRole("button", { name: /zhaozhou bridge/i }));
 
-  expect(screen.getByText(/查看地图/i)).toBeInTheDocument();
+  expect(screen.getByText(/百度地图/i)).toBeInTheDocument();
+  expect(screen.getByText(/打开全屏画廊/i)).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: /赵州桥/i })).toBeInTheDocument();
 });
 
