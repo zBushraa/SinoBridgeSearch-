@@ -34,6 +34,16 @@ test("opens detail view from a bridge card", () => {
   expect(screen.getByRole("heading", { name: /赵州桥/i })).toBeInTheDocument();
 });
 
+test("returns to explore view from detail navigation", () => {
+  render(<App />);
+
+  fireEvent.click(screen.getByRole("button", { name: /zhaozhou bridge/i }));
+  fireEvent.click(screen.getByRole("button", { name: /探索页/i }));
+
+  expect(screen.getByPlaceholderText(/搜索桥梁、地点、年份/i)).toBeInTheDocument();
+  expect(screen.getByText(/探索简报/i)).toBeInTheDocument();
+});
+
 test("adds a custom bridge from the local admin panel", () => {
   render(<App />);
   const adminPanel = screen.getByText(/添加自定义桥梁/i).closest("section");
@@ -57,6 +67,6 @@ test("compares two bridges from the card actions", () => {
   fireEvent.click(screen.getAllByRole("button", { name: /对比/i })[0]);
   fireEvent.click(screen.getAllByRole("button", { name: /对比/i })[1]);
 
-  expect(screen.getByText(/最多选择两座桥做快速对比/i)).toBeInTheDocument();
+  expect(screen.getAllByText(/最多选择两座桥做快速对比/i).length).toBeGreaterThan(0);
   expect(screen.getAllByText(/年份/i).length).toBeGreaterThan(0);
 });

@@ -25,10 +25,10 @@ const copy = {
   zh: {
     switchLanguage: "切换到英文",
     eyebrow: "中国古桥检索",
-    title: "中国古桥",
-    subtitle: "保留你的核心搜索体验，并补上更完整的浏览、收藏、后台与信息层。",
-    heroBody: "在更现代、更沉浸的界面里浏览中国古桥的图像、年代、地域与文化信息，同时保留原本的核心检索方式。",
-    exploreNow: "开始探索",
+    title: "探索中国古桥之美，连接历史与未来",
+    subtitle: "探索古桥之美，感受千年文化",
+    heroBody: "在 SinoBridge，您将通过以图像为核心的方式，深入了解17座经典古桥的建筑智慧与文化故事。支持中英文切换，带来沉浸式浏览体验，让每一座桥梁都活起来。",
+    exploreNow: "查看详情",
     heroGallery: "画廊漫游",
     themeToggle: "切换深浅模式",
     soundToggleOn: "关闭交互音效",
@@ -57,16 +57,6 @@ const copy = {
     featuredBody: "点击卡片查看详细介绍、图片画廊和地图入口。",
     insightsTitle: "桥梁速览",
     insightsBody: "根据当前筛选结果，快速查看最早、最晚和覆盖地区等关键信息。",
-    pathsTitle: "探索路线",
-    pathsBody: "从检索、收藏到细节浏览，把资料整理成更顺滑的探索流程。",
-    pathSearchTitle: "精准检索",
-    pathSearchBody: "支持中英名称、地点与年份联动查询，快速锁定桥梁。",
-    pathCompareTitle: "快速对比",
-    pathCompareBody: "把两座桥放在一起看年代、地域与风格差异。",
-    pathSaveTitle: "个人收藏",
-    pathSaveBody: "保存重点桥梁与最近搜索，方便课堂展示与继续研究。",
-    spotlightTitle: "桥梁聚焦",
-    spotlightBody: "把最值得展示的桥梁、年代与地域信息放在同一视觉带中。",
     timelineTitle: "桥梁时间轴",
     timelineBody: "按照年代顺序查看桥梁，从历史最早的案例一路浏览到较新的实例。",
     timelineEmpty: "当前筛选下暂无桥梁可显示在时间轴中。",
@@ -96,7 +86,14 @@ const copy = {
     resultSummary: "当前显示 {count} 座桥",
     sortNow: "当前排序",
     activeFilters: "当前筛选",
-    controlsTitle: "检索工具",
+    controlsTitle: "查看选项",
+    exploreBriefTitle: "探索简报",
+    exploreBriefBody: "把当前筛选结果里的重点信息集中展示，进入探索页后先看到最有用的内容。",
+    primaryEra: "主要时代",
+    customCount: "自定义条目",
+    compareReady: "对比状态",
+    featuredBridgeLabel: "本次推荐",
+    openFeatured: "打开推荐桥梁",
     quickList: "桥梁列表",
     regions: "地区筛选",
     allRegions: "全部地区",
@@ -159,7 +156,7 @@ const copy = {
     title: "SinoBridge",
     subtitle: "Your original bridge search stays intact, now with stronger browsing, saved items, backend sync, and richer structure.",
     heroBody: "Browse historic Chinese bridges in a more immersive interface with image-led storytelling, timeline context, and polished exploration tools while keeping the same core search flow.",
-    exploreNow: "Explore now",
+    exploreNow: "View Details",
     heroGallery: "Gallery tour",
     themeToggle: "Toggle light and dark mode",
     soundToggleOn: "Turn interaction sound off",
@@ -188,16 +185,6 @@ const copy = {
     featuredBody: "Open any card to read the story, browse the gallery, and jump to the map.",
     insightsTitle: "Bridge insights",
     insightsBody: "See the oldest, newest, and regional spread of the current result set at a glance.",
-    pathsTitle: "Explore paths",
-    pathsBody: "Turn search, saved items, and details into a smoother exploration flow.",
-    pathSearchTitle: "Focused search",
-    pathSearchBody: "Filter bridges by English, Chinese, location, and year in one pass.",
-    pathCompareTitle: "Quick comparison",
-    pathCompareBody: "Put two bridges side by side to compare era, region, and character.",
-    pathSaveTitle: "Personal collection",
-    pathSaveBody: "Keep favorites and recent searches ready for class demos or further study.",
-    spotlightTitle: "Bridge spotlight",
-    spotlightBody: "Surface the most presentable bridges, era range, and regions in one visual band.",
     timelineTitle: "Bridge timeline",
     timelineBody: "Browse bridges in chronological order, from the earliest surviving examples to the later historic works.",
     timelineEmpty: "No bridges are available in the timeline for the current filters.",
@@ -227,7 +214,14 @@ const copy = {
     resultSummary: "{count} bridges currently shown",
     sortNow: "Sort mode",
     activeFilters: "Active filters",
-    controlsTitle: "Explore tools",
+    controlsTitle: "View Options",
+    exploreBriefTitle: "Explore brief",
+    exploreBriefBody: "Surface the most useful context from the current filters before the user dives into the full result list.",
+    primaryEra: "Primary era",
+    customCount: "Custom entries",
+    compareReady: "Compare status",
+    featuredBridgeLabel: "Featured now",
+    openFeatured: "Open featured bridge",
     quickList: "Bridge list",
     regions: "Region filter",
     allRegions: "All regions",
@@ -424,9 +418,14 @@ function App() {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState("");
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
+  const [showCuratedCollection, setShowCuratedCollection] = useState(false);
   const deferredSearch = useDeferredValue(search);
 
   const text = copy[lang];
+  console.log('Current language:', lang);
+  console.log('Title:', text.title);
+  console.log('Subtitle:', text.subtitle);
+  console.log('Hero Body:', text.heroBody);
   const allBridges = [...bridges, ...customBridges];
   const regions = Array.from(new Set(allBridges.map((bridge) => getDisplayLocationForLang(bridge, lang).split(",")[0].trim()))).sort();
   const searched = searchBridges(allBridges, deferredSearch, sortBy);
@@ -439,6 +438,17 @@ function App() {
     return currentLocation.startsWith(region);
   });
   const filtered = favoritesOnly ? regionFiltered.filter((bridge) => favorites.includes(bridge.id)) : regionFiltered;
+  
+  // Debug logging
+  console.log('Debug Info:');
+  console.log('Total bridges:', allBridges.length);
+  console.log('Search term:', deferredSearch);
+  console.log('Region:', region);
+  console.log('Favorites only:', favoritesOnly);
+  console.log('Searched count:', searched.length);
+  console.log('Region filtered count:', regionFiltered.length);
+  console.log('Final filtered count:', filtered.length);
+  console.log('Filtered bridges:', filtered.map(b => b.name));
   const timeline = getTimelineSummary(filtered);
   const compared = compareIds
     .map((id) => allBridges.find((bridge) => bridge.id === id))
@@ -458,7 +468,6 @@ function App() {
     favoritesOnly ? text.favoritesOnly : null,
   ].filter(Boolean);
   const featuredBridge = filtered[0] || allBridges[0] || null;
-  const spotlightBridges = [oldestBridge, featuredBridge, newestBridge].filter(Boolean);
   const timelineBridges = [...filtered].sort((left, right) => left.year - right.year);
   const dynastySummary = Object.entries(
     filtered.reduce((summary, bridge) => {
@@ -470,6 +479,8 @@ function App() {
     .sort((left, right) => right[1] - left[1])
     .slice(0, 6);
   const savedBridges = allBridges.filter((bridge) => favorites.includes(bridge.id)).slice(0, 6);
+  const primaryEraLabel = dynastySummary[0]?.[0] || text.noInsight;
+  const customCount = filtered.filter((bridge) => bridge.isCustom).length;
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -606,20 +617,84 @@ function App() {
   };
 
   const scrollToResults = () => {
+    // Add a smooth transition effect
+    document.body.style.transition = 'all 0.6s cubic-bezier(0.23, 1, 0.320, 1)';
+    
+    // Go directly to bridge list instead of curated collection
+    setView("explore");
+    setSelected(null);
+    triggerSound("open");
+    
+    // Scroll to results
     resultsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    triggerSound("soft");
+    
+    // Add a brief delay before showing results
+    setTimeout(() => {
+      // Add fade-in effect to bridge grid
+      const bridgeGrid = document.querySelector('.bridge-grid');
+      if (bridgeGrid) {
+        bridgeGrid.style.animation = 'fadeInUp 0.8s ease-out';
+      }
+    }, 300);
   };
 
   const getDisplayLocation = (bridge) => getDisplayLocationForLang(bridge, lang);
 
+const getAgeBasedCollections = (bridges) => {
+  // Ancient bridges (before 1000)
+  const ancient = bridges.filter(b => b.year < 1000).sort((a, b) => a.year - b.year);
+  
+  // Medieval bridges (1000-1368)
+  const medieval = bridges.filter(b => b.year >= 1000 && b.year < 1369).sort((a, b) => a.year - b.year);
+  
+  // Early Modern bridges (1369-1644)
+  const earlyModern = bridges.filter(b => b.year >= 1369 && b.year < 1645).sort((a, b) => a.year - b.year);
+  
+  // Late Modern bridges (1644-1912)
+  const lateModern = bridges.filter(b => b.year >= 1645 && b.year <= 1912).sort((a, b) => a.year - b.year);
+  
+  return [
+    {
+      title: lang === "zh" ? "古代桥梁" : "Ancient Bridges",
+      subtitle: lang === "zh" ? "公元1000年以前" : "Before 1000 CE",
+      bridges: ancient.slice(0, 3),
+      count: ancient.length,
+      color: "#c73e1d"
+    },
+    {
+      title: lang === "zh" ? "中古桥梁" : "Medieval Bridges", 
+      subtitle: lang === "zh" ? "1000-1368年" : "1000-1368 CE",
+      bridges: medieval.slice(0, 3),
+      count: medieval.length,
+      color: "#00a86b"
+    },
+    {
+      title: lang === "zh" ? "近古桥梁" : "Early Modern Bridges",
+      subtitle: lang === "zh" ? "1369-1644年" : "1369-1644 CE", 
+      bridges: earlyModern.slice(0, 3),
+      count: earlyModern.length,
+      color: "#daa520"
+    },
+    {
+      title: lang === "zh" ? "近代桥梁" : "Late Modern Bridges",
+      subtitle: lang === "zh" ? "1645-1912年" : "1645-1912 CE",
+      bridges: lateModern.slice(0, 3),
+      count: lateModern.length,
+      color: "#8b3822"
+    }
+  ];
+};
+
   const getCompareStatusText = () => text.compareSelected.replace("{count}", String(compared.length));
 
   const handleOpenBridge = (bridge) => {
+    console.log('Bridge clicked:', bridge.name || bridge.zh);
     triggerSound("open");
     setSelected(bridge);
   };
 
   const handleFavoriteClick = (bridgeId) => {
+    console.log('Favorite button clicked for bridge:', bridgeId);
     triggerSound(favorites.includes(bridgeId) ? "soft" : "success");
     toggleFavorite(bridgeId);
   };
@@ -630,21 +705,26 @@ function App() {
   };
 
   const openTimelineView = () => {
+    setSelected(null);
     setView("timeline");
     triggerSound("soft");
   };
 
   const openGuideView = () => {
+    console.log('Opening guide view');
+    setSelected(null);
     setView("guide");
     triggerSound("soft");
   };
 
   const openExploreView = () => {
+    setSelected(null);
     setView("explore");
     triggerSound("soft");
   };
 
-  const applyGuideCollection = ({ searchValue = "", regionValue = "all", favoritesValue = false }) => {
+const applyGuideCollection = ({ searchValue = "", regionValue = "all", favoritesValue = false }) => {
+    console.log('Applying guide collection:', { searchValue, regionValue, favoritesValue });
     setSearch(searchValue);
     setRegion(regionValue);
     setFavoritesOnly(favoritesValue);
@@ -996,6 +1076,7 @@ function App() {
           </button>
         </div>
       </div>
+      {view === "explore" && (
       <section className="hero-panel">
         <div className="hero-topbar">
           <div>
@@ -1025,8 +1106,12 @@ function App() {
         </div>
 
         <div className="hero-actions">
-          <button className="primary-button" onClick={scrollToResults}>
-            {text.exploreNow}
+          <button className="explore-now-button" onClick={scrollToResults}>
+            <span className="button-content">
+              <span className="button-text">{text.exploreNow}</span>
+              <span className="button-icon">⚙️</span>
+            </span>
+            <div className="button-glow"></div>
           </button>
           <button className="ghost-button hero-tour" onClick={openRandomBridge}>
             {text.heroGallery}
@@ -1048,50 +1133,46 @@ function App() {
           </article>
         </div>
       </section>
+      )}
 
-      <section className="visual-band">
-        <div className="section-heading visual-band-heading">
-          <div>
-            <p className="eyebrow">{text.spotlightTitle}</p>
-            <h2>{text.pathsTitle}</h2>
-            <p>{text.spotlightBody}</p>
+      {showCuratedCollection && (
+        <section className="curated-collection-panel">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">{lang === "zh" ? "精选收藏" : "Curated Collection"}</p>
+              <h2>{lang === "zh" ? "年代精选" : "Age-Based Collection"}</h2>
+              <p>{lang === "zh" ? "按历史年代精选的代表性桥梁" : "Representative bridges selected by historical era"}</p>
+            </div>
+            <button className="ghost-button" onClick={() => setShowCuratedCollection(false)}>
+              {lang === "zh" ? "返回探索" : "Back to Explore"}
+            </button>
           </div>
-        </div>
 
-        <div className="showcase-grid">
-          {spotlightBridges.map((bridge, index) => (
-            <article key={`${bridge.id}-${index}`} className="showcase-card">
-              <BridgeImage bridge={bridge} className="showcase-image" loading="lazy" fetchPriority="low" />
-              <div className="showcase-copy">
-                <span className="eyebrow">
-                  {index === 0 ? text.oldestBridge : index === 1 ? text.featuredTitle : text.newestBridge}
-                </span>
-                <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
-                <p>{getDisplayLocation(bridge)}</p>
-                <strong>{bridge.year}</strong>
+          <div className="collections-grid">
+            {getAgeBasedCollections(allBridges).map((collection, index) => (
+              <div key={index} className="collection-card" style={{'--collection-color': collection.color}}>
+                <div className="collection-header">
+                  <h3>{collection.title}</h3>
+                  <span className="collection-subtitle">{collection.subtitle}</span>
+                  <span className="collection-count">{collection.count} {lang === "zh" ? "座桥" : "bridges"}</span>
+                </div>
+                <div className="collection-bridges">
+                  {collection.bridges.map((bridge) => (
+                    <div key={bridge.id} className="collection-bridge-item" onClick={() => handleOpenBridge(bridge)}>
+                      <BridgeImage bridge={bridge} className="collection-bridge-image" loading="lazy" />
+                      <div className="collection-bridge-info">
+                        <h4>{lang === "zh" ? bridge.zh : bridge.name}</h4>
+                        <p>{getDisplayLocation(bridge)}</p>
+                        <span className="collection-bridge-year">{bridge.year}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </article>
-          ))}
-        </div>
-
-        <div className="path-grid">
-          <article className="path-card">
-            <span className="path-index">01</span>
-            <h3>{text.pathSearchTitle}</h3>
-            <p>{text.pathSearchBody}</p>
-          </article>
-          <article className="path-card">
-            <span className="path-index">02</span>
-            <h3>{text.pathCompareTitle}</h3>
-            <p>{text.pathCompareBody}</p>
-          </article>
-          <article className="path-card">
-            <span className="path-index">03</span>
-            <h3>{text.pathSaveTitle}</h3>
-            <p>{text.pathSaveBody}</p>
-          </article>
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
       {view === "timeline" ? (
         <section className="timeline-panel">
@@ -1318,6 +1399,45 @@ function App() {
                 </span>
               ))}
             </div>
+          </section>
+
+          <section className="explore-brief results-subpanel">
+            <div className="section-heading">
+              <div>
+                <h3>{text.exploreBriefTitle}</h3>
+                <p>{text.exploreBriefBody}</p>
+              </div>
+            </div>
+
+            <div className="brief-grid">
+              <article className="insight-card">
+                <span>{text.primaryEra}</span>
+                <strong>{primaryEraLabel}</strong>
+                <small>{timeline ? `${timeline.oldest} - ${timeline.newest}` : text.noInsight}</small>
+              </article>
+              <article className="insight-card">
+                <span>{text.customCount}</span>
+                <strong>{customCount}</strong>
+                <small>{text.resultSummary.replace("{count}", String(filtered.length))}</small>
+              </article>
+              <article className="insight-card">
+                <span>{text.compareReady}</span>
+                <strong>{getCompareStatusText()}</strong>
+                <small>{text.compareHint}</small>
+              </article>
+            </div>
+
+            {featuredBridge ? (
+              <button className="feature-card feature-card-action" onClick={() => handleOpenBridge(featuredBridge)}>
+                <span className="eyebrow">{text.featuredBridgeLabel}</span>
+                <p>{lang === "zh" ? featuredBridge.zh : featuredBridge.name}</p>
+                <small>
+                  {featuredBridge.year} · {getDisplayLocation(featuredBridge)}
+                </small>
+                <strong>{primaryEraLabel}</strong>
+                <span className="feature-card-link">{text.openFeatured}</span>
+              </button>
+            ) : null}
           </section>
 
           <div className="mobile-stats">
