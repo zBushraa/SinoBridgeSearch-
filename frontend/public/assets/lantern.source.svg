@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="220" viewBox="0 0 160 220">
+  <defs>
+    <linearGradient id="body" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d44a2d"/>
+      <stop offset="100%" stop-color="#9e2f2f"/>
+    </linearGradient>
+    <linearGradient id="tassel" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#d7a23b"/>
+      <stop offset="100%" stop-color="#8f2d23"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="80" cy="82" rx="50" ry="62" fill="url(#body)"/>
+  <ellipse cx="80" cy="82" rx="46" ry="58" fill="none" stroke="#f2c663" stroke-opacity=".5" stroke-width="3"/>
+  <path d="M46 60h68M46 82h68M46 104h68" stroke="#f2c663" stroke-opacity=".4" stroke-width="3" stroke-linecap="round"/>
+  <path d="M60 18h40" stroke="#f2c663" stroke-width="6" stroke-linecap="round"/>
+  <path d="M80 18V4" stroke="#f2c663" stroke-width="5" stroke-linecap="round"/>
+  <path d="M80 144v26" stroke="url(#tassel)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M58 170c10 10 18 14 22 14s12-4 22-14" stroke="url(#tassel)" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M70 184v24M80 184v28M90 184v24" stroke="url(#tassel)" stroke-width="4" stroke-linecap="round"/>
+</svg>
