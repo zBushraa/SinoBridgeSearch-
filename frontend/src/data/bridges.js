@@ -62,7 +62,7 @@ For that reason, Zhaozhou Bridge is often discussed as a landmark in the global 
               "/images/webp/lugou13.webp",
               "/images/webp/lugou14.webp",
             ],
-    desc_en: `A historic stone bridge in Beijing known for its carved lions and cultural significance.
+    desc_en: `A historic stone bridge in BEIJING  known for its carved lions and cultural significance.
 
     Lugou Bridge, also known internationally as the Marco Polo Bridge, began construction in 1189 and was completed in 1192.
 
@@ -337,7 +337,7 @@ For that reason, Zhaozhou Bridge is often discussed as a landmark in the global 
   
   In that sense, the bridge belongs as much to daily social life as to transport infrastructure. 
   
-  Its wooden structure and built enclosure distinguish it sharply from stone arches such as those in northern or imperial settings. 
+  Its wooden structure and built enclosure distinguish it sharply from stone arches such as -those in northern or imperial settings. 
   
   Wan'an Bridge is therefore an excellent example of how local environment, material tradition, and communal life shaped bridge design in southern China.`,
   desc_zh: `展现传统工艺和社区设计的木质廊桥。
