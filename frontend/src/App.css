@@ -1478,215 +1478,116 @@ h1 {
     grid-row: auto;
   }
 }
-
 @media (max-width: 920px) {
+  html,
+  body {
+    min-width: 1440px;
+    overflow-x: auto;
+  }
+
+  #root {
+    min-width: 1440px;
+  }
+
   .app-shell {
-    padding: 18px;
+    min-width: 1440px;
+    padding: 24px 32px 40px;
   }
 
   .floating-navbar {
-    top: 10px;
-    padding: 12px 14px;
-    border-radius: 28px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border-radius: 999px;
   }
 
-  .floating-navbar,
-  .nav-actions,
-  .hero-actions,
-  .results-header,
-  .detail-topbar,
-  .detail-hero,
-  .summary-strip,
-  .section-heading,
-  .sidebar-section-header {
-    flex-direction: column;
-    align-items: flex-start;
+  .nav-actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 14px;
+    flex-wrap: nowrap;
   }
 
-  .stats-grid {
-    display: none;
-  }
-
-  .mobile-stats {
+  .hero-main-content {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    margin: 18px 0;
-  }
-
-  .hero-panel,
-  .timeline-panel,
-  .guide-panel,
-  .detail-panel,
-  .sidebar-card,
-  .results-panel {
-    padding: 20px;
+    grid-template-columns: minmax(0, 1.25fr) minmax(320px, 400px);
+    gap: 28px;
+    align-items: start;
   }
 
   .hero-content {
-    padding-left: 0;
-    padding-bottom: 0;
+    padding-left: 28px;
+    padding-bottom: 24px;
   }
 
   .hero-title {
-    font-size: 44px;
+    font-size: 64px;
   }
 
-  .floating-art {
-    width: 120px;
-    right: 20px;
-    bottom: 20px;
+  .sort-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
   }
 
-  .sort-controls,
-  .action-buttons,
-  .admin-form,
-  .guide-collections,
-  .dynasty-grid,
+  .action-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .mobile-stats {
+    display: none;
+  }
+
+  .content-grid {
+    grid-template-columns: 320px minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .guide-grid {
+    grid-template-columns: 1.35fr 1fr;
+    gap: 18px;
+  }
+
+  .guide-collections {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .dynasty-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-form {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .timeline-card {
-    grid-template-columns: 1fr;
+    grid-template-columns: 220px minmax(0, 1fr);
   }
 
-  .timeline-list::before {
-    left: 9px;
+  .bridge-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   }
 
-  .timeline-item {
-    grid-template-columns: 18px minmax(0, 1fr);
-  }
-
-  .timeline-year {
-    grid-column: 2;
-    padding-top: 0;
-    text-align: left;
-  }
-
-  .timeline-dot {
-    margin-top: 6px;
-  }
-
-  .timeline-card {
-    grid-column: 2;
-  }
-
-  .summary-chips {
-    justify-content: flex-start;
-  }
-
-  .detail-cover,
-  .feature-card {
-    max-width: none;
-  }
-
-  .bridge-grid,
   .gallery-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   }
 
   .custom-bridge-row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .lightbox-overlay {
-    padding: 16px;
-  }
-
-  .lightbox-nav {
-    top: auto;
-    bottom: 20px;
-    transform: none;
-  }
-
-  .lightbox-nav.prev {
-    left: 16px;
-  }
-
-  .lightbox-nav.next {
-    right: 16px;
+    flex-direction: row;
+    align-items: center;
   }
 }
-gallery-page-shell {
-  padding: 18px 20px 28px;
-}
-
-.gallery-tour-page {
-  background: #fffdf8;
-  border: 1px solid rgba(126, 145, 91, 0.10);
-  border-radius: 28px;
-  padding: 22px 22px 26px;
-  box-shadow: 0 12px 30px rgba(32, 42, 28, 0.05);
-}
-
-.gallery-tour-topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 22px;
-}
-
-.gallery-top-actions {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.gallery-back-button {
-  min-width: 78px;
-}
-
-.gallery-tour-header {
-  margin-bottom: 22px;
-}
-
-.gallery-tour-header h1 {
-  margin: 0 0 8px;
-  font-size: 2rem;
-  line-height: 1.1;
-}
-
-.gallery-tour-header p {
-  margin: 0;
-  color: #7b7b72;
-  font-size: 0.98rem;
-}
-
-.gallery-tour-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 14px;
-}
-
-.gallery-tour-card {
-  border: none;
-  background: transparent;
-  padding: 0;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
-}
-
-.gallery-tour-card:hover {
-  transform: translateY(-2px);
-}
-
-.gallery-tour-image {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  display: block;
-  border-radius: 20px;
-  background: #eef2e8;
-  box-shadow: 0 6px 18px rgba(31, 42, 31, 0.08);
-}
-
-.gallery-tour-card:hover .gallery-tour-image {
-  box-shadow: 0 12px 28px rgba(31, 42, 31, 0.12);
-}
-
 @media (max-width: 900px) {
   .gallery-tour-topbar {
     flex-direction: column;
@@ -1712,342 +1613,4 @@ gallery-page-shell {
 img {
   max-width: 100%;
   height: auto;
-}
-@media (max-width: 900px) {
-  .content-grid,
-  .guide-grid,
-  .brief-grid,
-  .insight-grid,
-  .compare-grid,
-  .stats-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  .results-panel,
-  .sidebar-card,
-  .guide-card,
-  .admin-panel,
-  .compare-panel,
-  .insights-panel,
-  .explore-brief {
-    width: 100%;
-  }
-}
-@media (max-width: 768px) {
-  .floating-navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 18px;
-    margin: 10px;
-    position: static;
-  }
-
-  .nav-brand {
-    min-width: 0;
-    flex: 1;
-  }
-
-  .nav-brand strong {
-    display: block;
-    font-size: 14px;
-    line-height: 1.1;
-  }
-
-  .nav-brand small {
-    display: block;
-    font-size: 11px;
-    line-height: 1.1;
-  }
-
-  .nav-actions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 8px;
-    flex: 1.2;
-  }
-
-  .nav-toggle {
-    min-width: unset;
-    padding: 8px 12px;
-    font-size: 13px;
-    border-radius: 999px;
-  }
-
-  .language-toggle {
-    padding: 6px 10px;
-  }
-
-  .language-chip {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section,
-  .hero-panel {
-    padding: 0;
-    overflow: hidden;
-    border-radius: 22px;
-    margin: 10px;
-    background-size: cover;
-    background-position: center;
-  }
-
-  .hero-main-content {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 18px;
-    background: linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.08),
-      rgba(255,255,255,0.06)
-    );
-  }
-
-  .hero-left {
-    width: 100%;
-  }
-
-  .hero-content {
-    padding: 0;
-  }
-
-  .hero-topbar {
-    display: block;
-  }
-
-  .hero-title {
-    font-size: 2.2rem;
-    line-height: 0.95;
-    margin-bottom: 10px;
-  }
-
-  .hero-subtitle {
-    font-size: 15px;
-    margin-bottom: 8px;
-  }
-
-  .hero-story,
-  .hero-description,
-  .hero-body {
-    font-size: 14px;
-    line-height: 1.55;
-    max-width: 100%;
-  }
-
-  .hero-actions {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-  }
-
-  .hero-actions .explore-now-button,
-  .hero-actions .hero-tour,
-  .hero-actions .primary-button,
-  .hero-actions .ghost-button {
-    width: auto;
-    min-width: 140px;
-  }
-
-  @media (max-width: 768px) {
-  .hero-right {
-    width: 100%;
-  }
-
-  .view-options-card {
-    width: 100%;
-    border-radius: 22px;
-    padding: 16px;
-    background: rgba(255, 252, 246, 0.88);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
-  }
-
-  .sidebar-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .sort-controls {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .search-field,
-  .sort-field,
-  .toolkit-search-button {
-    width: 100%;
-  }
-
-  .action-buttons {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-}
-
-
-  .nav-brand {
-    text-align: left;
-  }
-
-  .nav-actions {
-    justify-content: flex-start;
-  }
-
-  .hero-title {
-    font-size: 1.8rem;
-  }
-
-  .sort-controls {
-    grid-template-columns: 1fr;
-  }
-
-  .hero-actions {
-    flex-direction: column;
-  }
-
-  .hero-actions .explore-now-button,
-  .hero-actions .hero-tour,
-  .hero-actions .primary-button,
-  .hero-actions .ghost-button {
-    width: 100%;
-  }
-}
-
-  .hero-title {
-    font-size: 2.2rem;
-    line-height: 1.05;
-  }
-
-  .hero-subtitle,
-  .hero-story,
-  .hero-description {
-    font-size: 15px;
-    line-height: 1.6;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-@media (max-width: 900px) {
-  .controls-panel,
-  .sidebar-controls,
-  .sort-controls,
-  .action-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .search-field,
-  .sort-field,
-  .toolkit-search-button,
-  .action-buttons button {
-    width: 100%;
-  }
-
-  .sort-field select,
-  .search-field input {
-    width: 100%;
-  }
-}
-@media (max-width: 900px) {
-  .bridge-grid,
-  .gallery-grid,
-  .gallery-tour-grid,
-  .tour-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-  }
-
-  .bridge-card,
-  .gallery-tour-card,
-  .tour-card {
-    width: 100%;
-  }
-
-  .bridge-card-image,
-  .gallery-image,
-  .gallery-tour-image,
-  .tour-card-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 16px;
-  }
-}
-@media (max-width: 600px) {
-  .bridge-grid,
-  .gallery-grid,
-  .gallery-tour-grid,
-  .tour-grid,
-  .quick-list,
-  .chip-list,
-  .recent-searches {
-    grid-template-columns: 1fr !important;
-  }
-
-  .hero-title {
-    font-size: 1.8rem;
-  }
-
-  .gallery-tour-header h1,
-  .section-heading h2,
-  .section-heading h3 {
-    font-size: 1.5rem;
-  }
-
-  .detail-hero {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .detail-cover {
-    width: 100%;
-    height: auto;
-    border-radius: 18px;
-  }
-
-  .detail-meta,
-  .detail-actions,
-  .map-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .detail-actions button,
-  .map-actions a,
-  .map-actions button {
-    width: 100%;
-  }
-}
-@media (max-width: 600px) {
-  .app-shell,
-  .gallery-only-page,
-  .gallery-tour-page,
-  .detail-panel,
-  .timeline-panel,
-  .guide-panel,
-  .results-panel,
-  .sidebar-card {
-    padding: 14px !important;
-    margin: 0 !important;
-    border-radius: 18px !important;
-  }
 }
