@@ -1,0 +1,33 @@
+body {
+  margin: 3;
+  font-family: "Avenir Next", "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  .tool-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.toolkit-pill {
+  padding: 10px 16px;
+  font-size: 14px;
+  min-height: 44px;
+  border-radius: 999px; 
+  .toolkit-pill {
+  width: auto;
+  min-width: 0;
+}
+}
+  background: #efe4d3;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+a {
+  color: inherit;
+}

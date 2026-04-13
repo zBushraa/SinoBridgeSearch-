@@ -1,0 +1,13 @@
+name = "sinobridge-search"
+compatibility_date = "2026-03-29"
+pages_build_output_dir = "./frontend/build"
+
+[vars]
+SINOBRIDGE_RUNTIME = "cloudflare-pages"
+
+# Optional persistent storage for custom bridges.
+# Create a KV namespace in Cloudflare, then uncomment and fill in your IDs.
+# [[kv_namespaces]]
+# binding = "CUSTOM_BRIDGES"
+# id = "your-production-kv-namespace-id"
+# preview_id = "your-preview-kv-namespace-id"

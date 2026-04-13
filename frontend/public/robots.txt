@@ -1,0 +1,5 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Disallow:
+Host: https://025d68d9.sinobridgesearch.pages.dev
+Sitemap: https://025d68d9.sinobridgesearch.pages.dev/sitemap.xml
