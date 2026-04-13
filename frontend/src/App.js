@@ -159,6 +159,7 @@ const copy = {
     pathsTitle: "探索路径",
     pathsBody: "根据筛选条件推荐不同的浏览路径，帮助你从不同角度了解桥梁。",
     pathSaveBody: "保存当前筛选条件，方便下次快速访问相同的搜索结果。",
+    galleryPage: "画廊",
   },
   en: {
     switchLanguage: "Switch to Chinese",
@@ -283,6 +284,7 @@ const copy = {
     dynasty: "Dynasty",
     alias: "Alias",
     travelTip: "Travel tip",
+    galleryPage: "Gallery",
   }
 };
 
@@ -407,6 +409,7 @@ function App() {
     if (typeof window === "undefined") {
       return true;
     }
+
     return window.localStorage.getItem(SOUND_STORAGE_KEY) !== "off";
   });
   const [searchInput, setSearchInput] = useState("");
@@ -425,9 +428,19 @@ function App() {
   const [selectedGalleryImage, setSelectedGalleryImage] = useState("");
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [copyMessage, setCopyMessage] = useState("");
+  const [showGalleryPage, setShowGalleryPage] = useState(false);
+  const [cameFromGallery, setCameFromGallery] = useState(false);
 
   const text = copy[lang] || copy.zh;
   const allBridges = [...bridges, ...customBridges];
+  const allGalleryItems = allBridges.flatMap((bridge) =>
+  (bridge.gallery && bridge.gallery.length > 0 ? bridge.gallery : [bridge.img]).map((image, index) => ({
+    id: `${bridge.id}-${index}`,
+    bridge,
+    image,
+    index,
+  }))
+);
   const regions = Array.from(new Set(allBridges.map((bridge) => getDisplayLocationForLang(bridge, lang).split(",")[0].trim()))).sort();
   const searched = searchBridges(allBridges, appliedSearch, sortBy);
   
@@ -473,6 +486,18 @@ function App() {
   const primaryEraLabel = dynastySummary[0]?.[0] || text.noInsight;
   const customCount = filtered.filter((bridge) => bridge.isCustom).length;
 
+
+  
+
+  const openGalleryView = () => {
+  triggerSound("open");
+  setSelected(null);
+  setView("gallery");
+  window.setTimeout(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, 80);
+};
+
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.documentElement.dataset.theme = theme;
@@ -497,6 +522,12 @@ function App() {
   useEffect(() => {
     saveCustomBridges(customBridges);
   }, [customBridges]);
+
+  useEffect(() => {
+  if (selected) {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}, [selected]);
 
   useEffect(() => {
     let isActive = true;
@@ -783,6 +814,93 @@ function App() {
     setSelectedGalleryImage(selected.gallery[nextIndex]);
   };
 
+if (showGalleryPage) {
+  return (
+    <main className="gallery-only-page">
+      <section className="gallery-tour-page">
+        <div className="gallery-tour-topbar">
+          <button
+            className="ghost-button gallery-back-button"
+            onClick={() => {
+              setShowGalleryPage(false);
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            type="button"
+          >
+            {text.back}
+          </button>
+
+          <div className="gallery-top-actions">
+            <button
+              className="ghost-button nav-toggle"
+              aria-label={text.themeToggle}
+              onClick={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
+              type="button"
+            >
+              {theme === "light" ? text.themeDark : text.themeLight}
+            </button>
+
+            <button
+              className={`ghost-button nav-toggle ${soundEnabled ? "is-active" : ""}`}
+              aria-label={soundEnabled ? text.soundToggleOn : text.soundToggleOff}
+              onClick={() => setSoundEnabled((current) => !current)}
+              type="button"
+            >
+              {soundEnabled ? text.soundOn : text.soundOff}
+            </button>
+
+            <button
+              className="ghost-button nav-toggle language-toggle"
+              aria-label={text.switchLanguage}
+              onClick={() => setLang(lang === "zh" ? "en" : "zh")}
+              type="button"
+            >
+              <span className={`language-chip ${lang === "en" ? "is-active" : ""}`}>English</span>
+              <span className={`language-chip ${lang === "zh" ? "is-active" : ""}`}>中文</span>
+            </button>
+          </div>
+        </div>
+
+        <div className="gallery-tour-header">
+          <h1>{lang === "zh" ? "画廊导览" : "Gallery Tour"}</h1>
+          <p>
+            {lang === "zh"
+              ? "浏览网站中的全部桥梁图片，点击任意图片可进入对应桥梁详情。"
+              : "Browse all bridge photos in the site. Click any image to open its bridge details."}
+          </p >
+        </div>
+
+        <div className="gallery-tour-grid">
+          {allGalleryItems.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              className="gallery-tour-card"
+              onClick={() => {
+  setCameFromGallery(true);
+  setShowGalleryPage(false);
+  handleOpenBridge(item.bridge);
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}}
+            >
+              <img
+                src={item.image || FALLBACK_IMAGE}
+                alt={lang === "zh" ? item.bridge.zh : item.bridge.name}
+                className="gallery-tour-image"
+                loading="lazy"
+                decoding="async"
+                onError={(event) => {
+                  event.currentTarget.src = FALLBACK_IMAGE;
+                }}
+              />
+            </button>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
+
   if (selected) {
     const selectedDescription = lang === "zh" ? selected.desc_zh : selected.desc_en;
     const isFavorite = favorites.includes(selected.id);
@@ -821,6 +939,8 @@ function App() {
               aria-label={text.themeToggle}
               onClick={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
             >
+
+
               {theme === "light" ? text.themeDark : text.themeLight}
             </button>
             <button
@@ -842,12 +962,20 @@ function App() {
         </div>
         <section className="detail-panel">
           <div className="detail-topbar">
-            <button className="ghost-button" onClick={() => {
-              triggerSound("soft");
-              setSelected(null);
-            }}>
-              {text.back}
-            </button>
+           <button
+  className="ghost-button"
+  onClick={() => {
+    triggerSound("soft");
+    setSelected(null);
+
+    if (cameFromGallery) {
+      setShowGalleryPage(true);
+      setCameFromGallery(false);
+    }
+  }}
+>
+  {text.back}
+</button>
 
             <button className={`favorite-button ${isFavorite ? "is-active" : ""}`} onClick={() => handleFavoriteClick(selected.id)}>
               {isFavorite ? text.saved : text.save}
@@ -1039,6 +1167,8 @@ function App() {
             aria-label={text.themeToggle}
             onClick={() => setTheme((current) => (current === "light" ? "dark" : "light"))}
           >
+
+
             {theme === "light" ? text.themeDark : text.themeLight}
           </button>
           <button
@@ -1086,9 +1216,16 @@ function App() {
                 </span>
                 <div className="button-glow"></div>
               </button>
-              <button className="ghost-button hero-tour" onClick={openRandomBridge}>
-                {text.heroGallery}
-              </button>
+             <button
+  className="ghost-button hero-tour"
+  onClick={() => {
+    setShowGalleryPage(true);
+    setSelected(null);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }}
+>
+  {text.heroGallery}
+</button>
             </div>
           </div>
 
@@ -1194,421 +1331,464 @@ function App() {
       </section>
       )}
 
-      {view === "timeline" ? (
-        <section className="timeline-panel">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{text.timelinePage}</p>
-              <h2>{text.timelineTitle}</h2>
-              <p>{text.timelineBody}</p>
-            </div>
-          </div>
+     {view === "timeline" ? (
+<section className="timeline-panel">
+<div className="section-heading">
+<div>
+<p className="eyebrow">{text.timelinePage}</p>
+<h2>{text.timelineTitle}</h2>
+<p>{text.timelineBody}</p>
+</div>
+</div>
 
-          {timelineBridges.length === 0 ? <div className="empty-state">{text.timelineEmpty}</div> : null}
+{timelineBridges.length === 0 ? <div className="empty-state">{text.timelineEmpty}</div> : null}
 
-          <div className="timeline-list">
-            {timelineBridges.map((bridge) => (
-              <article key={bridge.id} className="timeline-item">
-                <div className="timeline-year">{bridge.year}</div>
-                <div className="timeline-dot" />
-                <div className="timeline-card">
-                  <BridgeImage bridge={bridge} className="timeline-image" loading="lazy" fetchPriority="low" />
-                  <div className="timeline-copy">
-                    <span className="eyebrow">{getDisplayLocation(bridge)}</span>
-                    <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
-                    <p>{lang === "zh" ? bridge.desc_zh : bridge.desc_en}</p>
-                    <button className="ghost-button" onClick={() => handleOpenBridge(bridge)}>
-                      {text.timelineOpen}
-                    </button>
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : view === "guide" ? (
-        <section className="guide-panel">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">{text.guidePage}</p>
-              <h2>{text.guideTitle}</h2>
-              <p>{text.guideBody}</p>
-            </div>
-          </div>
+<div className="timeline-list">
+{timelineBridges.map((bridge) => (
+<article key={bridge.id} className="timeline-item">
+<div className="timeline-year">{bridge.year}</div>
+<div className="timeline-dot" />
+<div className="timeline-card">
+<BridgeImage bridge={bridge} className="timeline-image" loading="lazy" fetchPriority="low" />
+<div className="timeline-copy">
+<span className="eyebrow">{getDisplayLocation(bridge)}</span>
+<h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
+<p>{lang === "zh" ? bridge.desc_zh : bridge.desc_en}</p>
+<button className="ghost-button" onClick={() => handleOpenBridge(bridge)}>
+{text.timelineOpen}
+</button>
+</div>
+</div>
+</article>
+))}
+</div>
+</section>
+) : view === "guide" ? (
+<section className="guide-panel">
+<div className="section-heading">
+<div>
+<p className="eyebrow">{text.guidePage}</p>
+<h2>{text.guideTitle}</h2>
+<p>{text.guideBody}</p>
+</div>
+</div>
 
-          <div className="guide-grid">
-            <section className="guide-card guide-card-wide">
-              <div className="section-heading">
-                <div>
-                  <h3>{text.guideCollections}</h3>
-                  <p>{text.pathsBody}</p>
-                </div>
-              </div>
-              <div className="guide-collections">
-                <article className="collection-card">
-                  <h4>{text.collectionBeijingTitle}</h4>
-                  <p>{text.collectionBeijingBody}</p>
-                  <button
-                    className="ghost-button"
-                    onClick={() => applyGuideCollection({ regionValue: lang === "zh" ? "中国北京" : "Beijing" })}
-                  >
-                    {text.guideOpenCollection}
-                  </button>
-                </article>
-                <article className="collection-card">
-                  <h4>{text.collectionStoneTitle}</h4>
-                  <p>{text.collectionStoneBody}</p>
-                  <button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: lang === "zh" ? "石" : "stone" })}>
-                    {text.guideOpenCollection}
-                  </button>
-                </article>
-                <article className="collection-card">
-                  <h4>{text.collectionEarlyTitle}</h4>
-                  <p>{text.collectionEarlyBody}</p>
-                  <button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: "", regionValue: "all", favoritesValue: false })}>
-                    {text.timelinePage}
-                  </button>
-                </article>
-              </div>
-            </section>
+<div className="guide-grid">
+<section className="guide-card guide-card-wide">
+<div className="section-heading">
+<div>
+<h3>{text.guideCollections}</h3>
+<p>{text.pathsBody}</p>
+</div>
+</div>
+<div className="guide-collections">
+<article className="collection-card">
+<h4>{text.collectionBeijingTitle}</h4>
+<p>{text.collectionBeijingBody}</p>
+<button
+className="ghost-button"
+onClick={() => applyGuideCollection({ regionValue: lang === "zh" ? "中国北京" : "Beijing" })}
+>
+{text.guideOpenCollection}
+</button>
+</article>
+<article className="collection-card">
+<h4>{text.collectionStoneTitle}</h4>
+<p>{text.collectionStoneBody}</p>
+<button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: lang === "zh" ? "石" : "stone" })}>
+{text.guideOpenCollection}
+</button>
+</article>
+<article className="collection-card">
+<h4>{text.collectionEarlyTitle}</h4>
+<p>{text.collectionEarlyBody}</p>
+<button className="ghost-button" onClick={() => applyGuideCollection({ searchValue: "", regionValue: "all", favoritesValue: false })}>
+{text.timelinePage}
+</button>
+</article>
+</div>
+</section>
 
-            <section className="guide-card">
-              <div className="section-heading">
-                <div>
-                  <h3>{text.guideDynasties}</h3>
-                  <p>{text.timelineBody}</p>
-                </div>
-              </div>
-              <div className="dynasty-grid">
-                {dynastySummary.map(([label, count]) => (
-                  <article key={label} className="dynasty-chip">
-                    <strong>{label}</strong>
-                    <span>{count}</span>
-                  </article>
-                ))}
-              </div>
-            </section>
+<section className="guide-card">
+<div className="section-heading">
+<div>
+<h3>{text.guideDynasties}</h3>
+<p>{text.timelineBody}</p>
+</div>
+</div>
+<div className="dynasty-grid">
+{dynastySummary.map(([label, count]) => (
+<article key={label} className="dynasty-chip">
+<strong>{label}</strong>
+<span>{count}</span>
+</article>
+))}
+</div>
+</section>
 
-            <section className="guide-card">
-              <div className="section-heading">
-                <div>
-                  <h3>{text.guideSaved}</h3>
-                  <p>{text.pathSaveBody}</p>
-                </div>
-              </div>
-              {savedBridges.length === 0 ? <div className="empty-state guide-empty">{text.guideNoFavorites}</div> : null}
-              <div className="saved-guide-list">
-                {savedBridges.map((bridge) => (
-                  <button key={bridge.id} className="saved-guide-item" onClick={() => handleOpenBridge(bridge)}>
-                    <span>{lang === "zh" ? bridge.zh : bridge.name}</span>
-                    <small>{bridge.year}</small>
-                  </button>
-                ))}
-              </div>
-              {favorites.length > 0 ? (
-                <button
-                  className="ghost-button"
-                  onClick={() => applyGuideCollection({ favoritesValue: true })}
-                >
-                  {text.guideOpenFavorites}
-                </button>
-              ) : null}
-            </section>
-          </div>
-        </section>
-      ) : (
-      <section className="content-grid">
-        <aside className="sidebar-card">
-          <div className="sidebar-section">
-            <div className="sidebar-section-header">
-              <h2>{text.recentSearches}</h2>
-              {recentSearches.length > 0 ? (
-                <button className="section-clear-button" onClick={clearRecentSearches}>
-                  {text.clearRecentSearches}
-                </button>
-              ) : null}
-            </div>
-            {recentSearches.length === 0 ? <p>{text.noRecentSearches}</p> : null}
-            <div className="chip-list">
-              {recentSearches.map((item) => (
-                <button
-                  key={item}
-                  className="chip-button"
-                  onClick={() => {
-                    setSearchInput(item);
-                    setAppliedSearch(item);
-                  }}
-                >
-                  {item}
-                </button>
-              ))}
-            </div>
-          </div>
+<section className="guide-card">
+<div className="section-heading">
+<div>
+<h3>{text.guideSaved}</h3>
+<p>{text.pathSaveBody}</p>
+</div>
+</div>
+{savedBridges.length === 0 ? <div className="empty-state guide-empty">{text.guideNoFavorites}</div> : null}
+<div className="saved-guide-list">
+{savedBridges.map((bridge) => (
+<button key={bridge.id} className="saved-guide-item" onClick={() => handleOpenBridge(bridge)}>
+<span>{lang === "zh" ? bridge.zh : bridge.name}</span>
+<small>{bridge.year}</small>
+</button>
+))}
+</div>
+{favorites.length > 0 ? (
+<button
+className="ghost-button"
+onClick={() => applyGuideCollection({ favoritesValue: true })}
+>
+{text.guideOpenFavorites}
+</button>
+) : null}
+</section>
+</div>
+</section>
+) : view === "gallery" ? (
+<section className="gallery-tour-page">
+  <div className="gallery-tour-topbar">
+    <button
+      className="ghost-button gallery-back-button"
+      onClick={openExploreView}
+      type="button"
+    >
+      {text.back}
+    </button>
+  </div>
 
-          <div className="sidebar-section">
-            <h2>{text.quickList}</h2>
-            <div className="quick-list">
-              {filtered.map((bridge) => (
-                <button key={bridge.id} className="quick-list-item" onClick={() => handleOpenBridge(bridge)}>
-                  <span>{lang === "zh" ? bridge.zh : bridge.name}</span>
-                  <small>{bridge.year}</small>
-                </button>
-              ))}
-            </div>
-          </div>
-        </aside>
+  <div className="gallery-tour-header">
+    <h1>{lang === "zh" ? "画廊导览" : "Gallery Tour"}</h1>
+    <p>
+      {lang === "zh"
+        ? "浏览网站中的全部桥梁图片，点击任意图片可进入对应桥梁详情。"
+        : "Browse all bridge photos in the site. Click any image to open its bridge details."}
+    </p >
+  </div>
 
-        <section className="results-panel" ref={resultsRef}>
-          <div className="results-header">
-            <div>
-              <h2>{text.results}</h2>
-              <p>{text.featuredBody}</p>
-            </div>
-            <div className="feature-card">
-              <span className="eyebrow">{text.featuredTitle}</span>
-              <p>{lang === "zh" ? bridges[0].zh : bridges[0].name}</p>
-            </div>
-          </div>
+  <div className="gallery-tour-grid">
+    {allGalleryItems.map((item) => (
+      <button
+        key={item.id}
+        type="button"
+        className="gallery-tour-card"
+        onClick={() => handleOpenBridge(item.bridge)}
+      >
+        <img
+          src={item.image || FALLBACK_IMAGE}
+          alt={lang === "zh" ? item.bridge.zh : item.bridge.name}
+          className="gallery-tour-image"
+          loading="lazy"
+          decoding="async"
+          onError={(event) => {
+            event.currentTarget.src = FALLBACK_IMAGE;
+          }}
+        />
+      </button>
+    ))}
+  </div>
+</section>
+) : (
+<section className="content-grid">
+<aside className="sidebar-card">
+<div className="sidebar-section">
+<div className="sidebar-section-header">
+<h2>{text.recentSearches}</h2>
+{recentSearches.length > 0 ? (
+<button className="section-clear-button" onClick={clearRecentSearches}>
+{text.clearRecentSearches}
+</button>
+) : null}
+</div>
+{recentSearches.length === 0 ? <p>{text.noRecentSearches}</p> : null}
+<div className="chip-list">
+{recentSearches.map((item) => (
+<button
+key={item}
+className="chip-button"
+onClick={() => {
+setSearchInput(item);
+setAppliedSearch(item);
+}}
+>
+{item}
+</button>
+))}
+</div>
+</div>
 
-          <section className="summary-strip">
-            <div className="summary-copy">
-              <strong>{text.resultSummary.replace("{count}", String(filtered.length))}</strong>
-              <span>
-                {text.sortNow}: {sortLabelMap[sortBy]}
-              </span>
-            </div>
-            <div className="summary-chips" aria-label={text.activeFilters}>
-              <span className="summary-chip">{region === "all" ? text.allBridgesLabel : region}</span>
-              {activeFilterChips.map((chip) => (
-                <span key={chip} className="summary-chip is-active">
-                  {chip}
-                </span>
-              ))}
-            </div>
-          </section>
+<div className="sidebar-section">
+<h2>{text.quickList}</h2>
+<div className="quick-list">
+{filtered.map((bridge) => (
+<button key={bridge.id} className="quick-list-item" onClick={() => handleOpenBridge(bridge)}>
+<span>{lang === "zh" ? bridge.zh : bridge.name}</span>
+<small>{bridge.year}</small>
+</button>
+))}
+</div>
+</div>
+</aside>
 
-          <section className="explore-brief results-subpanel">
-            <div className="section-heading">
-              <div>
-                <h3>{text.exploreBriefTitle}</h3>
-                <p>{text.exploreBriefBody}</p>
-              </div>
-            </div>
+<section className="results-panel" ref={resultsRef}>
+<div className="results-header">
+<div>
+<h2>{text.results}</h2>
+<p>{text.featuredBody}</p>
+</div>
+<div className="feature-card">
+<span className="eyebrow">{text.featuredTitle}</span>
+<p>{lang === "zh" ? bridges[0].zh : bridges[0].name}</p>
+</div>
+</div>
 
-            <div className="brief-grid">
-              <article className="insight-card">
-                <span>{text.primaryEra}</span>
-                <strong>{primaryEraLabel}</strong>
-                <small>{timeline ? `${timeline.oldest} - ${timeline.newest}` : text.noInsight}</small>
-              </article>
-              <article className="insight-card">
-                <span>{text.customCount}</span>
-                <strong>{customCount}</strong>
-                <small>{text.resultSummary.replace("{count}", String(filtered.length))}</small>
-              </article>
-              <article className="insight-card">
-                <span>{text.compareReady}</span>
-                <strong>{getCompareStatusText()}</strong>
-                <small>{text.compareHint}</small>
-              </article>
-            </div>
+<section className="summary-strip">
+<div className="summary-copy">
+<strong>{text.resultSummary.replace("{count}", String(filtered.length))}</strong>
+<span>
+{text.sortNow}: {sortLabelMap[sortBy]}
+</span>
+</div>
+<div className="summary-chips" aria-label={text.activeFilters}>
+<span className="summary-chip">{region === "all" ? text.allBridgesLabel : region}</span>
+{activeFilterChips.map((chip) => (
+<span key={chip} className="summary-chip is-active">
+{chip}
+</span>
+))}
+</div>
+</section>
 
-            {featuredBridge ? (
-              <button className="feature-card feature-card-action" onClick={() => handleOpenBridge(featuredBridge)}>
-                <span className="eyebrow">{text.featuredBridgeLabel}</span>
-                <p>{lang === "zh" ? featuredBridge.zh : featuredBridge.name}</p>
-                <small>
-                  {featuredBridge.year} · {getDisplayLocation(featuredBridge)}
-                </small>
-                <strong>{primaryEraLabel}</strong>
-                <span className="feature-card-link">{text.openFeatured}</span>
-              </button>
-            ) : null}
-          </section>
+<section className="explore-brief results-subpanel">
+<div className="section-heading">
+<div>
+<h3>{text.exploreBriefTitle}</h3>
+<p>{text.exploreBriefBody}</p>
+</div>
+</div>
 
-          <div className="mobile-stats">
-            <article className="stat-card">
-              <span>{text.explore}</span>
-              <strong>{filtered.length}</strong>
-            </article>
-            <article className="stat-card">
-              <span>{text.favorites}</span>
-              <strong>{favorites.length}</strong>
-            </article>
-            <article className="stat-card">
-              <span>{text.period}</span>
-              <strong>{timeline ? `${timeline.oldest} - ${timeline.newest}` : "N/A"}</strong>
-            </article>
-          </div>
+<div className="brief-grid">
+<article className="insight-card">
+<span>{text.primaryEra}</span>
+<strong>{primaryEraLabel}</strong>
+<small>{timeline ? `${timeline.oldest} - ${timeline.newest}` : text.noInsight}</small>
+</article>
+<article className="insight-card">
+<span>{text.customCount}</span>
+<strong>{customCount}</strong>
+<small>{text.resultSummary.replace("{count}", String(filtered.length))}</small>
+</article>
+<article className="insight-card">
+<span>{text.compareReady}</span>
+<strong>{getCompareStatusText()}</strong>
+<small>{text.compareHint}</small>
+</article>
+</div>
 
-          <section className="insights-panel results-subpanel">
-            <div className="section-heading">
-              <div>
-                <h3>{text.insightsTitle}</h3>
-                <p>{text.insightsBody}</p>
-              </div>
-            </div>
-            <div className="insight-grid">
-              <article className="insight-card">
-                <span>{text.oldestBridge}</span>
-                <strong>{oldestBridge ? (lang === "zh" ? oldestBridge.zh : oldestBridge.name) : text.noInsight}</strong>
-                <small>{oldestBridge ? `${oldestBridge.year} · ${getDisplayLocation(oldestBridge)}` : ""}</small>
-              </article>
-              <article className="insight-card">
-                <span>{text.newestBridge}</span>
-                <strong>{newestBridge ? (lang === "zh" ? newestBridge.zh : newestBridge.name) : text.noInsight}</strong>
-                <small>{newestBridge ? `${newestBridge.year} · ${getDisplayLocation(newestBridge)}` : ""}</small>
-              </article>
-              <article className="insight-card">
-                <span>{text.regionCount}</span>
-                <strong>{regionCount}</strong>
-                <small>{text.regionUnit}</small>
-              </article>
-            </div>
-          </section>
+{featuredBridge ? (
+<button className="feature-card feature-card-action" onClick={() => handleOpenBridge(featuredBridge)}>
+<span className="eyebrow">{text.featuredBridgeLabel}</span>
+<p>{lang === "zh" ? featuredBridge.zh : featuredBridge.name}</p>
+<small>
+{featuredBridge.year} · {getDisplayLocation(featuredBridge)}
+</small>
+<strong>{primaryEraLabel}</strong>
+<span className="feature-card-link">{text.openFeatured}</span>
+</button>
+) : null}
+</section>
 
-          <section className="compare-panel results-subpanel">
-            <div className="section-heading">
-              <div>
-                <h3>{text.compare}</h3>
-                <p>{text.compareHint}</p>
-                <p>{getCompareStatusText()}</p>
-              </div>
-            </div>
-            {compared.length === 0 ? <div className="empty-state compare-empty">{text.compareEmpty}</div> : null}
-            <div className="compare-grid">
-              {compared.map((bridge) => (
-                <article key={bridge.id} className="compare-card">
-                  <h4>{lang === "zh" ? bridge.zh : bridge.name}</h4>
-                  <p>{getDisplayLocation(bridge)}</p>
-                  <p>
-                    <strong>{text.year}</strong> {bridge.year}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </section>
+<div className="mobile-stats">
+<article className="stat-card">
+<span>{text.explore}</span>
+<strong>{filtered.length}</strong>
+</article>
+<article className="stat-card">
+<span>{text.favorites}</span>
+<strong>{favorites.length}</strong>
+</article>
+<article className="stat-card">
+<span>{text.period}</span>
+<strong>{timeline ? `${timeline.oldest} - ${timeline.newest}` : "N/A"}</strong>
+</article>
+</div>
 
-          {filtered.length === 0 ? <div className="empty-state">{text.empty}</div> : null}
+<section className="insights-panel results-subpanel">
+<div className="section-heading">
+<div>
+<h3>{text.insightsTitle}</h3>
+<p>{text.insightsBody}</p>
+</div>
+</div>
+<div className="insight-grid">
+<article className="insight-card">
+<span>{text.oldestBridge}</span>
+<strong>{oldestBridge ? (lang === "zh" ? oldestBridge.zh : oldestBridge.name) : text.noInsight}</strong>
+<small>{oldestBridge ? `${oldestBridge.year} · ${getDisplayLocation(oldestBridge)}` : ""}</small>
+</article>
+<article className="insight-card">
+<span>{text.newestBridge}</span>
+<strong>{newestBridge ? (lang === "zh" ? newestBridge.zh : newestBridge.name) : text.noInsight}</strong>
+<small>{newestBridge ? `${newestBridge.year} · ${getDisplayLocation(newestBridge)}` : ""}</small>
+</article>
+<article className="insight-card">
+<span>{text.regionCount}</span>
+<strong>{regionCount}</strong>
+<small>{text.regionUnit}</small>
+</article>
+</div>
+</section>
 
-          <div className="bridge-grid">
-            {filtered.map((bridge) => {
-              const isFavorite = favorites.includes(bridge.id);
-              const isCompared = compareIds.includes(bridge.id);
+<section className="compare-panel results-subpanel">
+<div className="section-heading">
+<div>
+<h3>{text.compare}</h3>
+<p>{text.compareHint}</p>
+<p>{getCompareStatusText()}</p>
+</div>
+</div>
+{compared.length === 0 ? <div className="empty-state compare-empty">{text.compareEmpty}</div> : null}
+<div className="compare-grid">
+{compared.map((bridge) => (
+<article key={bridge.id} className="compare-card">
+<h4>{lang === "zh" ? bridge.zh : bridge.name}</h4>
+<p>{getDisplayLocation(bridge)}</p>
+<p>
+<strong>{text.year}</strong> {bridge.year}
+</p>
+</article>
+))}
+</div>
+</section>
 
-              return (
-                <article key={bridge.id} className="bridge-card">
-                  <button className="card-surface" onClick={() => handleOpenBridge(bridge)}>
-                    <BridgeImage bridge={bridge} className="bridge-card-image" loading="lazy" fetchPriority="low" />
-                    <div className="bridge-card-body">
-                      <div className="bridge-card-header">
-                        <h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
-                        <span>{bridge.year}</span>
-                      </div>
-                      <p>{getDisplayLocation(bridge)}</p>
-                      <span className="entry-badge">
-                        {bridge.galleryCount} {text.galleryCountUnit}
-                      </span>
-                      {bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
-                      {!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
-                    </div>
-                  </button>
+{filtered.length === 0 ? <div className="empty-state">{text.empty}</div> : null}
 
-                  <button
-                    className={`favorite-button favorite-inline ${isFavorite ? "is-active" : ""}`}
-                    onClick={() => handleFavoriteClick(bridge.id)}
-                  >
-                    {isFavorite ? text.saved : text.save}
-                  </button>
+<div className="bridge-grid">
+{filtered.map((bridge) => {
+const isFavorite = favorites.includes(bridge.id);
+const isCompared = compareIds.includes(bridge.id);
 
-                  <div className="card-actions">
-                    <button
-                      className={`ghost-button compare-inline ${isCompared ? "is-active" : ""}`}
-                      onClick={() => handleCompareClick(bridge.id)}
-                    >
-                      {isCompared ? text.removeCompare : text.compareAction}
-                    </button>
-                  </div>
-                </article>
-              );
-            })}
-          </div>
+return (
+<article key={bridge.id} className="bridge-card">
+<button className="card-surface" onClick={() => handleOpenBridge(bridge)}>
+<BridgeImage bridge={bridge} className="bridge-card-image" loading="lazy" fetchPriority="low" />
+<div className="bridge-card-body">
+<div className="bridge-card-header">
+<h3>{lang === "zh" ? bridge.zh : bridge.name}</h3>
+<span>{bridge.year}</span>
+</div>
+<p>{getDisplayLocation(bridge)}</p>
+<span className="entry-badge">
+{bridge.galleryCount} {text.galleryCountUnit}
+</span>
+{bridge.isCustom ? <span className="entry-badge">{text.customBadge}</span> : null}
+{!bridge.img ? <span className="entry-badge">{text.imagePending}</span> : null}
+</div>
+</button>
 
-          <section className="admin-panel results-subpanel">
-            <div className="section-heading">
-              <div>
-                <h3>{text.customTitle}</h3>
-                <p>{text.customBody}</p>
-              </div>
-            </div>
+<button
+className={`favorite-button favorite-inline ${isFavorite ? "is-active" : ""}`}
+onClick={() => handleFavoriteClick(bridge.id)}
+>
+{isFavorite ? text.saved : text.save}
+</button>
 
-            <form className="admin-form" onSubmit={handleAddBridge}>
-              <input
-                value={bridgeForm.name}
-                onChange={(event) => handleFormChange("name", event.target.value)}
-                placeholder={text.formName}
-                aria-label={text.formName}
-              />
-              <input
-                value={bridgeForm.zh}
-                onChange={(event) => handleFormChange("zh", event.target.value)}
-                placeholder={text.formZh}
-                aria-label={text.formZh}
-              />
-              <input
-                value={bridgeForm.year}
-                onChange={(event) => handleFormChange("year", event.target.value)}
-                placeholder={text.formYear}
-                aria-label={text.formYear}
-              />
-              <input
-                value={bridgeForm.location}
-                onChange={(event) => handleFormChange("location", event.target.value)}
-                placeholder={text.formLocation}
-                aria-label={text.formLocation}
-              />
-              <input
-                value={bridgeForm.img}
-                onChange={(event) => handleFormChange("img", event.target.value)}
-                placeholder={text.formImage}
-                aria-label={text.formImage}
-              />
-              <textarea
-                value={bridgeForm.desc_en}
-                onChange={(event) => handleFormChange("desc_en", event.target.value)}
-                placeholder={text.formDescEn}
-                aria-label={text.formDescEn}
-              />
-              <textarea
-                value={bridgeForm.desc_zh}
-                onChange={(event) => handleFormChange("desc_zh", event.target.value)}
-                placeholder={text.formDescZh}
-                aria-label={text.formDescZh}
-              />
-              <button className="primary-button" type="submit">
-                {text.addBridge}
-              </button>
-              {saveMessage ? <p className="save-message">{saveMessage}</p> : null}
-            </form>
+<div className="card-actions">
+<button
+className={`ghost-button compare-inline ${isCompared ? "is-active" : ""}`}
+onClick={() => handleCompareClick(bridge.id)}
+>
+{isCompared ? text.removeCompare : text.compareAction}
+</button>
+</div>
+</article>
+);
+})}
+</div>
 
-            <div className="custom-bridge-list">
-              <h4>{text.customList}</h4>
-              {customBridges.map((bridge) => (
-                <div key={bridge.id} className="custom-bridge-row">
-                  <div>
-                    <strong>{lang === "zh" ? bridge.zh : bridge.name}</strong>
-                    <p>{getDisplayLocation(bridge)}</p>
-                  </div>
-                  <button className="ghost-button" onClick={() => handleDeleteCustomBridge(bridge.id)}>
-                    {text.deleteCustom}
-                  </button>
-                </div>
-              ))}
-            </div>
-          </section>
-          </section>
-        </section>
-      )}
+<section className="admin-panel results-subpanel">
+<div className="section-heading">
+<div>
+<h3>{text.customTitle}</h3>
+<p>{text.customBody}</p>
+</div>
+</div>
+
+<form className="admin-form" onSubmit={handleAddBridge}>
+<input
+value={bridgeForm.name}
+onChange={(event) => handleFormChange("name", event.target.value)}
+placeholder={text.formName}
+aria-label={text.formName}
+/>
+<input
+value={bridgeForm.zh}
+onChange={(event) => handleFormChange("zh", event.target.value)}
+placeholder={text.formZh}
+aria-label={text.formZh}
+/>
+<input
+value={bridgeForm.year}
+onChange={(event) => handleFormChange("year", event.target.value)}
+placeholder={text.formYear}
+aria-label={text.formYear}
+/>
+<input
+value={bridgeForm.location}
+onChange={(event) => handleFormChange("location", event.target.value)}
+placeholder={text.formLocation}
+aria-label={text.formLocation}
+/>
+<input
+value={bridgeForm.img}
+onChange={(event) => handleFormChange("img", event.target.value)}
+placeholder={text.formImage}
+aria-label={text.formImage}
+/>
+<textarea
+value={bridgeForm.desc_en}
+onChange={(event) => handleFormChange("desc_en", event.target.value)}
+placeholder={text.formDescEn}
+aria-label={text.formDescEn}
+/>
+<textarea
+value={bridgeForm.desc_zh}
+onChange={(event) => handleFormChange("desc_zh", event.target.value)}
+placeholder={text.formDescZh}
+aria-label={text.formDescZh}
+/>
+<button className="primary-button" type="submit">
+{text.addBridge}
+</button>
+{saveMessage ? <p className="save-message">{saveMessage}</p> : null}
+</form>
+
+<div className="custom-bridge-list">
+<h4>{text.customList}</h4>
+{customBridges.map((bridge) => (
+<div key={bridge.id} className="custom-bridge-row">
+<div>
+<strong>{lang === "zh" ? bridge.zh : bridge.name}</strong>
+<p>{getDisplayLocation(bridge)}</p>
+</div>
+<button className="ghost-button" onClick={() => handleDeleteCustomBridge(bridge.id)}>
+{text.deleteCustom}
+</button>
+</div>
+))}
+</div>
+</section>
+</section>
+</section>
+)}
     </main>
   );
 }
