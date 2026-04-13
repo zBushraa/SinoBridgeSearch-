@@ -487,17 +487,6 @@ function App() {
   const customCount = filtered.filter((bridge) => bridge.isCustom).length;
 
 
-  
-
-  const openGalleryView = () => {
-  triggerSound("open");
-  setSelected(null);
-  setView("gallery");
-  window.setTimeout(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, 80);
-};
-
   useEffect(() => {
     if (typeof document !== "undefined") {
       document.documentElement.dataset.theme = theme;
