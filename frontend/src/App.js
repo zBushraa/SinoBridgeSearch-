@@ -396,8 +396,6 @@ function App() {
   const heroSearchRef = useRef(null);
   const [lang, setLang] = useState("zh");
   const [view, setView] = useState("explore");
-  const [showGalleryTour, setShowGalleryTour] = useState(false);
-  const [previousPage, setPreviousPage] = useState(null);
   const [theme, setTheme] = useState(() => {
     if (typeof window === "undefined") {
       return "light";
@@ -409,7 +407,6 @@ function App() {
     if (typeof window === "undefined") {
       return true;
     }
-
     return window.localStorage.getItem(SOUND_STORAGE_KEY) !== "off";
   });
   const [searchInput, setSearchInput] = useState("");
