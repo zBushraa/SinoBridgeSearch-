@@ -1,27 +1,42 @@
-const normalize = (value) => value.trim().toLowerCase();
+export function searchBridges(bridges, query, sortBy = "name") {
+  const normalizedQuery = (query || "").trim().toLowerCase();
 
-export function searchBridges(bridges, query, sortBy) {
-  const normalizedQuery = normalize(query);
+  let filtered = Array.isArray(bridges) ? bridges : [];
 
-  const filtered = bridges.filter((bridge) => {
-    if (!normalizedQuery) {
-      return true;
-    }
+  if (normalizedQuery) {
+    filtered = filtered.filter((bridge) => {
+      const searchableText = (
+        bridge?.keywords ||
+        [
+          bridge?.name || "",
+          bridge?.zh || "",
+          bridge?.location || "",
+          bridge?.location_zh || "",
+          String(bridge?.year || ""),
+          bridge?.desc_en || "",
+          bridge?.desc_zh || "",
+          bridge?.dynasty_en || "",
+          bridge?.dynasty_zh || "",
+          bridge?.alias_en || "",
+          bridge?.alias_zh || "",
+        ].join(" ")
+      ).toLowerCase();
 
-    return bridge.keywords.includes(normalizedQuery);
-  });
+      return searchableText.includes(normalizedQuery);
+    });
+  }
 
-  return [...filtered].sort((left, right) => {
-    if (sortBy === "year-asc") {
-      return left.year - right.year;
-    }
+  if (sortBy === "year-asc") {
+    return [...filtered].sort((a, b) => (a.year || 0) - (b.year || 0));
+  }
 
-    if (sortBy === "year-desc") {
-      return right.year - left.year;
-    }
+  if (sortBy === "year-desc") {
+    return [...filtered].sort((a, b) => (b.year || 0) - (a.year || 0));
+  }
 
-    return left.name.localeCompare(right.name);
-  });
+  return [...filtered].sort((a, b) =>
+    (a.name || "").localeCompare(b.name || "")
+  );
 }
 
 export function getTimelineSummary(bridges) {

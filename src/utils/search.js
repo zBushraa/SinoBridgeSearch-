@@ -1,5 +1,3 @@
-const normalize = (value) => value.trim().toLowerCase();
-
 export function searchBridges(bridges, query, sortBy) {
   const normalizedQuery = normalize(query);
 

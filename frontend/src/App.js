@@ -300,15 +300,24 @@ function readStoredJson(key, fallback) {
 function shapeBridge(bridge) {
   return {
     ...bridge,
-    gallery: (bridge.gallery && bridge.gallery.length > 0 ? bridge.gallery : [bridge.img || FALLBACK_IMAGE]).filter(Boolean),
+    gallery: (
+      bridge.gallery && bridge.gallery.length > 0
+        ? bridge.gallery
+        : [bridge.img || FALLBACK_IMAGE]
+    ).filter(Boolean),
     img: bridge.img || FALLBACK_IMAGE,
     keywords: [
-      bridge.name,
-      bridge.zh,
-      bridge.location,
-      String(bridge.year),
-      bridge.desc_en,
-      bridge.desc_zh,
+      bridge.name || "",
+      bridge.zh || "",
+      bridge.location || "",
+      bridge.location_zh || "",
+      String(bridge.year || ""),
+      bridge.desc_en || "",
+      bridge.desc_zh || "",
+      bridge.dynasty_en || "",
+      bridge.dynasty_zh || "",
+      bridge.alias_en || "",
+      bridge.alias_zh || "",
     ]
       .join(" ")
       .toLowerCase(),
@@ -649,9 +658,9 @@ function App() {
   };
 
   const handleSearchInputKeyDown = (event, options) => {
-    if (event.key !== "Enter") {
+    if (event.key !== "Enter") 
       return;
-    }
+    
 
     event.preventDefault();
     executeSearch(options);
@@ -1230,7 +1239,7 @@ if (showGalleryPage) {
                     ref={heroSearchRef}
                     type="search"
                     placeholder={text.searchPlaceholder}
-                    value={searchInput}
+                    value={searchInput || ""}
                     onChange={(event) => setSearchInput(event.target.value)}
                     onKeyDown={(event) => handleSearchInputKeyDown(event, { scrollToList: true })}
                   />
